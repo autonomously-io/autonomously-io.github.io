@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
+  <!-- Loop ring - represents closed loop automation -->
+  <circle cx="60" cy="60" r="38" stroke="#4a9eff" stroke-width="2.5" opacity="0.3"/>
+  <path d="M 60 22 A 38 38 0 1 1 22.6 78" stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Arrow tip closing the loop -->
+  <polygon points="18,72 28,82 22,70" fill="#4a9eff"/>
+
+  <!-- Node dots on the ring - represent multi-source signals -->
+  <circle cx="60" cy="22" r="4" fill="#4a9eff"/>
+  <circle cx="93" cy="42" r="4" fill="#4a9eff"/>
+  <circle cx="93" cy="78" r="4" fill="#4a9eff"/>
+  <circle cx="60" cy="98" r="4" fill="#4a9eff"/>
+
+  <!-- Center brain/core dot -->
+  <circle cx="60" cy="60" r="6" fill="#4a9eff" opacity="0.8"/>
+
+  <!-- Connection lines from nodes to center -->
+  <line x1="60" y1="26" x2="60" y2="54" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+  <line x1="89" y1="44" x2="66" y2="58" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+  <line x1="89" y1="76" x2="66" y2="62" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+  <line x1="60" y1="94" x2="60" y2="66" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+
+  <!-- Text: a10y -->
+  <text x="120" y="75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="300" letter-spacing="0.05em" fill="#ffffff">
+    <tspan>a</tspan><tspan fill="#4a9eff">10</tspan><tspan>y</tspan>
+  </text>
+</svg>

@@ -5,7 +5,7 @@ import Base from "../layouts/Base.astro";
 <Base title="a10y - Autonomously">
     <div class="home">
         <div class="container">
-            <h1>a10y</h1>
+            <img src="/logo.svg" alt="a10y" class="logo" />
             <p class="expand">Autonomously</p>
             <p class="tagline">Penetrate. Understand. Restore.<br>Autonomously understands and restores your network.<br><span style="font-size: 0.85em; color: #666;">Statistical AI + LLM — the right technique at every phase.</span></p>
             <div class="links">
@@ -30,12 +30,10 @@ import Base from "../layouts/Base.astro";
         min-height: 100vh;
     }
     .container { text-align: center; }
-    h1 {
-        font-size: 4rem;
-        font-weight: 300;
-        letter-spacing: 0.2em;
+    .logo {
+        width: 320px;
+        max-width: 80vw;
         margin-bottom: 0.5rem;
-        color: #fff;
     }
     .expand {
         font-size: 1.1rem;
