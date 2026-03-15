@@ -1,0 +1,197 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="OODA × AI - a10y" description="Applying the OODA loop to autonomous network operations with AI — from rule-based to intelligent closed loops.">
+    <div class="container">
+        <h1>OODA Loop × AI</h1>
+        <p class="lead">Applying the OODA loop to network operations — and rethinking each phase with AI. From "monitor → alert → human responds" to "observe → understand → decide → act → verify" as an autonomous loop.</p>
+
+        <h2>The OODA Loop</h2>
+        <p>A decision-making framework by Colonel John Boyd: <span class="highlight">Observe → Orient → Decide → Act</span>, cycled rapidly to adapt to changing conditions.</p>
+        <p>Traditional monitoring is an <span class="highlight">open loop</span> — an alert fires, a human investigates, and manually remediates. OODA closes the loop by feeding the results of each action back into the next observation cycle.</p>
+
+        <h2>AI at Each Phase</h2>
+        <p>AI here is not limited to LLMs. Each phase benefits from different techniques — rule engines, statistical ML, vector search, and language models — applied where they are most effective.</p>
+
+        <div class="ooda-grid">
+            <div class="ooda-cell">
+                <div class="phase">Observe</div>
+                <div class="title">Observe</div>
+                <div class="traditional">Static dashboards, threshold-based alerts, manual log review</div>
+                <div class="ai">Continuous multi-source ingestion. NLP for parsing unstructured data (syslogs, vendor docs). Anomaly detection via statistical models on time-series data</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Orient</div>
+                <div class="title">Orient</div>
+                <div class="traditional">Operators mentally correlate alerts, check runbooks</div>
+                <div class="ai">Vector similarity search over past incidents (Qdrant). Graph-based topology correlation. LLM-powered causal reasoning with RAG over runbooks and documentation</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Decide</div>
+                <div class="title">Decide</div>
+                <div class="traditional">Humans decide remediation based on experience</div>
+                <div class="ai">Rule engines for known patterns. ML risk scoring for blast radius. LLM evaluation of options against policies. Human-in-the-loop for high-risk decisions</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Act</div>
+                <div class="title">Act</div>
+                <div class="traditional">Manual config changes, script execution</div>
+                <div class="ai">Declarative workflow execution (Keep). Results feed back into the next Observe cycle, closing the loop. Automated verification confirms recovery</div>
+            </div>
+        </div>
+        <div class="loop-arrow">↻ Act results feed back into Observe, closing the loop</div>
+
+        <h2>Traditional vs. AI-Driven</h2>
+        <table>
+            <tr><th></th><th>Traditional Monitoring</th><th>OODA × AI</th></tr>
+            <tr><td>Loop</td><td>Open (alert → human → action)</td><td>Closed (automated feedback)</td></tr>
+            <tr><td>Correlation</td><td>Human memory and experience</td><td>Vector search + causal inference</td></tr>
+            <tr><td>Interaction</td><td>PromQL / SQL queries</td><td>Natural language ("Which clusters have the most failures?")</td></tr>
+            <tr><td>Posture</td><td>Reactive (symptom detection)</td><td>Proactive (precursor detection)</td></tr>
+            <tr><td>Knowledge</td><td>Siloed in individuals</td><td>Structured via RAG across the organization</td></tr>
+        </table>
+
+        <h2>Mapping to the a10y Stack</h2>
+        <p>How each a10y component maps to a phase of the OODA loop.</p>
+
+        <div class="stack">
+            <div class="stack-row stack-header">
+                <div>Phase</div>
+                <div>Component</div>
+                <div>Role</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Observe</div>
+                <div class="stack-component">OpenObserve + Vector</div>
+                <div class="stack-role">Telemetry collection, normalization, and storage. Vector shapes the data; OpenObserve stores it.</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Orient</div>
+                <div class="stack-component">Keep + Qdrant</div>
+                <div class="stack-role">Keep aggregates and correlates alerts. Qdrant provides similarity search over historical patterns.</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Decide</div>
+                <div class="stack-component">a10y engine</div>
+                <div class="stack-role">Causal reasoning, risk assessment, and remediation planning — using rules, ML, and LLMs as appropriate.</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Act</div>
+                <div class="stack-component">Keep workflows</div>
+                <div class="stack-role">Executes remediation actions via declarative workflows.</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Verify</div>
+                <div class="stack-component">OpenObserve + engine</div>
+                <div class="stack-role">Re-observes telemetry after action to confirm recovery.</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">All</div>
+                <div class="stack-component">NATS</div>
+                <div class="stack-role">Event transport between all phases. The nervous system that connects the loop.</div>
+            </div>
+        </div>
+
+        <h2>The AI Inflection Point</h2>
+        <p>Traditional rule-based automation can only handle <span class="highlight">known patterns</span>. AI changes this in three ways — and not just through LLMs.</p>
+        <p><span class="highlight">1. Understanding unstructured data</span> — Syslog messages, vendor-specific CLI output, natural language ticket descriptions. NLP and LLMs turn previously unparseable data into structured, actionable signals.</p>
+        <p><span class="highlight">2. Reasoning beyond rules</span> — Statistical anomaly detection catches patterns that no human would write rules for. Vector similarity finds "we've seen something like this before" without exact matches. LLMs reason about novel failures using general knowledge and retrieved context.</p>
+        <p><span class="highlight">3. Organizational knowledge at every decision</span> — RAG over runbooks, design documents, and postmortems brings institutional knowledge to bear on every decision. Tribal knowledge becomes shared infrastructure.</p>
+
+        <blockquote>The goal is not a network that pages a human faster. It's a network that heals itself.</blockquote>
+    </div>
+</Base>
+
+<style>
+    .ooda-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        max-width: 100%;
+        margin: 2rem 0;
+    }
+    .ooda-cell {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .ooda-cell .phase {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #4a9eff;
+        margin-bottom: 0.4rem;
+    }
+    .ooda-cell .title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+    .ooda-cell .traditional {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    .ooda-cell .traditional::before {
+        content: "Traditional: ";
+        color: #555;
+    }
+    .ooda-cell .ai {
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+    .ooda-cell .ai::before {
+        content: "AI: ";
+        color: #4a9eff;
+        font-weight: 500;
+    }
+    .loop-arrow {
+        text-align: center;
+        margin: 1rem 0 2rem;
+        font-size: 0.9rem;
+        color: #333;
+    }
+    .stack {
+        border: 1px solid #222;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 1.5rem 0;
+    }
+    .stack-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 1fr;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .stack-row:last-child { border-bottom: none; }
+    .stack-row > div {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    .stack-phase {
+        background: #111;
+        color: #4a9eff;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+    }
+    .stack-component { color: #e0e0e0; }
+    .stack-role { color: #888; }
+    .stack-header { background: #0f0f0f; }
+    .stack-header > div {
+        color: #555;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+    @media (max-width: 600px) {
+        .ooda-grid { grid-template-columns: 1fr; }
+        .stack-row { grid-template-columns: 80px 1fr; }
+        .stack-role { display: none; }
+    }
+</style>

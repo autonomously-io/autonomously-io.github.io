@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="a10y - Autonomously">
+    <div class="home">
+        <div class="container">
+            <h1>a10y</h1>
+            <p class="expand">Autonomously</p>
+            <p class="tagline">Penetrate. Understand. Restore.<br>Autonomously understands and restores your network.</p>
+            <div class="links">
+                <a href="/why">Why Autonomously?</a>
+                <a href="/landscape">Landscape</a>
+                <a href="/ooda">OODA × AI</a>
+                <a href="https://github.com/autonomously-io">GitHub</a>
+            </div>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .home {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+    }
+    .container { text-align: center; }
+    h1 {
+        font-size: 4rem;
+        font-weight: 300;
+        letter-spacing: 0.2em;
+        margin-bottom: 0.5rem;
+        color: #fff;
+    }
+    .expand {
+        font-size: 1.1rem;
+        color: #888;
+        letter-spacing: 0.15em;
+        margin-bottom: 2rem;
+    }
+    .tagline {
+        font-size: 1.3rem;
+        line-height: 1.8;
+        color: #aaa;
+        margin-bottom: 3rem;
+    }
+    .links a {
+        color: #4a9eff;
+        text-decoration: none;
+        margin: 0 1rem;
+        font-size: 0.95rem;
+    }
+    .links a:hover { text-decoration: underline; }
+</style>

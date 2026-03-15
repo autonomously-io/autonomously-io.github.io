@@ -1,0 +1,128 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Autonomously understands and restores your network." } = Astro.props;
+const isHome = Astro.url.pathname === "/";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+</head>
+<body>
+    {!isHome && (
+        <nav>
+            <a href="/">← a10y</a>
+            <a href="/why">Why Autonomously?</a>
+            <a href="/landscape">Landscape</a>
+            <a href="/ooda">OODA × AI</a>
+        </nav>
+    )}
+    <slot />
+</body>
+</html>
+
+<style is:global>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: #0a0a0a;
+        color: #e0e0e0;
+        min-height: 100vh;
+    }
+    nav {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #1a1a1a;
+        display: flex;
+        gap: 2rem;
+    }
+    nav a {
+        color: #4a9eff;
+        text-decoration: none;
+        font-size: 0.95rem;
+    }
+    nav a:hover { text-decoration: underline; }
+    .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+    h1 {
+        font-size: 2.4rem;
+        font-weight: 300;
+        color: #fff;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #fff;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        color: #ddd;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #aaa;
+        margin-bottom: 1rem;
+    }
+    .lead {
+        font-size: 1.1rem;
+        color: #888;
+        margin-bottom: 3rem;
+        line-height: 1.7;
+    }
+    .highlight { color: #e0e0e0; font-weight: 500; }
+    a.ext { color: #4a9eff; text-decoration: none; }
+    a.ext:hover { text-decoration: underline; }
+    blockquote {
+        border-left: 2px solid #4a9eff;
+        padding-left: 1.2rem;
+        margin: 2rem 0;
+        font-size: 1.05rem;
+        color: #ccc;
+        font-style: italic;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+    }
+    th {
+        text-align: left;
+        padding: 0.7rem 0.8rem;
+        border-bottom: 1px solid #333;
+        color: #888;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    td {
+        padding: 0.7rem 0.8rem;
+        border-bottom: 1px solid #1a1a1a;
+        font-size: 0.95rem;
+        color: #aaa;
+        vertical-align: top;
+    }
+    td:first-child { color: #e0e0e0; }
+    @media (max-width: 600px) {
+        h1 { font-size: 1.8rem; }
+    }
+</style>

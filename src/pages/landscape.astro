@@ -1,0 +1,152 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Autonomous Operations Landscape - a10y" description="Standards, open source tools, and the ecosystem surrounding autonomous network operations.">
+    <div class="container">
+        <h1>Autonomous Operations Landscape</h1>
+        <p class="lead">An overview of the standards, open source tools, and products surrounding autonomous network operations — where telecom and IT converge.</p>
+
+        <h2>Standards &amp; Frameworks</h2>
+        <p>The telecom industry has been standardizing maturity models for autonomous operations. These define the levels of autonomy that a10y aspires to.</p>
+
+        <h3>TM Forum — Autonomous Networks</h3>
+        <p>Defines <span class="highlight">six levels of autonomy (L0–L5)</span>, analogous to self-driving cars. From L0 (fully manual) to L5 (fully autonomous, zero-touch). Each level is evaluated across five cognitive abilities: Intent, Awareness, Analysis, Decision, and Execution. As of 2025, the industry is pushing toward L3–L4.</p>
+        <div class="levels">
+            <div class="level"><span class="level-num">L0</span><span class="level-desc">Fully manual operations</span></div>
+            <div class="level"><span class="level-num">L1</span><span class="level-desc">Basic automation with manual intervention</span></div>
+            <div class="level"><span class="level-num">L2</span><span class="level-desc">Intermediate automation, significant human oversight</span></div>
+            <div class="level"><span class="level-num">L3</span><span class="level-desc">Advanced automation, minimal human intervention</span></div>
+            <div class="level"><span class="level-num">L4</span><span class="level-desc">Predictive automation, self-healing</span></div>
+            <div class="level"><span class="level-num">L5</span><span class="level-desc">Fully autonomous, zero-touch</span></div>
+        </div>
+
+        <h3>ETSI ZSM — Zero-touch Service Management</h3>
+        <p>An architecture framework for end-to-end closed-loop automation, optimized for 5G and network slicing. Built on Closed Control Loops (CCL) and Intent-Based Networking (IBN), targeting <span class="highlight">zero percent human intervention</span> across design, deployment, monitoring, and optimization.</p>
+
+        <h3>IETF ANIMA &amp; RFC 9315</h3>
+        <p>The IETF ANIMA working group defines Autonomic Networking Infrastructure (ANI) from the protocol level up. RFC 9315 standardizes Intent-Based Networking concepts and terminology. While TMF works top-down from business requirements, IETF works bottom-up from protocol primitives — both converge on the same vision.</p>
+
+        <h2>Open Source Stack</h2>
+        <p>a10y builds on proven open source components. Each maps to a phase of the operational loop.</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="name">OpenObserve</div>
+                <div class="desc">Unified observability platform for logs, metrics, and traces. Written in Rust, 140x more storage-efficient than Elasticsearch.</div>
+                <div class="role">Observe — telemetry collection &amp; storage</div>
+            </div>
+            <div class="card">
+                <div class="name">Vector</div>
+                <div class="desc">High-performance data pipeline for collecting, transforming, and routing telemetry. VRL (Vector Remap Language) for flexible data shaping.</div>
+                <div class="role">Observe → Orient — normalization &amp; enrichment</div>
+            </div>
+            <div class="card">
+                <div class="name">Keep</div>
+                <div class="desc">Open source AIOps platform. 110+ integrations for alert aggregation, deduplication, correlation, and declarative remediation workflows.</div>
+                <div class="role">Orient + Decide — alert correlation &amp; judgment</div>
+            </div>
+            <div class="card">
+                <div class="name">Qdrant</div>
+                <div class="desc">Vector database for storing embeddings of past incidents, runbooks, and network states. Enables fast similarity search for pattern matching.</div>
+                <div class="role">Orient — knowledge base &amp; similarity search</div>
+            </div>
+            <div class="card">
+                <div class="name">NATS</div>
+                <div class="desc">Cloud-native messaging with pub/sub, streaming, and key-value store in a single binary. Sub-millisecond latency, under 20 MB RAM.</div>
+                <div class="role">Nervous system — connects all components</div>
+            </div>
+            <div class="card">
+                <div class="name">a10y engine</div>
+                <div class="desc">Multi-source correlation engine. AI-driven causal reasoning and autonomous closed-loop execution.</div>
+                <div class="role">All phases — the brain</div>
+            </div>
+        </div>
+
+        <h3>Why Keep?</h3>
+        <p>PagerDuty and Opsgenie focus on <span class="highlight">alert notification routing</span>. Keep goes further: <span class="highlight">aggregation → deduplication → correlation → automated remediation</span> in a single platform.</p>
+        <p>For a10y, Keep serves as the "alert crossroads." It collects alerts from existing monitoring tools via 110+ integrations, groups related alerts through AI correlation, and executes remediation as declarative workflows. Being open source and self-hostable, it also satisfies the data sovereignty requirements of telecom operators.</p>
+
+        <h2>Existing Awesome Lists</h2>
+        <p>Several curated lists cover parts of this space, but none bridge the telecom–IT divide.</p>
+
+        <table>
+            <tr><th>List</th><th>Focus</th></tr>
+            <tr><td><a class="ext" href="https://github.com/OpsPAI/awesome-AIOps">awesome-AIOps</a></td><td>AIOps at large — anomaly detection, RCA, failure prediction</td></tr>
+            <tr><td><a class="ext" href="https://github.com/Jun-jie-Huang/awesome-LLM-AIOps">awesome-LLM-AIOps</a></td><td>LLM × AIOps papers and tools</td></tr>
+            <tr><td><a class="ext" href="https://github.com/networktocode/awesome-network-automation">awesome-network-automation</a></td><td>Network automation tools (Ansible, NAPALM, Nornir, etc.)</td></tr>
+            <tr><td><a class="ext" href="https://github.com/dastergon/awesome-sre">awesome-sre</a></td><td>Site Reliability and Production Engineering</td></tr>
+            <tr><td><a class="ext" href="https://github.com/adriannovegil/awesome-observability">awesome-observability</a></td><td>Logs, metrics, traces — the three pillars</td></tr>
+        </table>
+
+        <div class="gap-box">
+            <p>Each of these covers a slice of the picture, but</p>
+            <p class="emphasis">no list bridges telecom autonomous operation standards (TMF / ETSI ZSM) with IT/cloud-native operations (AIOps / SRE).</p>
+            <p>That is the purpose of <a class="ext" href="https://github.com/autonomously-io/awesome-autonomous-operation">awesome-autonomous-operation</a>.</p>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .levels {
+        display: grid;
+        gap: 0.3rem;
+        margin: 1.5rem 0;
+    }
+    .level {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        gap: 1rem;
+    }
+    .level-num {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #4a9eff;
+        text-align: center;
+    }
+    .level-desc {
+        font-size: 0.95rem;
+        color: #aaa;
+        padding: 0.2rem 0;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    .card {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.2rem;
+    }
+    .card .name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+    }
+    .card .desc {
+        font-size: 0.9rem;
+        color: #888;
+        line-height: 1.5;
+    }
+    .card .role {
+        font-size: 0.85rem;
+        color: #4a9eff;
+        margin-top: 0.5rem;
+    }
+    .gap-box {
+        border: 1px dashed #333;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        text-align: center;
+    }
+    .gap-box p { color: #888; margin-bottom: 0.5rem; }
+    .gap-box .emphasis { font-size: 1.1rem; color: #e0e0e0; }
+    @media (max-width: 600px) {
+        .card-grid { grid-template-columns: 1fr; }
+    }
+</style>
