@@ -1,0 +1,356 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Components - a10y" description="Architecture and component details of the a10y platform.">
+    <div class="container">
+        <h1>Components</h1>
+        <p class="lead">a10y is composed of three layers: UI, Core, and Data. Each component is independently deployable and communicates via NATS.</p>
+
+        <!-- Architecture diagram -->
+        <div class="arch">
+            <div class="arch-layer">
+                <div class="layer-label">UI Layer</div>
+                <div class="layer-items">
+                    <a href="#aether-ide" class="item">aether-ide</a>
+                    <a href="#aether-term" class="item">aether-term</a>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer core">
+                <div class="layer-label">Core Layer</div>
+                <div class="layer-items">
+                    <a href="#llm-engine" class="item">llm-engine</a>
+                    <a href="#active-inventory" class="item">active-inventory</a>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer">
+                <div class="layer-label">Data Layer</div>
+                <div class="layer-items">
+                    <a href="#openobserve" class="item">OpenObserve</a>
+                    <a href="#keep" class="item">Keep</a>
+                    <a href="#qdrant" class="item">Qdrant</a>
+                    <a href="#vector" class="item">Vector</a>
+                    <a href="#nats" class="item">NATS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- UI Layer -->
+        <h2>UI Layer</h2>
+        <p>Operators interact with a10y through two interfaces — a visual IDE for investigation and a terminal for CLI-native workflows. Both connect to llm-engine for AI capabilities.</p>
+
+        <div class="component" id="aether-ide">
+            <div class="comp-header">
+                <h3>aether-ide</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8080</span>
+            </div>
+            <p>Web-based investigation environment. Visualizes correlated incidents, topology graphs, and causal chains. Operators interact with the AI engine via natural language — asking questions, drilling into root causes, and approving remediation actions.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/aether-ide</code></td></tr>
+                <tr><td>Connects to</td><td>llm-engine</td></tr>
+                <tr><td>Use case</td><td>Visual investigation, incident review, topology exploration</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="aether-term">
+            <div class="comp-header">
+                <h3>aether-term</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:3000</span>
+            </div>
+            <p>Terminal-based interface for operators who prefer CLI workflows. Query the AI engine, inspect alerts, trigger actions — all from the command line. Suitable for SSH-only environments and automation scripts.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/aether-term</code></td></tr>
+                <tr><td>Connects to</td><td>llm-engine</td></tr>
+                <tr><td>Use case</td><td>CLI investigation, scripted queries, headless environments</td></tr>
+            </table>
+        </div>
+
+        <!-- Core Layer -->
+        <h2>Core Layer</h2>
+        <p>The brain of a10y. The LLM engine performs causal reasoning by combining statistical AI and language models. The active inventory maintains a live graph of network topology, feeding context into every decision.</p>
+
+        <div class="component" id="llm-engine">
+            <div class="comp-header">
+                <h3>llm-engine</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8000</span>
+            </div>
+            <p>Multi-source correlation engine — the cognitive core. Ingests alerts from Keep, searches historical patterns in Qdrant, queries topology from active-inventory, and reasons about root causes using a dual AI approach:</p>
+            <div class="dual-ai">
+                <div class="ai-col">
+                    <h4>Statistical AI</h4>
+                    <ul>
+                        <li>Time-series anomaly detection</li>
+                        <li>Topology-aware correlation</li>
+                        <li>Predictive failure models</li>
+                    </ul>
+                </div>
+                <div class="ai-col">
+                    <h4>LLM</h4>
+                    <ul>
+                        <li>Causal reasoning over unstructured data</li>
+                        <li>RAG over runbooks &amp; documentation</li>
+                        <li>Natural language interaction</li>
+                    </ul>
+                </div>
+            </div>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/llm-engine</code></td></tr>
+                <tr><td>Default model</td><td>claude-sonnet-4-20250514</td></tr>
+                <tr><td>Connects to</td><td>OpenObserve, Keep, Qdrant, NATS, active-inventory</td></tr>
+                <tr><td>Secrets</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+                <tr><td>OODA phase</td><td>Orient → Decide (+ Verify feedback)</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="active-inventory">
+            <div class="comp-header">
+                <h3>active-inventory</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8080</span>
+            </div>
+            <p>Live network topology graph. Discovers and tracks devices, links, interfaces, and services. Provides topological context to llm-engine — enabling questions like "what else is affected by this fiber cut?" and blast radius estimation for remediation actions.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/active-inventory</code></td></tr>
+                <tr><td>Connects to</td><td>NATS (topology events)</td></tr>
+                <tr><td>Use case</td><td>Topology queries, impact analysis, blast radius</td></tr>
+            </table>
+        </div>
+
+        <!-- Data Layer -->
+        <h2>Data Layer</h2>
+        <p>Proven open source infrastructure for telemetry storage, alert management, vector search, data pipelines, and messaging. Each component maps to a phase of the OODA loop.</p>
+
+        <div class="component" id="openobserve">
+            <div class="comp-header">
+                <h3>OpenObserve</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:5080</span>
+                <span class="ooda-tag">Observe</span>
+            </div>
+            <p>Unified observability platform for logs, metrics, and traces. Rust-based, 140x lower storage cost than Elasticsearch. Stores all raw telemetry and provides SQL + PromQL query interfaces. Also serves as the verification layer — re-queried after remediation to confirm recovery.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>public.ecr.aws/zinclabs/openobserve</code></td></tr>
+                <tr><td>Storage</td><td>200 Gi (default), Parquet on local/S3</td></tr>
+                <tr><td>Query</td><td>SQL, PromQL</td></tr>
+                <tr><td>OODA phase</td><td>Observe + Verify</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="vector">
+            <div class="comp-header">
+                <h3>Vector</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:9000 :6514</span>
+                <span class="ooda-tag">Observe</span>
+            </div>
+            <p>High-performance data pipeline. Ingests logs via syslog (TCP :9000) and Vector protocol (:6514), parses and enriches with VRL transforms, then routes to OpenObserve. Handles free5GC, perfSONAR, and network device logs with source-specific transforms.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>timberio/vector:0.41.1-alpine</code></td></tr>
+                <tr><td>Inputs</td><td>Syslog TCP, Vector protocol</td></tr>
+                <tr><td>Transforms</td><td>parse_free5gc, parse_perfsonar (extensible via VRL)</td></tr>
+                <tr><td>Output</td><td>OpenObserve HTTP sink</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="keep">
+            <div class="comp-header">
+                <h3>Keep</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:8080</span>
+                <span class="ooda-tag">Orient + Act</span>
+            </div>
+            <p>AIOps platform for alert lifecycle management. Aggregates alerts from 110+ sources, deduplicates, correlates related alerts, and executes remediation via YAML-based declarative workflows. Serves as both the alert correlation layer (Orient) and the action execution layer (Act).</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>keep-api + keep-ui</code></td></tr>
+                <tr><td>Integrations</td><td>110+ bidirectional (Datadog, Grafana, PagerDuty, ...)</td></tr>
+                <tr><td>Workflows</td><td>Declarative YAML (GitHub Actions style)</td></tr>
+                <tr><td>OODA phase</td><td>Orient (correlation) + Act (remediation workflows)</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="qdrant">
+            <div class="comp-header">
+                <h3>Qdrant</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:6333</span>
+                <span class="ooda-tag">Orient</span>
+            </div>
+            <p>Vector database for similarity search. Stores embeddings of past incidents, runbooks, network states, and documentation. Enables "have we seen this pattern before?" queries — the memory of the system. Powers RAG for llm-engine.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>qdrant/qdrant</code></td></tr>
+                <tr><td>Storage</td><td>20 Gi (default)</td></tr>
+                <tr><td>Collection</td><td><code>incidents</code> (default)</td></tr>
+                <tr><td>Use case</td><td>Incident similarity, RAG retrieval, anomaly pattern matching</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="nats">
+            <div class="comp-header">
+                <h3>NATS</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:4222</span>
+                <span class="ooda-tag">All</span>
+            </div>
+            <p>Cloud-native messaging backbone. Connects all components via pub/sub and request/reply. JetStream provides persistent streaming for alert events and topology changes. Sub-millisecond latency, under 20 MB RAM — the nervous system of a10y.</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>nats:2-alpine</code></td></tr>
+                <tr><td>Features</td><td>JetStream (streaming), KV store, monitoring (:8222)</td></tr>
+                <tr><td>Streams</td><td>Alert events, topology changes, action results</td></tr>
+                <tr><td>OODA phase</td><td>All — event bus connecting the entire loop</td></tr>
+            </table>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .arch {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        background: #0c0c0c;
+    }
+    .arch-layer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.6rem 0;
+    }
+    .arch-layer.core {
+        background: rgba(74, 158, 255, 0.04);
+        border-radius: 6px;
+        padding: 0.6rem 0.8rem;
+    }
+    .layer-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        min-width: 80px;
+    }
+    .layer-items {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+    .layer-items .item {
+        font-size: 0.9rem;
+        color: #bbb;
+        background: #151515;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        border: 1px solid #222;
+        text-decoration: none;
+    }
+    .layer-items .item:hover {
+        border-color: #4a9eff;
+        color: #fff;
+    }
+    .arch-connector {
+        text-align: center;
+        color: #333;
+        font-size: 0.9rem;
+        padding: 0.1rem 0;
+    }
+
+    .component {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.4rem 1.6rem;
+        margin: 1rem 0;
+        background: #0c0c0c;
+    }
+    .comp-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+    .comp-header h3 {
+        font-size: 1.2rem;
+        color: #fff;
+        margin: 0;
+    }
+    .badge {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.15rem 0.5rem;
+        border-radius: 3px;
+        font-weight: 600;
+    }
+    .badge.custom { background: #1a3a5c; color: #6ab0ff; }
+    .badge.oss { background: #1a3a2a; color: #6aff8a; }
+    .port {
+        font-size: 0.8rem;
+        color: #666;
+        font-family: monospace;
+    }
+    .ooda-tag {
+        font-size: 0.75rem;
+        color: #4a9eff;
+        border: 1px solid #1a3a5c;
+        padding: 0.1rem 0.5rem;
+        border-radius: 3px;
+        margin-left: auto;
+    }
+    .component p {
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .dual-ai {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 0.8rem 0;
+    }
+    .ai-col h4 {
+        font-size: 0.9rem;
+        color: #ddd;
+        margin-bottom: 0.4rem;
+    }
+    .ai-col ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    .ai-col li {
+        font-size: 0.85rem;
+        color: #999;
+        line-height: 1.5;
+    }
+
+    table.spec {
+        width: 100%;
+        margin: 0;
+    }
+    table.spec td {
+        padding: 0.25rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #141414;
+        color: #999;
+    }
+    table.spec td:first-child {
+        color: #888;
+        width: 120px;
+    }
+    table.spec code {
+        font-size: 0.8rem;
+        color: #bbb;
+        background: #151515;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+    }
+
+    @media (max-width: 640px) {
+        .dual-ai { grid-template-columns: 1fr; }
+        .ooda-tag { margin-left: 0; }
+    }
+</style>
