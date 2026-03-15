@@ -1,22 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
-  <!-- Loop ring -->
-  <circle cx="60" cy="60" r="38" stroke="#4a9eff" stroke-width="2.5" opacity="0.3"/>
-  <path d="M 60 22 A 38 38 0 1 1 22.6 78" stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Arrow tip -->
-  <polygon points="18,72 28,82 22,70" fill="#4a9eff"/>
+  <!-- Neural network mark -->
+  <g transform="translate(10, 10)">
+    <!-- Layer 1: Input signals -->
+    <circle cx="10" cy="20" r="4" fill="#4a9eff" opacity="0.6"/>
+    <circle cx="10" cy="50" r="4" fill="#4a9eff" opacity="0.6"/>
+    <circle cx="10" cy="80" r="4" fill="#4a9eff" opacity="0.6"/>
 
-  <!-- Node dots -->
-  <circle cx="60" cy="22" r="4" fill="#4a9eff"/>
-  <circle cx="93" cy="42" r="4" fill="#4a9eff"/>
-  <circle cx="93" cy="78" r="4" fill="#4a9eff"/>
-  <circle cx="60" cy="98" r="4" fill="#4a9eff"/>
+    <!-- Layer 2 -->
+    <circle cx="38" cy="30" r="5" fill="#4a9eff" opacity="0.75"/>
+    <circle cx="38" cy="60" r="5" fill="#4a9eff" opacity="0.75"/>
+    <circle cx="38" cy="85" r="3.5" fill="#4a9eff" opacity="0.5"/>
 
-  <!-- Center core -->
-  <circle cx="60" cy="60" r="6" fill="#4a9eff" opacity="0.8"/>
+    <!-- Layer 3 -->
+    <circle cx="65" cy="38" r="5.5" fill="#4a9eff" opacity="0.85"/>
+    <circle cx="65" cy="68" r="5.5" fill="#4a9eff" opacity="0.85"/>
 
-  <!-- Connections -->
-  <line x1="60" y1="26" x2="60" y2="54" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="89" y1="44" x2="66" y2="58" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="89" y1="76" x2="66" y2="62" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="60" y1="94" x2="60" y2="66" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+    <!-- Core -->
+    <circle cx="90" cy="50" r="7" fill="#4a9eff"/>
+
+    <!-- L1→L2 -->
+    <line x1="14" y1="20" x2="33" y2="30" stroke="#4a9eff" stroke-width="1" opacity="0.2"/>
+    <line x1="14" y1="20" x2="33" y2="60" stroke="#4a9eff" stroke-width="1" opacity="0.12"/>
+    <line x1="14" y1="50" x2="33" y2="30" stroke="#4a9eff" stroke-width="1" opacity="0.15"/>
+    <line x1="14" y1="50" x2="33" y2="60" stroke="#4a9eff" stroke-width="1" opacity="0.2"/>
+    <line x1="14" y1="50" x2="33" y2="85" stroke="#4a9eff" stroke-width="1" opacity="0.12"/>
+    <line x1="14" y1="80" x2="33" y2="60" stroke="#4a9eff" stroke-width="1" opacity="0.15"/>
+    <line x1="14" y1="80" x2="33" y2="85" stroke="#4a9eff" stroke-width="1" opacity="0.2"/>
+
+    <!-- L2→L3 -->
+    <line x1="43" y1="30" x2="60" y2="38" stroke="#4a9eff" stroke-width="1.2" opacity="0.25"/>
+    <line x1="43" y1="30" x2="60" y2="68" stroke="#4a9eff" stroke-width="1.2" opacity="0.15"/>
+    <line x1="43" y1="60" x2="60" y2="38" stroke="#4a9eff" stroke-width="1.2" opacity="0.15"/>
+    <line x1="43" y1="60" x2="60" y2="68" stroke="#4a9eff" stroke-width="1.2" opacity="0.25"/>
+    <line x1="41" y1="85" x2="60" y2="68" stroke="#4a9eff" stroke-width="1.2" opacity="0.15"/>
+
+    <!-- L3→Core -->
+    <line x1="70" y1="38" x2="83" y2="48" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
+    <line x1="70" y1="68" x2="83" y2="52" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
+
+    <!-- Glow -->
+    <circle cx="90" cy="50" r="14" fill="#4a9eff" opacity="0.06"/>
+  </g>
 </svg>

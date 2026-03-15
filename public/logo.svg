@@ -1,27 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
-  <!-- Loop ring - represents closed loop automation -->
-  <circle cx="60" cy="60" r="38" stroke="#4a9eff" stroke-width="2.5" opacity="0.3"/>
-  <path d="M 60 22 A 38 38 0 1 1 22.6 78" stroke="#4a9eff" stroke-width="2.5" stroke-linecap="round"/>
-  <!-- Arrow tip closing the loop -->
-  <polygon points="18,72 28,82 22,70" fill="#4a9eff"/>
+  <!-- Neural network / brain-like mesh -->
+  <g>
+    <!-- Layer 1: Input nodes (multi-source signals) -->
+    <circle cx="20" cy="30" r="3.5" fill="#4a9eff" opacity="0.6"/>
+    <circle cx="20" cy="60" r="3.5" fill="#4a9eff" opacity="0.6"/>
+    <circle cx="20" cy="90" r="3.5" fill="#4a9eff" opacity="0.6"/>
 
-  <!-- Node dots on the ring - represent multi-source signals -->
-  <circle cx="60" cy="22" r="4" fill="#4a9eff"/>
-  <circle cx="93" cy="42" r="4" fill="#4a9eff"/>
-  <circle cx="93" cy="78" r="4" fill="#4a9eff"/>
-  <circle cx="60" cy="98" r="4" fill="#4a9eff"/>
+    <!-- Layer 2: Hidden nodes -->
+    <circle cx="52" cy="38" r="4" fill="#4a9eff" opacity="0.75"/>
+    <circle cx="52" cy="68" r="4" fill="#4a9eff" opacity="0.75"/>
+    <circle cx="52" cy="90" r="3" fill="#4a9eff" opacity="0.5"/>
 
-  <!-- Center brain/core dot -->
-  <circle cx="60" cy="60" r="6" fill="#4a9eff" opacity="0.8"/>
+    <!-- Layer 3: Deep correlation -->
+    <circle cx="82" cy="45" r="4.5" fill="#4a9eff" opacity="0.85"/>
+    <circle cx="82" cy="75" r="4.5" fill="#4a9eff" opacity="0.85"/>
 
-  <!-- Connection lines from nodes to center -->
-  <line x1="60" y1="26" x2="60" y2="54" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="89" y1="44" x2="66" y2="58" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="89" y1="76" x2="66" y2="62" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
-  <line x1="60" y1="94" x2="60" y2="66" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+    <!-- Layer 4: Core understanding -->
+    <circle cx="110" cy="60" r="6" fill="#4a9eff"/>
+
+    <!-- Edges: Layer 1 → 2 -->
+    <line x1="23" y1="30" x2="48" y2="38" stroke="#4a9eff" stroke-width="0.8" opacity="0.2"/>
+    <line x1="23" y1="30" x2="48" y2="68" stroke="#4a9eff" stroke-width="0.8" opacity="0.12"/>
+    <line x1="23" y1="60" x2="48" y2="38" stroke="#4a9eff" stroke-width="0.8" opacity="0.15"/>
+    <line x1="23" y1="60" x2="48" y2="68" stroke="#4a9eff" stroke-width="0.8" opacity="0.2"/>
+    <line x1="23" y1="60" x2="48" y2="90" stroke="#4a9eff" stroke-width="0.8" opacity="0.12"/>
+    <line x1="23" y1="90" x2="48" y2="68" stroke="#4a9eff" stroke-width="0.8" opacity="0.15"/>
+    <line x1="23" y1="90" x2="48" y2="90" stroke="#4a9eff" stroke-width="0.8" opacity="0.2"/>
+
+    <!-- Edges: Layer 2 → 3 -->
+    <line x1="56" y1="38" x2="78" y2="45" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+    <line x1="56" y1="38" x2="78" y2="75" stroke="#4a9eff" stroke-width="1" opacity="0.15"/>
+    <line x1="56" y1="68" x2="78" y2="45" stroke="#4a9eff" stroke-width="1" opacity="0.15"/>
+    <line x1="56" y1="68" x2="78" y2="75" stroke="#4a9eff" stroke-width="1" opacity="0.25"/>
+    <line x1="55" y1="90" x2="78" y2="75" stroke="#4a9eff" stroke-width="1" opacity="0.15"/>
+
+    <!-- Edges: Layer 3 → 4 -->
+    <line x1="86" y1="45" x2="104" y2="58" stroke="#4a9eff" stroke-width="1.2" opacity="0.35"/>
+    <line x1="86" y1="75" x2="104" y2="62" stroke="#4a9eff" stroke-width="1.2" opacity="0.35"/>
+
+    <!-- Pulse glow on core -->
+    <circle cx="110" cy="60" r="12" fill="#4a9eff" opacity="0.08"/>
+    <circle cx="110" cy="60" r="18" fill="#4a9eff" opacity="0.03"/>
+  </g>
 
   <!-- Text: a10y -->
-  <text x="120" y="75" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="300" letter-spacing="0.05em" fill="#ffffff">
+  <text x="145" y="76" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="56" font-weight="300" letter-spacing="0.04em" fill="#ffffff">
     <tspan>a</tspan><tspan fill="#4a9eff">10</tspan><tspan>y</tspan>
   </text>
 </svg>
