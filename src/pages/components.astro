@@ -20,7 +20,7 @@ import Base from "../layouts/Base.astro";
             <div class="arch-layer core">
                 <div class="layer-label">Core Layer</div>
                 <div class="layer-items">
-                    <a href="#llm-engine" class="item">llm-engine</a>
+                    <a href="#correlation-engine" class="item">correlation-engine</a>
                     <a href="#active-inventory" class="item">active-inventory</a>
                 </div>
             </div>
@@ -93,7 +93,7 @@ import Base from "../layouts/Base.astro";
             <p>Terminal-based interface for operators who prefer CLI workflows. Query the AI engine, inspect alerts, trigger actions — all from the command line. Suitable for SSH-only environments and automation scripts.</p>
             <table class="spec">
                 <tr><td>Image</td><td><code>ghcr.io/autonomously-io/aether-term</code></td></tr>
-                <tr><td>Connects to</td><td>llm-engine</td></tr>
+                <tr><td>Connects to</td><td>correlation-engine</td></tr>
                 <tr><td>Use case</td><td>CLI investigation, scripted queries, headless environments</td></tr>
             </table>
         </div>
@@ -102,9 +102,9 @@ import Base from "../layouts/Base.astro";
         <h2>Core Layer</h2>
         <p>The brain of a10y. The LLM engine performs causal reasoning by combining statistical AI and language models. The active inventory maintains a live graph of network topology, feeding context into every decision.</p>
 
-        <div class="component" id="llm-engine">
+        <div class="component" id="correlation-engine">
             <div class="comp-header">
-                <h3>llm-engine</h3>
+                <h3>correlation-engine</h3>
                 <span class="badge custom">Custom</span>
                 <span class="port">:8000</span>
             </div>
@@ -128,7 +128,7 @@ import Base from "../layouts/Base.astro";
                 </div>
             </div>
             <table class="spec">
-                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/llm-engine</code></td></tr>
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/correlation-engine</code></td></tr>
                 <tr><td>Default model</td><td>claude-sonnet-4-20250514</td></tr>
                 <tr><td>Connects to</td><td>OpenObserve, Keep, Qdrant, NATS, active-inventory</td></tr>
                 <tr><td>Secrets</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
@@ -142,7 +142,7 @@ import Base from "../layouts/Base.astro";
                 <span class="badge custom">Custom</span>
                 <span class="port">:8080</span>
             </div>
-            <p>Live network topology graph. Discovers and tracks devices, links, interfaces, and services. Provides topological context to llm-engine — enabling questions like "what else is affected by this fiber cut?" and blast radius estimation for remediation actions.</p>
+            <p>Live network topology graph. Discovers and tracks devices, links, interfaces, and services. Provides topological context to correlation-engine — enabling questions like "what else is affected by this fiber cut?" and blast radius estimation for remediation actions.</p>
             <table class="spec">
                 <tr><td>Image</td><td><code>ghcr.io/autonomously-io/active-inventory</code></td></tr>
                 <tr><td>Connects to</td><td>NATS (topology events)</td></tr>
@@ -209,7 +209,7 @@ import Base from "../layouts/Base.astro";
                 <span class="port">:6333</span>
                 <span class="ooda-tag">Orient</span>
             </div>
-            <p>Vector database for similarity search. Stores embeddings of past incidents, runbooks, network states, and documentation. Enables "have we seen this pattern before?" queries — the memory of the system. Powers RAG for llm-engine.</p>
+            <p>Vector database for similarity search. Stores embeddings of past incidents, runbooks, network states, and documentation. Enables "have we seen this pattern before?" queries — the memory of the system. Powers RAG for correlation-engine.</p>
             <table class="spec">
                 <tr><td>Image</td><td><code>qdrant/qdrant</code></td></tr>
                 <tr><td>Storage</td><td>20 Gi (default)</td></tr>

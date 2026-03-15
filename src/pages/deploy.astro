@@ -20,7 +20,7 @@ import Base from "../layouts/Base.astro";
             <div class="arch-row">
                 <div class="arch-box core">
                     <div class="label">Core</div>
-                    <span>llm-engine</span>
+                    <span>correlation-engine</span>
                     <span>active-inventory</span>
                 </div>
             </div>
@@ -88,7 +88,7 @@ import Base from "../layouts/Base.astro";
                 <tr><td>Qdrant</td><td>6333</td><td>Vector DB</td><td>Dashboard</td></tr>
                 <tr><td>NATS</td><td>4222 / 8222</td><td>Messaging / Monitor</td><td>Monitor</td></tr>
                 <tr><td>Vector</td><td>9000 / 6514</td><td>Syslog / Vector protocol</td><td>—</td></tr>
-                <tr><td>llm-engine</td><td>8000</td><td>AI engine API</td><td>—</td></tr>
+                <tr><td>correlation-engine</td><td>8000</td><td>AI engine API</td><td>—</td></tr>
                 <tr><td>active-inventory</td><td>8081</td><td>Topology API</td><td>—</td></tr>
                 <tr><td>aether-ide</td><td>8080</td><td>Web IDE (planned)</td><td>—</td></tr>
                 <tr><td>aether-term</td><td>3000</td><td>Terminal (planned)</td><td>—</td></tr>
@@ -103,7 +103,7 @@ import Base from "../layouts/Base.astro";
             <li>Kubernetes 1.28+</li>
             <li>Helm 3.12+</li>
             <li>Storage class with dynamic provisioning (for OpenObserve, Qdrant)</li>
-            <li>Anthropic API key (for llm-engine)</li>
+            <li>Anthropic API key (for correlation-engine)</li>
         </ul>
 
         <h3>Quick Start</h3>
@@ -113,7 +113,7 @@ helm repo update
 
 # Create namespace and secret
 kubectl create namespace a10y
-kubectl -n a10y create secret generic llm-engine-secrets \
+kubectl -n a10y create secret generic correlation-engine-secrets \
   --from-literal=ANTHROPIC_API_KEY=sk-ant-...
 
 # Install
@@ -122,9 +122,9 @@ helm install a10y a10y/autonomously -n a10y</code></pre>
         <h3>Custom Values</h3>
         <pre><code># values-prod.yaml
 components:
-  llm-engine:
+  correlation-engine:
     env:
-      LLM_MODEL: "claude-sonnet-4-20250514"
+      AI_MODEL: "claude-sonnet-4-20250514"
     resources:
       requests:
         cpu: "1"
@@ -181,16 +181,16 @@ docker compose up -d
 docker compose ps
 
 # View logs
-docker compose logs -f llm-engine</code></pre>
+docker compose logs -f correlation-engine</code></pre>
 
         <h3>docker-compose.yml</h3>
         <pre><code>services:
   # -- Core
-  llm-engine:
-    image: ghcr.io/autonomously-io/llm-engine:latest
+  correlation-engine:
+    image: ghcr.io/autonomously-io/correlation-engine:latest
     ports: ["8000:8000"]
     environment:
-      LLM_MODEL: claude-sonnet-4-20250514
+      AI_MODEL: claude-sonnet-4-20250514
       OPENOBSERVE_URL: http://openobserve:5080
       OPENOBSERVE_USER: admin@a10y.local
       KEEP_API_URL: http://keep-backend:8080
@@ -210,13 +210,13 @@ docker compose logs -f llm-engine</code></pre>
     image: ghcr.io/autonomously-io/aether-ide:latest
     ports: ["8080:8080"]
     environment:
-      LLM_ENGINE_URL: http://llm-engine:8000
+      CORRELATION_ENGINE_URL: http://correlation-engine:8000
 
   aether-term:
     image: ghcr.io/autonomously-io/aether-term:latest
     ports: ["3000:3000"]
     environment:
-      LLM_ENGINE_URL: http://llm-engine:8000
+      CORRELATION_ENGINE_URL: http://correlation-engine:8000
 
   # -- Data layer
   openobserve:
