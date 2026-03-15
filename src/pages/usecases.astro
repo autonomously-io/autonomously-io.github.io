@@ -1,0 +1,347 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="Use Cases - a10y" description="Concrete usage scenarios showing how a10y detects, understands, and resolves network issues.">
+    <div class="container">
+        <h1>Use Cases</h1>
+        <p class="lead">How a10y works in practice — from fault detection to autonomous recovery.</p>
+
+        <!-- Scenario 1 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">01</span>
+                <div>
+                    <h2>Fiber Cut Impacts Mobile Core</h2>
+                    <p class="scenario-summary">A physical fiber cut triggers cascading alarms across transport, IP, and mobile core layers. a10y correlates them to a single root cause in seconds.</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-phase">Observe</div>
+                    <div class="step-components">Vector → OpenObserve</div>
+                    <div class="step-detail">
+                        <p>Transport layer: optical power loss alarm on interface ge-0/0/1</p>
+                        <p>IP layer: BGP neighbor down, OSPF adjacency lost on 3 links</p>
+                        <p>Mobile core (free5GC): AMF registration failures spike, UPF path unreachable</p>
+                        <p class="count">47 alerts in 90 seconds across 12 devices</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Orient</div>
+                    <div class="step-components">Keep + Qdrant</div>
+                    <div class="step-detail">
+                        <p>Keep deduplicates 47 alerts → 8 unique alarm types</p>
+                        <p>Qdrant finds similar incident from 3 months ago (fiber cut on same span)</p>
+                        <p>Correlation: all affected devices share a common fiber path</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Decide</div>
+                    <div class="step-components">llm-engine</div>
+                    <div class="step-detail">
+                        <p>Queries active-inventory: "what is the physical topology between these devices?"</p>
+                        <p>Identifies fiber span X as single point of failure</p>
+                        <p>RCA: fiber cut on span X → transport down → IP reroute failed (no alternate path) → mobile core unreachable</p>
+                        <p>Action plan: reroute traffic via backup path, notify NOC for physical repair</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Act</div>
+                    <div class="step-components">Keep workflows</div>
+                    <div class="step-detail">
+                        <p>Activates backup MPLS path via NETCONF</p>
+                        <p>Creates incident ticket with RCA summary</p>
+                        <p>Notifies NOC: "Fiber cut on span X, backup path activated, physical repair needed"</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Verify</div>
+                    <div class="step-components">OpenObserve + engine</div>
+                    <div class="step-detail">
+                        <p>BGP sessions re-established on backup path</p>
+                        <p>AMF registration success rate returns to 99.9%</p>
+                        <p>Alert storm resolved — 47 alerts → 0 active</p>
+                        <p class="result">Time to RCA: 12 seconds. Time to recovery: 3 minutes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 2 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">02</span>
+                <div>
+                    <h2>Latency Degradation on perfSONAR Mesh</h2>
+                    <p class="scenario-summary">Gradual latency increase detected by perfSONAR between research sites. Statistical AI identifies the anomaly before any threshold alert fires.</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-phase">Observe</div>
+                    <div class="step-components">Vector (syslog) → OpenObserve</div>
+                    <div class="step-detail">
+                        <p>perfSONAR OWAMP tests: one-way delay increasing 2ms/hour on path A→B</p>
+                        <p>No threshold alarm yet (still below 50ms SLA)</p>
+                        <p>Statistical anomaly detection flags the trend as abnormal</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Orient</div>
+                    <div class="step-components">Keep + Qdrant + active-inventory</div>
+                    <div class="step-detail">
+                        <p>Topology query: path A→B traverses 4 hops, optical amplifiers on span 2</p>
+                        <p>Qdrant: similar pattern seen last year — optical amplifier degradation</p>
+                        <p>Correlation with SNMP: optical power on span 2 decreasing (still in spec)</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Decide</div>
+                    <div class="step-components">llm-engine</div>
+                    <div class="step-detail">
+                        <p>Prediction: at current rate, SLA breach in ~18 hours</p>
+                        <p>Root cause: optical amplifier aging on span 2 (pre-failure state)</p>
+                        <p>Recommendation: proactive maintenance window, switch to protection path</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Act</div>
+                    <div class="step-components">Keep workflows</div>
+                    <div class="step-detail">
+                        <p>Creates maintenance ticket with predicted failure window</p>
+                        <p>Schedules protection path switchover for next maintenance window</p>
+                        <p>Alerts optical team: "Amplifier on span 2 showing degradation, replace within 18h"</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Verify</div>
+                    <div class="step-components">OpenObserve</div>
+                    <div class="step-detail">
+                        <p>After switchover: latency on path A→B returns to baseline</p>
+                        <p>perfSONAR tests confirm SLA compliance</p>
+                        <p class="result">Issue resolved before any user impact. Zero SLA violations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 3 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">03</span>
+                <div>
+                    <h2>Daily Operations via aether-ide</h2>
+                    <p class="scenario-summary">An operator's typical workflow — from morning overview to incident investigation, all from the aether-ide portal.</p>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="wf-step">
+                    <div class="wf-icon">1</div>
+                    <div class="wf-content">
+                        <h3>Open aether-ide</h3>
+                        <p>Topology view shows all network nodes. Green = healthy, yellow = warning, red = critical. Two nodes are yellow.</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">2</div>
+                    <div class="wf-content">
+                        <h3>Click yellow node → OpenObserve</h3>
+                        <p>Opens OpenObserve filtered to that device's logs and metrics. Sees elevated error rate on one interface.</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">3</div>
+                    <div class="wf-content">
+                        <h3>Check alerts → Keep</h3>
+                        <p>Opens Keep dashboard. 3 correlated alerts for this device — CRC errors, input drops, and optical power warning. Keep has already grouped them.</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">4</div>
+                    <div class="wf-content">
+                        <h3>Search history → Qdrant</h3>
+                        <p>"Have we seen this pattern before?" Qdrant dashboard shows 2 similar past incidents — both resolved by cleaning the fiber connector.</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">5</div>
+                    <div class="wf-content">
+                        <h3>Approve action</h3>
+                        <p>llm-engine suggests dispatching a field tech with the RCA summary. Operator approves → Keep workflow creates the dispatch ticket.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What operators see -->
+        <h2>What Operators See</h2>
+        <div class="screens">
+            <div class="screen">
+                <div class="screen-title">aether-ide :8080</div>
+                <div class="screen-desc">Network topology map with health status. Click any node to drill into its data in OpenObserve or Keep.</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">OpenObserve :5080</div>
+                <div class="screen-desc">Device logs, interface metrics, trace data. Custom dashboards per network layer (transport, IP, mobile core).</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">Keep :3001</div>
+                <div class="screen-desc">Active alerts grouped by correlation. Workflow execution history. Integration status with external tools.</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">Qdrant :6333</div>
+                <div class="screen-desc">Past incident database. Similarity search results. Runbook and documentation embeddings.</div>
+            </div>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .scenario {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        background: #0c0c0c;
+    }
+    .scenario-header {
+        display: flex;
+        gap: 1.2rem;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+    .scenario-num {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #4a9eff;
+        opacity: 0.4;
+        line-height: 1;
+        min-width: 40px;
+    }
+    .scenario-header h2 {
+        font-size: 1.3rem;
+        margin: 0 0 0.3rem;
+        border: none;
+        padding: 0;
+    }
+    .scenario-summary {
+        font-size: 0.95rem;
+        color: #888;
+        margin: 0;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    .step {
+        display: grid;
+        grid-template-columns: 80px 140px 1fr;
+        border-top: 1px solid #141414;
+        padding: 0.8rem 0;
+    }
+    .step-phase {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        padding-top: 0.1rem;
+    }
+    .step-components {
+        font-size: 0.8rem;
+        color: #666;
+        padding-top: 0.1rem;
+    }
+    .step-detail p {
+        font-size: 0.9rem;
+        margin: 0 0 0.2rem;
+        color: #aaa;
+        line-height: 1.5;
+    }
+    .step-detail .count {
+        color: #666;
+        font-style: italic;
+    }
+    .step-detail .result {
+        color: #6aff8a;
+        font-weight: 500;
+        margin-top: 0.3rem;
+    }
+
+    .workflow {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+    .wf-step {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0.8rem;
+        border: 1px solid #141414;
+        border-radius: 6px;
+    }
+    .wf-icon {
+        min-width: 28px;
+        height: 28px;
+        background: #1a3a5c;
+        color: #6ab0ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    .wf-content h3 {
+        font-size: 1rem;
+        color: #ddd;
+        margin: 0 0 0.2rem;
+    }
+    .wf-content p {
+        font-size: 0.9rem;
+        color: #888;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .screens {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+    .screen {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1rem;
+        background: #0c0c0c;
+    }
+    .screen-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+        font-family: monospace;
+    }
+    .screen-desc {
+        font-size: 0.85rem;
+        color: #888;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+        .step {
+            grid-template-columns: 1fr;
+            gap: 0.2rem;
+        }
+        .screens { grid-template-columns: 1fr; }
+        .scenario-header { flex-direction: column; gap: 0.5rem; }
+    }
+</style>
