@@ -31,9 +31,11 @@
     <circle cx="21" cy="12" r="5" fill="#4a9eff" opacity="0.85"/>
 
     <!-- Core -->
-    <circle cx="0" cy="0" r="7.5" fill="#4a9eff"/>
+    <circle cx="0" cy="0" r="9" fill="#4a9eff"/>
+    <circle cx="0" cy="0" r="5" fill="#ffffff" opacity="0.4"/>
 
     <!-- Glow -->
-    <circle cx="0" cy="0" r="16" fill="#4a9eff" opacity="0.08"/>
+    <circle cx="0" cy="0" r="16" fill="#4a9eff" opacity="0.15"/>
+    <circle cx="0" cy="0" r="24" fill="#4a9eff" opacity="0.06"/>
   </g>
 </svg>
