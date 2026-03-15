@@ -1,0 +1,119 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+
+<Base title="Vision - a10y" description="The vision behind a10y — Understandability, Closed Loop Automation, and dual AI.">
+    <div class="container">
+        <h1>Vision</h1>
+        <p class="lead">Beyond observability — toward autonomous understanding and recovery.</p>
+
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h2>The Problem</h2>
+                <p>Networks generate massive signals across layers and vendors. Existing tools observe — they collect, visualize, alert. But they leave the hardest question to humans: <span class="highlight">"Why is this happening?"</span></p>
+            </div>
+
+            <div class="summary-card">
+                <h2>Two Pillars</h2>
+                <div class="pillars">
+                    <div class="pillar">
+                        <h3>Understandability</h3>
+                        <p>Not just <em>what</em>, but <em>why</em>. Cross-source causal reasoning and root cause analysis.</p>
+                    </div>
+                    <div class="pillar">
+                        <h3>Closed Loop</h3>
+                        <p>Observe → Correlate → Understand → Act → Verify. Autonomously.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <h2>Dual AI</h2>
+                <div class="pillars">
+                    <div class="pillar">
+                        <h3>Statistical AI</h3>
+                        <p>Anomaly detection, predictive models, topology-aware correlation. Speed and precision on structured data.</p>
+                    </div>
+                    <div class="pillar">
+                        <h3>LLM</h3>
+                        <p>Causal reasoning, RAG over runbooks, natural language interaction. Context and judgment on unstructured data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Deep Dive</h2>
+        <div class="subpages">
+            <a href="/vision/why" class="subpage">
+                <h3>Why Autonomously?</h3>
+                <p>The philosophy — automation vs. autonomy, bridging telecom and IT, the a10y numeronym.</p>
+            </a>
+            <a href="/vision/ooda" class="subpage">
+                <h3>OODA × AI</h3>
+                <p>The OODA loop applied to network operations. AI at each phase, stack mapping, the inflection point.</p>
+            </a>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .summary-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    .summary-card {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: #0c0c0c;
+    }
+    .summary-card h2 {
+        font-size: 1.2rem;
+        margin: 0 0 0.8rem;
+        border: none;
+        padding: 0;
+    }
+    .summary-card p {
+        margin-bottom: 0;
+    }
+    .pillars {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    .pillar h3 {
+        font-size: 1rem;
+        color: #fff;
+        margin: 0 0 0.3rem;
+    }
+    .pillar p { margin: 0; font-size: 0.95rem; }
+    .subpages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .subpage {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.2rem;
+        text-decoration: none;
+        transition: border-color 0.2s;
+    }
+    .subpage:hover { border-color: #4a9eff; }
+    .subpage h3 {
+        font-size: 1.05rem;
+        color: #fff;
+        margin: 0 0 0.3rem;
+    }
+    .subpage p {
+        font-size: 0.9rem;
+        color: #888;
+        margin: 0;
+    }
+    @media (max-width: 640px) {
+        .pillars, .subpages { grid-template-columns: 1fr; }
+    }
+</style>
