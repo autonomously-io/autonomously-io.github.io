@@ -3,20 +3,19 @@
     <!-- Circular outline -->
     <circle cx="0" cy="0" r="50" stroke="#4a9eff" stroke-width="2" opacity="0.3" fill="none"/>
 
-    <!-- Edges UNDER nodes -->
-    <!-- Outer → Middle -->
-    <path d="M0 -42 Q0 -33 0 -24" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" fill="none"/>
-    <path d="M-36 -21 Q-28 -18 -21 -10" stroke="#4a9eff" stroke-width="1.5" opacity="0.35" fill="none"/>
-    <path d="M36 -21 Q28 -18 21 -10" stroke="#4a9eff" stroke-width="1.5" opacity="0.35" fill="none"/>
-    <path d="M-36 21 Q-28 16 -21 12" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" fill="none"/>
-    <path d="M36 21 Q28 16 21 12" stroke="#4a9eff" stroke-width="1.5" opacity="0.4" fill="none"/>
-    <path d="M0 42 Q-10 28 -21 12" stroke="#4a9eff" stroke-width="1.5" opacity="0.35" fill="none"/>
-    <path d="M0 42 Q10 28 21 12" stroke="#4a9eff" stroke-width="1.5" opacity="0.35" fill="none"/>
+    <!-- Edges: Outer → Middle -->
+    <line x1="0" y1="-42" x2="0" y2="-24" stroke="#4a9eff" stroke-width="1.5" opacity="0.4"/>
+    <line x1="-36" y1="-21" x2="0" y2="-24" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
+    <line x1="36" y1="-21" x2="0" y2="-24" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
+    <line x1="-36" y1="21" x2="-21" y2="12" stroke="#4a9eff" stroke-width="1.5" opacity="0.4"/>
+    <line x1="36" y1="21" x2="21" y2="12" stroke="#4a9eff" stroke-width="1.5" opacity="0.4"/>
+    <line x1="0" y1="42" x2="-21" y2="12" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
+    <line x1="0" y1="42" x2="21" y2="12" stroke="#4a9eff" stroke-width="1.5" opacity="0.35"/>
 
-    <!-- Middle → Core -->
-    <path d="M0 -24 Q0 -12 0 0" stroke="#4a9eff" stroke-width="2" opacity="0.5" fill="none"/>
-    <path d="M-21 12 Q-10 6 0 0" stroke="#4a9eff" stroke-width="2" opacity="0.5" fill="none"/>
-    <path d="M21 12 Q10 6 0 0" stroke="#4a9eff" stroke-width="2" opacity="0.5" fill="none"/>
+    <!-- Edges: Middle → Core -->
+    <line x1="0" y1="-24" x2="0" y2="0" stroke="#4a9eff" stroke-width="2" opacity="0.5"/>
+    <line x1="-21" y1="12" x2="0" y2="0" stroke="#4a9eff" stroke-width="2" opacity="0.5"/>
+    <line x1="21" y1="12" x2="0" y2="0" stroke="#4a9eff" stroke-width="2" opacity="0.5"/>
 
     <!-- Outer ring nodes -->
     <circle cx="0" cy="-42" r="4.5" fill="#4a9eff" opacity="0.7"/>
