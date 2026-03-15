@@ -5,237 +5,261 @@ import Base from "../layouts/Base.astro";
 <Base title="a10y - Autonomously">
     <!-- Hero -->
     <div class="hero">
-        <div class="hero-inner">
-            <img src="/logo.svg" alt="a10y" class="logo" />
-            <p class="expand">Autonomously</p>
-            <p class="tagline">Penetrate. Understand. Restore.<br>Autonomously understands and restores your network.</p>
-            <p class="sub">Statistical AI + LLM — the right technique at every phase.</p>
-            <div class="links">
-                <a href="/why">Why Autonomously?</a>
-                <a href="/landscape">Landscape</a>
-                <a href="/ooda">OODA × AI</a>
-                <a href="https://github.com/autonomously-io">GitHub</a>
-            </div>
-            <div class="github-star">
-                <a class="github-button" href="https://github.com/autonomously-io/autonomously-io.github.io" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star autonomously-io/autonomously-io.github.io on GitHub">Star</a>
-            </div>
-            <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <img src="/logo.svg" alt="a10y" class="logo" />
+        <p class="tagline">Autonomously understands and restores your network.</p>
+        <div class="hero-links">
+            <a href="/why">Why?</a>
+            <a href="/landscape">Landscape</a>
+            <a href="/ooda">OODA × AI</a>
+            <a href="https://github.com/autonomously-io">GitHub</a>
+            <a class="github-button" href="https://github.com/autonomously-io/autonomously-io.github.io" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star">Star</a>
         </div>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
     </div>
 
-    <!-- What is a10y -->
-    <section class="section">
-        <div class="container">
-            <h2>What is a10y?</h2>
-            <p>a10y is a multi-source correlation engine that fuses signals from across your network — logs, metrics, traces, alerts, topology — and turns them into <span class="highlight">causal understanding</span>. It doesn't just detect problems; it understands <em>why</em> they happen and closes the loop by acting and verifying autonomously.</p>
-        </div>
-    </section>
+    <!-- Overview grid -->
+    <section class="grid-section">
+        <div class="wide">
+            <!-- What -->
+            <div class="card span-2">
+                <h2>Multi-source correlation engine</h2>
+                <p>Fuses logs, metrics, traces, alerts, and topology across layers and vendors into <strong>causal understanding</strong> — then acts and verifies autonomously.</p>
+            </div>
 
-    <!-- Two Pillars -->
-    <section class="section alt">
-        <div class="container">
-            <h2>Two Pillars</h2>
-            <div class="pillars">
-                <div class="pillar">
-                    <h3>Understandability</h3>
-                    <p>Beyond observability. Correlate multi-source signals across layers and vendors to uncover causal relationships and pinpoint root causes — not just symptoms.</p>
+            <!-- Two Pillars -->
+            <div class="card accent">
+                <h3>Understandability</h3>
+                <p>Not just <em>what</em> is happening, but <em>why</em>. Cross-source causal reasoning and root cause analysis.</p>
+            </div>
+            <div class="card accent">
+                <h3>Closed Loop</h3>
+                <p>Observe → Correlate → Understand → Act → Verify. The system closes the loop without human intervention.</p>
+            </div>
+
+            <!-- Dual AI - compact -->
+            <div class="card">
+                <h3>Statistical AI</h3>
+                <table class="compact">
+                    <tr><td>Anomaly detection</td><td>Time-series, topology-aware</td></tr>
+                    <tr><td>Predictive models</td><td>Failure forecasting</td></tr>
+                    <tr><td>Correlation</td><td>High-volume structured signals</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h3>LLM</h3>
+                <table class="compact">
+                    <tr><td>Causal reasoning</td><td>Unstructured data, vendor logs</td></tr>
+                    <tr><td>RAG</td><td>Runbooks, docs, postmortems</td></tr>
+                    <tr><td>Interaction</td><td>Natural language queries</td></tr>
+                </table>
+            </div>
+
+            <!-- Stack as OODA mapping -->
+            <div class="card span-2">
+                <h3>Stack × OODA</h3>
+                <div class="ooda-flow">
+                    <div class="ooda-step">
+                        <div class="phase">Observe</div>
+                        <div class="components">OpenObserve<br>Vector</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Orient</div>
+                        <div class="components">Keep<br>Qdrant</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Decide</div>
+                        <div class="components">a10y<br>engine</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Act</div>
+                        <div class="components">Keep<br>workflows</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Verify</div>
+                        <div class="components">OpenObserve<br>+ engine</div>
+                    </div>
+                    <div class="arrow loop">↻</div>
                 </div>
-                <div class="pillar">
-                    <h3>Closed Loop Automation</h3>
-                    <p>Observe → Correlate → Understand → Act → Verify. The system doesn't stop at insight — it takes action and confirms the outcome, autonomously.</p>
-                </div>
+                <div class="nats-bar">NATS — messaging backbone connecting all phases</div>
+            </div>
+
+            <!-- Standards -->
+            <div class="card">
+                <h3>Telecom Standards</h3>
+                <table class="compact">
+                    <tr><td>TMF</td><td>Autonomous Networks L0–L5</td></tr>
+                    <tr><td>ETSI ZSM</td><td>Zero-touch, closed control loops</td></tr>
+                    <tr><td>IETF</td><td>ANIMA, RFC 9315 (IBN)</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h3>IT / Cloud-native</h3>
+                <table class="compact">
+                    <tr><td>AIOps</td><td>ML-driven anomaly detection, RCA</td></tr>
+                    <tr><td>SRE</td><td>SLO, error budgets, toil reduction</td></tr>
+                    <tr><td>GitOps</td><td>Declarative, version-controlled infra</td></tr>
+                </table>
             </div>
         </div>
     </section>
 
-    <!-- Dual AI -->
-    <section class="section">
-        <div class="container">
-            <h2>Dual AI Approach</h2>
-            <div class="pillars">
-                <div class="pillar">
-                    <h3>Statistical AI &amp; ML</h3>
-                    <p>Time-series anomaly detection, topology-aware correlation, predictive failure models. High-volume structured signals at speed — no hallucination risk.</p>
-                </div>
-                <div class="pillar">
-                    <h3>Large Language Models</h3>
-                    <p>Causal reasoning over unstructured data, natural language interaction, RAG-powered runbook retrieval. Context and judgment where they matter most.</p>
-                </div>
-            </div>
-            <p class="center-note">Statistical models detect <em>that</em> something is wrong. LLMs reason about <em>why</em> and <em>what to do</em>.</p>
-        </div>
-    </section>
-
-    <!-- Stack -->
-    <section class="section alt">
-        <div class="container">
-            <h2>Built on Proven Open Source</h2>
-            <div class="stack-grid">
-                <div class="stack-item">
-                    <div class="stack-name">OpenObserve</div>
-                    <div class="stack-desc">Logs, metrics, traces</div>
-                </div>
-                <div class="stack-item">
-                    <div class="stack-name">Vector</div>
-                    <div class="stack-desc">Data pipeline &amp; enrichment</div>
-                </div>
-                <div class="stack-item">
-                    <div class="stack-name">Keep</div>
-                    <div class="stack-desc">Alert correlation &amp; workflows</div>
-                </div>
-                <div class="stack-item">
-                    <div class="stack-name">Qdrant</div>
-                    <div class="stack-desc">Vector search &amp; knowledge base</div>
-                </div>
-                <div class="stack-item">
-                    <div class="stack-name">NATS</div>
-                    <div class="stack-desc">Messaging backbone</div>
-                </div>
-                <div class="stack-item">
-                    <div class="stack-name">a10y engine</div>
-                    <div class="stack-desc">Correlation &amp; closed loop</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bridging -->
-    <section class="section">
-        <div class="container">
-            <h2>Bridging Telecom and IT</h2>
-            <p>Telecom has decades of autonomous operation standards — TMF Autonomous Networks (L0–L5), ETSI ZSM, intent-based networking. IT has cloud-native observability, AIOps, and SRE. These worlds evolved in parallel. a10y brings them together.</p>
-            <div class="links-bottom">
-                <a href="/landscape">Explore the landscape →</a>
-                <a href="/ooda">OODA × AI deep dive →</a>
-                <a href="https://github.com/autonomously-io/awesome-autonomous-operation">awesome-autonomous-operation →</a>
-            </div>
-        </div>
+    <!-- Footer links -->
+    <section class="footer-links">
+        <a href="/why">Why Autonomously? →</a>
+        <a href="/landscape">Full landscape analysis →</a>
+        <a href="/ooda">OODA × AI deep dive →</a>
+        <a href="https://github.com/autonomously-io/awesome-autonomous-operation">awesome-autonomous-operation →</a>
     </section>
 </Base>
 
 <style>
     .hero {
+        text-align: center;
+        padding: 4rem 2rem 3rem;
+    }
+    .logo {
+        width: 300px;
+        max-width: 80vw;
+        margin-bottom: 0.5rem;
+    }
+    .tagline {
+        font-size: 1.2rem;
+        color: #999;
+        margin-bottom: 1.5rem;
+    }
+    .hero-links {
         display: flex;
         align-items: center;
         justify-content: center;
-        min-height: 90vh;
-        text-align: center;
-        padding: 4rem 2rem;
+        gap: 1.5rem;
+        flex-wrap: wrap;
     }
-    .hero-inner { max-width: 680px; }
-    .logo {
-        width: 340px;
-        max-width: 85vw;
-        margin-bottom: 0.5rem;
-    }
-    .expand {
-        font-size: 1.2rem;
-        color: #888;
-        letter-spacing: 0.15em;
-        margin-bottom: 2rem;
-    }
-    .tagline {
-        font-size: 1.5rem;
-        line-height: 1.7;
-        color: #bbb;
-        margin-bottom: 0.8rem;
-    }
-    .sub {
-        font-size: 1.1rem;
-        color: #666;
-        margin-bottom: 3rem;
-    }
-    .links a {
+    .hero-links a:not(.github-button) {
         color: #4a9eff;
         text-decoration: none;
-        margin: 0 1rem;
-        font-size: 1.05rem;
+        font-size: 1rem;
     }
-    .links a:hover { text-decoration: underline; }
-    .github-star { margin-top: 2rem; }
+    .hero-links a:hover { text-decoration: underline; }
 
-    .section {
-        padding: 5rem 2rem;
+    .grid-section {
+        padding: 0 2rem 3rem;
     }
-    .section.alt {
-        background: #0e0e0e;
-    }
-    .container {
-        max-width: 800px;
+    .wide {
+        max-width: 900px;
         margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
     }
-    .section h2 {
-        font-size: 1.6rem;
+    .card {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1.2rem 1.4rem;
+        background: #0c0c0c;
+    }
+    .card.span-2 { grid-column: span 2; }
+    .card.accent { border-color: #1a3a5c; }
+    .card h2 {
+        font-size: 1.2rem;
         font-weight: 600;
         color: #fff;
-        margin-bottom: 1.5rem;
+        margin: 0 0 0.5rem;
         border: none;
         padding: 0;
     }
-    .pillars {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1.5rem;
-        margin: 1.5rem 0;
-    }
-    .pillar {
-        border: 1px solid #222;
-        border-radius: 8px;
-        padding: 1.8rem;
-    }
-    .pillar h3 {
-        font-size: 1.2rem;
-        color: #fff;
-        margin-bottom: 0.8rem;
-        margin-top: 0;
-    }
-    .pillar p {
-        margin-bottom: 0;
-    }
-    .center-note {
-        text-align: center;
-        margin-top: 1.5rem;
-        color: #888;
-        font-style: italic;
-    }
-    .stack-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-    .stack-item {
-        border: 1px solid #222;
-        border-radius: 8px;
-        padding: 1.5rem;
-        text-align: center;
-    }
-    .stack-name {
-        font-size: 1.1rem;
+    .card h3 {
+        font-size: 1rem;
         font-weight: 600;
-        color: #fff;
-        margin-bottom: 0.3rem;
+        color: #ddd;
+        margin: 0 0 0.5rem;
     }
-    .stack-desc {
+    .card p {
         font-size: 0.95rem;
-        color: #888;
+        color: #999;
+        line-height: 1.6;
+        margin: 0;
     }
-    .links-bottom {
+    .card strong { color: #e0e0e0; }
+    table.compact {
+        width: 100%;
+        margin: 0;
+    }
+    table.compact td {
+        padding: 0.25rem 0;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #141414;
+        color: #999;
+    }
+    table.compact td:first-child {
+        color: #ccc;
+        font-weight: 500;
+        width: 40%;
+    }
+
+    .ooda-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        margin: 0.8rem 0 0.6rem;
+    }
+    .ooda-step {
+        text-align: center;
+        min-width: 80px;
+    }
+    .ooda-step .phase {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+    }
+    .ooda-step .components {
+        font-size: 0.85rem;
+        color: #aaa;
+        line-height: 1.4;
+    }
+    .ooda-flow .arrow {
+        color: #333;
+        font-size: 1rem;
+    }
+    .ooda-flow .arrow.loop {
+        color: #4a9eff;
+        opacity: 0.5;
+    }
+    .nats-bar {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #555;
+        border-top: 1px dashed #1a1a1a;
+        padding-top: 0.5rem;
+    }
+
+    .footer-links {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
         display: flex;
         gap: 2rem;
-        margin-top: 2rem;
         flex-wrap: wrap;
+        border-top: 1px solid #1a1a1a;
     }
-    .links-bottom a {
+    .footer-links a {
         color: #4a9eff;
         text-decoration: none;
-        font-size: 1.05rem;
+        font-size: 0.95rem;
     }
-    .links-bottom a:hover { text-decoration: underline; }
+    .footer-links a:hover { text-decoration: underline; }
 
-    @media (max-width: 600px) {
-        .pillars { grid-template-columns: 1fr; }
-        .stack-grid { grid-template-columns: 1fr 1fr; }
-        .tagline { font-size: 1.2rem; }
-        .links-bottom { flex-direction: column; gap: 1rem; }
+    @media (max-width: 640px) {
+        .wide { grid-template-columns: 1fr; }
+        .card.span-2 { grid-column: span 1; }
+        .ooda-flow { flex-wrap: wrap; }
+        .footer-links { flex-direction: column; gap: 0.8rem; }
     }
 </style>
