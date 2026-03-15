@@ -1,5 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" fill="none">
   <g transform="translate(60, 60)">
+    <!-- Circular outline -->
+    <circle cx="0" cy="0" r="50" stroke="#4a9eff" stroke-width="1.2" opacity="0.15" fill="none"/>
+
     <!-- Outer ring of input nodes (circular arrangement) -->
     <circle cx="0" cy="-42" r="3" fill="#4a9eff" opacity="0.5"/>
     <circle cx="-36" cy="-21" r="3" fill="#4a9eff" opacity="0.5"/>
