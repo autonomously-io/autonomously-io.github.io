@@ -36,18 +36,62 @@ import Base from "../layouts/Base.astro";
             </div>
         </div>
 
+        <!-- Dashboards -->
+        <h2>Dashboards (Data Layer UIs)</h2>
+        <p>After deployment, the Data Layer components provide built-in dashboards out of the box. These are the primary interfaces for day-to-day operations.</p>
+
+        <div class="dash-grid">
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>OpenObserve</h3>
+                    <span class="dash-port">:5080</span>
+                </div>
+                <p>Logs, metrics, traces — all in one UI. Build dashboards, run SQL/PromQL queries, set up alerts. The primary observability interface.</p>
+                <div class="dash-cred">
+                    <code>admin@a10y.local</code> / <code>changeme</code>
+                </div>
+                <div class="dash-url"><code>http://localhost:5080</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>Keep</h3>
+                    <span class="dash-port">:3001</span>
+                </div>
+                <p>Alert management console. View correlated alerts, create workflows, configure integrations with external monitoring tools.</p>
+                <div class="dash-url"><code>http://localhost:3001</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>Qdrant</h3>
+                    <span class="dash-port">:6333/dashboard</span>
+                </div>
+                <p>Vector DB dashboard. Browse collections, inspect stored embeddings, run similarity searches, monitor cluster health.</p>
+                <div class="dash-url"><code>http://localhost:6333/dashboard</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>NATS Monitor</h3>
+                    <span class="dash-port">:8222</span>
+                </div>
+                <p>Messaging health. Active connections, JetStream streams/consumers, message rates, subscription details.</p>
+                <div class="dash-url"><code>http://localhost:8222</code></div>
+            </div>
+        </div>
+
         <div class="port-table">
+            <h3>All Ports</h3>
             <table>
-                <tr><th>Service</th><th>Port</th><th>Role</th></tr>
-                <tr><td>aether-ide</td><td>8080</td><td>Web IDE</td></tr>
-                <tr><td>aether-term</td><td>3000</td><td>Terminal UI</td></tr>
-                <tr><td>llm-engine</td><td>8000</td><td>AI engine (Statistical + LLM)</td></tr>
-                <tr><td>active-inventory</td><td>8080</td><td>Network inventory</td></tr>
-                <tr><td>OpenObserve</td><td>5080</td><td>Logs, metrics, traces</td></tr>
-                <tr><td>Keep</td><td>8080</td><td>Alert correlation &amp; workflows</td></tr>
-                <tr><td>Qdrant</td><td>6333</td><td>Vector DB</td></tr>
-                <tr><td>Vector</td><td>9000 / 6514</td><td>Log pipeline (syslog / vector protocol)</td></tr>
-                <tr><td>NATS</td><td>4222</td><td>Messaging</td></tr>
+                <tr><th>Service</th><th>Port</th><th>Role</th><th>UI</th></tr>
+                <tr><td>OpenObserve</td><td>5080</td><td>Logs, metrics, traces</td><td>Dashboard</td></tr>
+                <tr><td>Keep (frontend)</td><td>3001</td><td>Alert management</td><td>Dashboard</td></tr>
+                <tr><td>Keep (backend)</td><td>8082</td><td>Alert API</td><td>—</td></tr>
+                <tr><td>Qdrant</td><td>6333</td><td>Vector DB</td><td>Dashboard</td></tr>
+                <tr><td>NATS</td><td>4222 / 8222</td><td>Messaging / Monitor</td><td>Monitor</td></tr>
+                <tr><td>Vector</td><td>9000 / 6514</td><td>Syslog / Vector protocol</td><td>—</td></tr>
+                <tr><td>llm-engine</td><td>8000</td><td>AI engine API</td><td>—</td></tr>
+                <tr><td>active-inventory</td><td>8081</td><td>Topology API</td><td>—</td></tr>
+                <tr><td>aether-ide</td><td>8080</td><td>Web IDE (planned)</td><td>—</td></tr>
+                <tr><td>aether-term</td><td>3000</td><td>Terminal (planned)</td><td>—</td></tr>
             </table>
         </div>
 
@@ -343,7 +387,55 @@ sinks:
         margin-bottom: 0;
     }
 
+    .dash-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0 1.5rem;
+    }
+    .dash-card {
+        border: 1px solid #1a3a5c;
+        border-radius: 6px;
+        padding: 1.2rem;
+        background: #0c0c0c;
+    }
+    .dash-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+    .dash-header h3 {
+        margin: 0;
+        font-size: 1.05rem;
+    }
+    .dash-port {
+        font-size: 0.8rem;
+        color: #666;
+        font-family: monospace;
+    }
+    .dash-card p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .dash-cred {
+        font-size: 0.8rem;
+        color: #888;
+        margin-bottom: 0.3rem;
+    }
+    .dash-cred code {
+        font-size: 0.8rem;
+        background: #151515;
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+    }
+    .dash-url code {
+        font-size: 0.8rem;
+        color: #4a9eff;
+    }
+
     @media (max-width: 640px) {
         .forward-grid { grid-template-columns: 1fr; }
+        .dash-grid { grid-template-columns: 1fr; }
     }
 </style>

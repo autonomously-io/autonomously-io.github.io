@@ -37,9 +37,22 @@ import Base from "../layouts/Base.astro";
             </div>
         </div>
 
+        <!-- Data Layer UIs -->
+        <h2>Data Layer Dashboards</h2>
+        <p>The first interfaces operators use. Each Data Layer component ships with its own built-in dashboard — no custom UI needed to get started.</p>
+        <div class="dash-summary">
+            <table class="spec">
+                <tr><td>OpenObserve :5080</td><td>Logs, metrics, traces dashboard. SQL &amp; PromQL queries, custom dashboards, alerting.</td></tr>
+                <tr><td>Keep :3001</td><td>Alert management console. Correlated alerts, workflow editor, 110+ integrations.</td></tr>
+                <tr><td>Qdrant :6333/dashboard</td><td>Vector DB explorer. Collections, embeddings, similarity search.</td></tr>
+                <tr><td>NATS :8222</td><td>Messaging monitor. Connections, JetStream streams, message rates.</td></tr>
+            </table>
+        </div>
+        <p>See <a class="ext" href="/deploy">Deploy</a> for access URLs and credentials.</p>
+
         <!-- UI Layer -->
-        <h2>UI Layer</h2>
-        <p>Operators interact with a10y through two interfaces — a visual IDE for investigation and a terminal for CLI-native workflows. Both connect to llm-engine for AI capabilities.</p>
+        <h2>UI Layer (Planned)</h2>
+        <p>Custom interfaces for AI-powered investigation. These build on top of the Data Layer dashboards, adding correlation visualization and natural language interaction via llm-engine.</p>
 
         <div class="component" id="aether-ide">
             <div class="comp-header">
