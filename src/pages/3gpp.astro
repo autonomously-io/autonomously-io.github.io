@@ -1,0 +1,392 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="3GPP Mapping - a10y" description="How a10y maps to 3GPP TS 23.288 (NWDAF) and the 5G service-based architecture.">
+    <div class="container">
+        <h1>3GPP Mapping</h1>
+        <p class="lead">How a10y components map to 3GPP TS 23.288 (NWDAF) functional entities — and how Agent Server extends NWDAF into autonomous closed-loop operations.</p>
+
+        <!-- Overview mapping table -->
+        <h2>Component Mapping</h2>
+
+        <table>
+            <tr><th>3GPP Function</th><th>Spec</th><th>a10y Component</th><th>Role</th></tr>
+            <tr>
+                <td>DCCF</td>
+                <td>TS 23.288</td>
+                <td>Vector</td>
+                <td>Data collection, normalization, routing from network functions</td>
+            </tr>
+            <tr>
+                <td>ADRF</td>
+                <td>TS 23.288</td>
+                <td>OpenObserve + Qdrant</td>
+                <td>OpenObserve: raw telemetry storage. Qdrant: analytics results, patterns, embeddings</td>
+            </tr>
+            <tr>
+                <td>AnLF</td>
+                <td>TS 23.288</td>
+                <td>correlation-engine (Claude Code) + Keep</td>
+                <td>Analytics inference, causal reasoning, alert correlation</td>
+            </tr>
+            <tr>
+                <td>MTLF</td>
+                <td>TS 23.288</td>
+                <td>Qdrant + Claude</td>
+                <td>Learning from past incidents via RAG, in-context learning</td>
+            </tr>
+            <tr>
+                <td>MFAF</td>
+                <td>TS 23.288</td>
+                <td>NATS</td>
+                <td>Event-driven messaging framework between all functions</td>
+            </tr>
+            <tr>
+                <td>NRF-like</td>
+                <td>TS 23.501</td>
+                <td>active-inventory</td>
+                <td>Network topology, device registry, service discovery</td>
+            </tr>
+            <tr>
+                <td>FM / PM</td>
+                <td>TS 28.532</td>
+                <td>Keep</td>
+                <td>Fault management, alert lifecycle, remediation workflow execution</td>
+            </tr>
+            <tr>
+                <td>Consumer NFs</td>
+                <td>—</td>
+                <td>aether-ide / aether-term</td>
+                <td>Analytics consumers, operator interfaces</td>
+            </tr>
+        </table>
+
+        <!-- NWDAF Architecture -->
+        <h2>NWDAF Decomposition</h2>
+        <p>3GPP TS 23.288 defines NWDAF with two logical functions: AnLF (inference) and MTLF (training). In a10y, these are not monolithic — they are distributed across components, with Claude Code as the cognitive core.</p>
+
+        <div class="nwdaf-arch">
+            <div class="nwdaf-row">
+                <div class="nwdaf-label">Consumers</div>
+                <div class="nwdaf-items">
+                    <div class="nwdaf-box consumer">aether-ide</div>
+                    <div class="nwdaf-box consumer">aether-term</div>
+                    <div class="nwdaf-box consumer">Keep workflows</div>
+                </div>
+            </div>
+            <div class="nwdaf-connector">↕ Analytics output / Action requests</div>
+            <div class="nwdaf-row">
+                <div class="nwdaf-label">NWDAF</div>
+                <div class="nwdaf-items">
+                    <div class="nwdaf-group">
+                        <div class="nwdaf-group-label">AnLF</div>
+                        <div class="nwdaf-box anlf">Claude Code<br><span>MCP + Skills</span></div>
+                        <div class="nwdaf-box anlf">Keep<br><span>Alert correlation</span></div>
+                    </div>
+                    <div class="nwdaf-group">
+                        <div class="nwdaf-group-label">MTLF</div>
+                        <div class="nwdaf-box mtlf">Qdrant<br><span>Pattern memory</span></div>
+                        <div class="nwdaf-box mtlf">Claude<br><span>In-context learning</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="nwdaf-connector">↕ Data collection / Event subscription</div>
+            <div class="nwdaf-row">
+                <div class="nwdaf-label">Data</div>
+                <div class="nwdaf-items">
+                    <div class="nwdaf-group">
+                        <div class="nwdaf-group-label">DCCF</div>
+                        <div class="nwdaf-box dccf">Vector</div>
+                    </div>
+                    <div class="nwdaf-group">
+                        <div class="nwdaf-group-label">ADRF</div>
+                        <div class="nwdaf-box adrf">OpenObserve</div>
+                        <div class="nwdaf-box adrf">Qdrant</div>
+                    </div>
+                    <div class="nwdaf-group">
+                        <div class="nwdaf-group-label">MFAF</div>
+                        <div class="nwdaf-box mfaf">NATS</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agent Server -->
+        <h2>Agent Server: Beyond NWDAF</h2>
+        <p>Standard NWDAF is <span class="highlight">reactive</span> — it responds to analytics requests from consumer NFs. Agent Server transforms it into an <span class="highlight">autonomous agent</span> that proactively monitors, reasons, and acts.</p>
+
+        <div class="agent-arch">
+            <div class="agent-core">
+                <div class="agent-title">Claude Code (AnLF)</div>
+                <div class="agent-connections">
+                    <div class="agent-conn">
+                        <div class="conn-direction">← Subscribe</div>
+                        <div class="conn-target">NATS events</div>
+                        <div class="conn-detail">Alert triggers, topology changes</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">→ MCP</div>
+                        <div class="conn-target">OpenObserve</div>
+                        <div class="conn-detail">Query logs, metrics, traces</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">→ MCP</div>
+                        <div class="conn-target">Keep</div>
+                        <div class="conn-detail">Get alerts, trigger workflows</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">→ MCP</div>
+                        <div class="conn-target">Qdrant</div>
+                        <div class="conn-detail">Search past incidents</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">→ MCP</div>
+                        <div class="conn-target">active-inventory</div>
+                        <div class="conn-detail">Topology queries, blast radius</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">→ Skill</div>
+                        <div class="conn-target">/correlate /rca /remediate</div>
+                        <div class="conn-detail">Operator-facing workflows</div>
+                    </div>
+                    <div class="agent-conn">
+                        <div class="conn-direction">↻ Agent Server</div>
+                        <div class="conn-target">Autonomous loop</div>
+                        <div class="conn-detail">Event → Analyze → Decide → Act → Verify</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comparison">
+            <div class="comp-col">
+                <h3>Standard NWDAF</h3>
+                <table class="compact">
+                    <tr><td>Mode</td><td>Reactive — responds to requests</td></tr>
+                    <tr><td>Output</td><td>Analytics reports to consumer NFs</td></tr>
+                    <tr><td>Loop</td><td>Open — human decides and acts</td></tr>
+                    <tr><td>TMF Level</td><td>L1–L2</td></tr>
+                </table>
+            </div>
+            <div class="comp-col">
+                <h3>a10y (NWDAF + Agent Server)</h3>
+                <table class="compact">
+                    <tr><td>Mode</td><td>Autonomous — event-driven</td></tr>
+                    <tr><td>Output</td><td>RCA + remediation actions</td></tr>
+                    <tr><td>Loop</td><td>Closed — detect, reason, act, verify</td></tr>
+                    <tr><td>TMF Level</td><td>L3–L4</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Key insight -->
+        <h2>Key Insight</h2>
+        <p>In standard 3GPP, AnLF is a <span class="highlight">passive function</span> that sits behind a service-based interface, waiting for Nnwdaf requests. a10y redefines AnLF as an <span class="highlight">active agent</span>:</p>
+
+        <div class="insight-list">
+            <div class="insight">
+                <div class="insight-num">1</div>
+                <div class="insight-text"><strong>NATS subscription</strong> replaces polling — the agent is event-driven, not request-driven</div>
+            </div>
+            <div class="insight">
+                <div class="insight-num">2</div>
+                <div class="insight-text"><strong>MCP Servers</strong> replace Nnwdaf SBI — Claude Code connects to data sources via typed tool interfaces, not REST APIs</div>
+            </div>
+            <div class="insight">
+                <div class="insight-num">3</div>
+                <div class="insight-text"><strong>Skills</strong> replace analytics IDs — operators invoke /correlate or /rca instead of requesting analytics type 01–0F</div>
+            </div>
+            <div class="insight">
+                <div class="insight-num">4</div>
+                <div class="insight-text"><strong>Agent Server</strong> closes the loop — AnLF doesn't just report; it reasons, acts via Keep workflows, and verifies via OpenObserve</div>
+            </div>
+        </div>
+
+        <blockquote>NWDAF tells you what happened. a10y understands why and fixes it.</blockquote>
+    </div>
+</Base>
+
+<style>
+    table {
+        font-size: 0.9rem;
+    }
+    .nwdaf-arch {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        background: #0c0c0c;
+    }
+    .nwdaf-row {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0.5rem 0;
+    }
+    .nwdaf-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        min-width: 80px;
+        padding-top: 0.5rem;
+    }
+    .nwdaf-items {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    .nwdaf-group {
+        display: flex;
+        gap: 0.4rem;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+    .nwdaf-group-label {
+        font-size: 0.7rem;
+        color: #666;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        width: 100%;
+        margin-bottom: -0.2rem;
+    }
+    .nwdaf-box {
+        font-size: 0.85rem;
+        padding: 0.4rem 0.7rem;
+        border-radius: 4px;
+        border: 1px solid #222;
+        background: #151515;
+        color: #bbb;
+    }
+    .nwdaf-box span {
+        display: block;
+        font-size: 0.7rem;
+        color: #666;
+    }
+    .nwdaf-box.anlf { border-color: #1a3a5c; }
+    .nwdaf-box.mtlf { border-color: #2a1a4c; }
+    .nwdaf-box.dccf { border-color: #1a3a2a; }
+    .nwdaf-box.adrf { border-color: #3a2a1a; }
+    .nwdaf-box.mfaf { border-color: #333; }
+    .nwdaf-box.consumer { border-color: #333; }
+    .nwdaf-connector {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #444;
+        padding: 0.3rem 0;
+    }
+
+    .agent-arch {
+        margin: 1.5rem 0;
+    }
+    .agent-core {
+        border: 1px solid #1a3a5c;
+        border-radius: 8px;
+        padding: 1.2rem;
+        background: #0c0c0c;
+    }
+    .agent-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .agent-connections {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+    }
+    .agent-conn {
+        display: grid;
+        grid-template-columns: 80px 120px 1fr;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #111;
+        font-size: 0.85rem;
+    }
+    .conn-direction {
+        color: #4a9eff;
+        font-family: monospace;
+        font-size: 0.8rem;
+    }
+    .conn-target { color: #ddd; }
+    .conn-detail { color: #888; }
+
+    .comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    .comp-col {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.2rem;
+        background: #0c0c0c;
+    }
+    .comp-col h3 {
+        font-size: 1rem;
+        color: #fff;
+        margin: 0 0 0.8rem;
+    }
+    table.compact {
+        width: 100%;
+        margin: 0;
+    }
+    table.compact td {
+        padding: 0.25rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #141414;
+        color: #999;
+    }
+    table.compact td:first-child {
+        color: #ccc;
+        font-weight: 500;
+        width: 35%;
+    }
+
+    .insight-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        margin: 1.5rem 0;
+    }
+    .insight {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0.8rem;
+        border: 1px solid #141414;
+        border-radius: 6px;
+    }
+    .insight-num {
+        min-width: 28px;
+        height: 28px;
+        background: #1a3a5c;
+        color: #6ab0ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    .insight-text {
+        font-size: 0.95rem;
+        color: #aaa;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+        .agent-connections { grid-template-columns: 1fr; }
+        .agent-conn { grid-template-columns: 70px 1fr; }
+        .conn-detail { display: none; }
+        .comparison { grid-template-columns: 1fr; }
+        .nwdaf-row { flex-direction: column; }
+    }
+</style>
