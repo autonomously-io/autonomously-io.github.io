@@ -1,0 +1,472 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="なぜこの構成か？ - a10y" description="a10yがKeep + OpenObserveを選んだ理由、Datadogではない理由、そしてAether Platformが必要な理由。">
+    <div class="container">
+        <h1>なぜこの構成か？</h1>
+        <p class="lead">a10y はモノリシックな製品ではありません。それぞれ明確な理由で選ばれた、ベスト・オブ・ブリードのオープンソースコンポーネントの組み合わせです。このページではその選定理由とトレードオフを説明します。</p>
+
+        <h2>OpenObserve 単体では足りない</h2>
+        <p>OpenObserve は<span class="highlight">ログ・メトリクス・トレースの保存とクエリ</span>において卓越した性能を発揮します。しかし、オブザーバビリティデータとアラート管理は根本的に異なる問題です。</p>
+
+        <div class="compare-table">
+            <table>
+                <tr>
+                    <th>機能</th>
+                    <th>OpenObserve</th>
+                    <th>Keep</th>
+                </tr>
+                <tr>
+                    <td>ログ / メトリクス / トレース保存</td>
+                    <td class="yes">優秀</td>
+                    <td class="na">対象外</td>
+                </tr>
+                <tr>
+                    <td>SQL / PromQL クエリ</td>
+                    <td class="yes">ネイティブ対応</td>
+                    <td class="na">N/A</td>
+                </tr>
+                <tr>
+                    <td>閾値ベースアラート</td>
+                    <td class="partial">基本的</td>
+                    <td class="yes">高度（マルチソース）</td>
+                </tr>
+                <tr>
+                    <td>アラート重複排除</td>
+                    <td class="no">なし</td>
+                    <td class="yes">組み込み</td>
+                </tr>
+                <tr>
+                    <td>クロスソース相関</td>
+                    <td class="no">なし</td>
+                    <td class="yes">AIによるグルーピング</td>
+                </tr>
+                <tr>
+                    <td>回復アラート管理</td>
+                    <td class="no">なし</td>
+                    <td class="yes">解決済み / 未解決を追跡</td>
+                </tr>
+                <tr>
+                    <td>自動復旧ワークフロー</td>
+                    <td class="no">なし</td>
+                    <td class="yes">宣言的YAML</td>
+                </tr>
+                <tr>
+                    <td>マルチツール連携</td>
+                    <td class="partial">限定的</td>
+                    <td class="yes">110以上の双方向連携</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="insight">
+            <p>OpenObserve は<span class="highlight">「何が起きたか？」</span>に答えます。Keep は<span class="highlight">「何が問題で、何が残っているか？」</span>に答えます。</p>
+            <p>Keep なしでは、オペレーターは生のテレメトリからアラートを手動で相関させ、どの問題が解決済みかを追跡し、手動で復旧作業をトリガーしなければなりません。これが TMF L3+ の自律性達成を阻むギャップです。</p>
+        </div>
+
+        <h2>なぜ Datadog ではないのか？</h2>
+        <p>Datadog は強力で成熟したプラットフォームです。しかし、テレコムの自律運用においては根本的な制約があります。</p>
+
+        <div class="compare-table">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Datadog</th>
+                    <th>a10y (OpenObserve + Keep)</th>
+                </tr>
+                <tr>
+                    <td>デプロイ形態</td>
+                    <td class="warn">SaaS のみ</td>
+                    <td class="yes">セルフホスト / エアギャップ対応</td>
+                </tr>
+                <tr>
+                    <td>データ主権</td>
+                    <td class="no">データが自社ネットワーク外へ</td>
+                    <td class="yes">全データがオンプレミスに留まる</td>
+                </tr>
+                <tr>
+                    <td>コストモデル</td>
+                    <td class="warn">ホスト単価 + GB 単価</td>
+                    <td class="yes">インフラコストのみ</td>
+                </tr>
+                <tr>
+                    <td>テレコム規模のログ量</td>
+                    <td class="warn">大量データで高コスト</td>
+                    <td class="yes">ストレージコスト 140 分の 1</td>
+                </tr>
+                <tr>
+                    <td>カスタム AI / LLM 連携</td>
+                    <td class="no">Datadog AI に固定</td>
+                    <td class="yes">任意のモデルを利用可能</td>
+                </tr>
+                <tr>
+                    <td>クローズドループ自動化</td>
+                    <td class="partial">Workflow Automation（限定的）</td>
+                    <td class="yes">Keep ワークフロー + correlation-engine</td>
+                </tr>
+                <tr>
+                    <td>ネットワークプロトコル対応</td>
+                    <td class="partial">エージェント型、IT 中心</td>
+                    <td class="yes">Syslog, SNMP, gNMI, カスタム VRL</td>
+                </tr>
+                <tr>
+                    <td>ソースコードへのアクセス</td>
+                    <td class="no">プロプライエタリ</td>
+                    <td class="yes">完全 OSS</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="insight">
+            <p>Datadog は<span class="highlight">IT / クラウド監視</span>のために作られています。a10y は<span class="highlight">テレコムの自律運用</span>のために作られています。</p>
+            <p>テレコム事業者にはデータ主権、エアギャップ対応、テレコムネイティブなプロトコルサポート、そしてペタバイト規模のログ量でのコスト予測可能性が求められます。これらはオプションではなく、規制上・運用上の必須要件です。</p>
+        </div>
+
+        <h2>a10y 単体では Autonomous は実現できない</h2>
+        <p>a10y は<span class="highlight">認知コア</span>を提供します — ネットワークイベントを観測し、理解し、対処する能力です。しかし、自律運用にはインテリジェンスだけでなく、運用プラットフォームが必要です。</p>
+
+        <div class="platform-diagram">
+            <div class="platform-layer ecosystem">
+                <div class="platform-label">Aether Platform</div>
+                <div class="platform-desc">自律性を実現する運用基盤</div>
+                <div class="platform-items">
+                    <div class="p-item">
+                        <div class="p-name">aether-ide</div>
+                        <div class="p-role">統合オペレーターUI — トポロジ、ダッシュボード、AI チャット</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">aether-term</div>
+                        <div class="p-role">CLI ファーストインターフェース（SSH 専用環境向け）</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">active-inventory</div>
+                        <div class="p-role">ライブトポロジグラフ — 影響範囲分析</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Helm charts</div>
+                        <div class="p-role">本番グレードのデプロイ、スケーリング、ライフサイクル管理</div>
+                    </div>
+                </div>
+            </div>
+            <div class="platform-connector">
+                <span>統合</span>
+            </div>
+            <div class="platform-layer core">
+                <div class="platform-label">a10y</div>
+                <div class="platform-desc">認知コア — 観測、理解、相関、対処</div>
+                <div class="platform-items">
+                    <div class="p-item">
+                        <div class="p-name">correlation-engine</div>
+                        <div class="p-role">LLM + 統計 AI による因果推論</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">OpenObserve + Vector</div>
+                        <div class="p-role">テレメトリ収集、保存、クエリ</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Keep</div>
+                        <div class="p-role">アラートライフサイクル、相関、復旧</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Qdrant + NATS</div>
+                        <div class="p-role">ナレッジメモリ + イベントバックボーン</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Aether Platform が提供する価値</h3>
+        <div class="additions">
+            <div class="addition">
+                <div class="add-title">オペレーター体験</div>
+                <p>a10y はインサイトとアクションを生成します。Aether Platform はそれをコンテキストとともに提示します — トポロジビュー、インシデントタイムライン、自然言語インタラクション。このレイヤーがなければ、オペレーターは複数のダッシュボードを行き来し、情報を頭の中でつなぎ合わせなければなりません。</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">トポロジ認識</div>
+                <p>active-inventory はネットワーク機器、リンク、サービスのライブグラフを維持します。影響範囲の推定（「このルーターが故障したら、どのサービスが影響を受けるか？」）や、影響を考慮した復旧（「カードを交換する前にトラフィックを迂回させる」）に不可欠です。a10y の correlation-engine はこのコンテキストを利用しますが、所有はしません。</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">本番環境対応</div>
+                <p>Helm charts は Kubernetes デプロイ、リソース管理、シークレット注入、アップグレード戦略を担います。「ラップトップで動く」から「キャリアネットワークで稼働する」への移行には、インテリジェンスレイヤーとは別のインフラエンジニアリングが必要です。</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">クローズドループの完結</div>
+                <p>真のクローズドループ自動化にはフィードバックパスが必要です：対処 → 検証 → 調整。Aether Platform は復旧アクションをオブザーバビリティデータに接続し、回復を確認し、自動修復が失敗した場合にエスカレーションすることでこのループを閉じます。</p>
+            </div>
+        </div>
+
+        <div class="insight final">
+            <p><span class="highlight">a10y は脳。Aether Platform は身体。</span></p>
+            <p>運用コンテキストのないインテリジェンスは、単なる分析にすぎません。自律運用には両方が必要です — 何が起きているかを理解する能力と、その理解に基づいて安全に、スケールして、本番環境で行動するインフラストラクチャ。</p>
+        </div>
+
+        <h2>TMF 自律性レベル — 各構成がどこに位置するか</h2>
+        <p>TM Forum は<span class="highlight">ネットワーク自律性の 6 段階（L0–L5）</span>を定義しています。ツーリングの選択によって到達できるレベルは異なります。各アプローチが現実的にどのレベルに位置するかを示します。</p>
+
+        <div class="levels-map">
+            <div class="level-row l1">
+                <div class="level-badge">L1</div>
+                <div class="level-content">
+                    <div class="level-title">手動運用 + アドホックスクリプト</div>
+                    <div class="level-tools">統合ツールなし</div>
+                    <div class="level-desc">オペレーターは CLI アクセス、場当たり的なスクリプト、属人的な知識に依存します。アラート疲れが常態化し、すべてのインシデントが消火活動になります。多くのネットワークが今もここにあります — 選択ではなく、慣性によって。</div>
+                </div>
+            </div>
+            <div class="level-row l2">
+                <div class="level-badge">L2</div>
+                <div class="level-content">
+                    <div class="level-title">監視中心</div>
+                    <div class="level-tools">OpenObserve / Datadog / Grafana（単体利用）</div>
+                    <div class="level-desc">ダッシュボードはある。アラートは飛ぶ。しかし相関は手動で、重複排除は存在せず、復旧は「誰かがページングされて SSH でログインする」こと。問題は見える — ただ自動的に対処はできない。</div>
+                </div>
+            </div>
+            <div class="level-row l3">
+                <div class="level-badge">L3</div>
+                <div class="level-content">
+                    <div class="level-title">AI 支援運用</div>
+                    <div class="level-tools">Aether Platform + a10y</div>
+                    <div class="level-desc">AI がアラートを相関させ、根本原因を提案し、アクションを推奨します。オペレーターは完全なコンテキスト — トポロジ、履歴、因果分析 — を手元に持って最終判断を下します。ヒューマン・イン・ザ・ループですが、そのループはインテリジェントです。Aether Platform + a10y が今日提供する価値がここです。</div>
+                </div>
+            </div>
+            <div class="level-row l4">
+                <div class="level-badge">L4</div>
+                <div class="level-content">
+                    <div class="level-title">自律運用</div>
+                    <div class="level-tools">a10y のビジョン — クローズドループ自動化</div>
+                    <div class="level-desc">システムが検知し、理解し、対処し、検証する — 自律的に。オペレーターは運用するのではなく監督します。復旧ワークフローは影響範囲を考慮したセーフガード付きで自動実行されます。人間が介入するのは未知の状況のみ。これが a10y が目指すゴールです。</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight final">
+            <p><span class="highlight">多くのネットワークは L1–L2 に留まっています。</span>L3 へのジャンプには、より良いダッシュボード以上のものが必要です — アラートインテリジェンス（Keep）、トポロジコンテキスト（active-inventory）、AI 推論（correlation-engine）の連携が求められます。</p>
+            <p>L3 から L4 へのジャンプには信頼が必要です — 透明な AI 判断、検証可能な結果、そして自律範囲の段階的な拡大を通じて築かれる信頼。a10y はその信頼を段階的に獲得するよう設計されています。</p>
+        </div>
+
+        <h2>まとめ</h2>
+        <table class="summary-table">
+            <tr>
+                <th>問い</th>
+                <th>回答</th>
+            </tr>
+            <tr>
+                <td>なぜ OpenObserve 単体ではだめか？</td>
+                <td>テレメトリは保存できるが、アラートの重複排除・相関・自動復旧ができない。Keep がこのギャップを埋める。OpenObserve 単体では L2 止まり。</td>
+            </tr>
+            <tr>
+                <td>なぜ Datadog ではだめか？</td>
+                <td>SaaS 限定、データ主権なし、テレコム規模では高コスト、AI は固定、テレコムプロトコル対応が限定的。L2 止まり — より高い請求書が来るだけ。</td>
+            </tr>
+            <tr>
+                <td>なぜ a10y 単体ではだめか？</td>
+                <td>a10y は認知コア。Aether Platform がオペレーターインターフェース、トポロジ認識、本番インフラを提供し、L3 到達と L4 への前進を可能にする。</td>
+            </tr>
+        </table>
+    </div>
+</Base>
+
+<style>
+    .compare-table {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+    }
+    .compare-table table {
+        min-width: 600px;
+    }
+    .compare-table th {
+        background: #0c0c0c;
+    }
+    .compare-table td:first-child {
+        color: #ccc;
+        font-weight: 500;
+    }
+    td.yes { color: #6aff8a; }
+    td.no { color: #ff6a6a; }
+    td.warn { color: #ffb86a; }
+    td.partial { color: #ffb86a; }
+    td.na { color: #555; }
+
+    .insight {
+        border-left: 3px solid #4a9eff;
+        padding: 1.2rem 1.5rem;
+        margin: 2rem 0;
+        background: rgba(74, 158, 255, 0.04);
+        border-radius: 0 6px 6px 0;
+    }
+    .insight p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+    .insight p:last-child {
+        margin-bottom: 0;
+    }
+    .insight.final {
+        border-left-color: #6aff8a;
+        background: rgba(106, 255, 138, 0.03);
+    }
+
+    .platform-diagram {
+        margin: 2rem 0;
+    }
+    .platform-layer {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .platform-layer.ecosystem {
+        border-color: #2a4a2a;
+        background: rgba(106, 255, 138, 0.02);
+    }
+    .platform-layer.core {
+        border-color: #1a3a5c;
+        background: rgba(74, 158, 255, 0.02);
+    }
+    .platform-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+    }
+    .platform-desc {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    .platform-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+    }
+    .p-item {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 0.8rem 1rem;
+        background: #0a0a0a;
+    }
+    .p-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #ddd;
+        margin-bottom: 0.2rem;
+    }
+    .p-role {
+        font-size: 0.8rem;
+        color: #777;
+        line-height: 1.4;
+    }
+    .platform-connector {
+        text-align: center;
+        padding: 0.8rem 0;
+        color: #444;
+        font-size: 0.85rem;
+    }
+    .platform-connector span {
+        background: #0a0a0a;
+        padding: 0.2rem 1rem;
+        border: 1px solid #222;
+        border-radius: 20px;
+        color: #666;
+    }
+
+    .additions {
+        display: grid;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    .addition {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.2rem 1.5rem;
+        background: #0c0c0c;
+    }
+    .add-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #6aff8a;
+        margin-bottom: 0.5rem;
+    }
+    .addition p {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+        line-height: 1.7;
+    }
+
+    .summary-table td:first-child {
+        font-weight: 500;
+        color: #ccc;
+        width: 240px;
+    }
+
+    .levels-map {
+        display: grid;
+        gap: 0;
+        margin: 1.5rem 0;
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .level-row {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .level-row:last-child {
+        border-bottom: none;
+    }
+    .level-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        padding: 1rem 0;
+    }
+    .level-content {
+        padding: 1rem 1.5rem;
+    }
+    .level-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #e0e0e0;
+        margin-bottom: 0.2rem;
+    }
+    .level-tools {
+        font-size: 0.8rem;
+        font-family: monospace;
+        margin-bottom: 0.5rem;
+    }
+    .level-desc {
+        font-size: 0.9rem;
+        color: #888;
+        line-height: 1.6;
+    }
+    .level-row.l1 {
+        background: rgba(255, 106, 106, 0.03);
+    }
+    .level-row.l1 .level-badge { color: #ff6a6a; }
+    .level-row.l1 .level-tools { color: #ff6a6a; }
+    .level-row.l2 {
+        background: rgba(255, 184, 106, 0.03);
+    }
+    .level-row.l2 .level-badge { color: #ffb86a; }
+    .level-row.l2 .level-tools { color: #ffb86a; }
+    .level-row.l3 {
+        background: rgba(106, 255, 138, 0.04);
+        border-left: 3px solid #6aff8a;
+    }
+    .level-row.l3 .level-badge { color: #6aff8a; }
+    .level-row.l3 .level-tools { color: #6aff8a; }
+    .level-row.l4 {
+        background: rgba(74, 158, 255, 0.04);
+        border-left: 3px solid #4a9eff;
+    }
+    .level-row.l4 .level-badge { color: #4a9eff; }
+    .level-row.l4 .level-tools { color: #4a9eff; }
+
+    @media (max-width: 640px) {
+        .platform-items { grid-template-columns: 1fr; }
+        .summary-table td:first-child { width: auto; }
+        .level-row { grid-template-columns: 45px 1fr; }
+    }
+</style>

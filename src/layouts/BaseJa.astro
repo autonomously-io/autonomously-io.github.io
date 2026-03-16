@@ -1,0 +1,209 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "ネットワークを自律的に理解し回復する。" } = Astro.props;
+const path = Astro.url.pathname.replace(/\/$/, "");
+const isHome = path === "/ja";
+
+const sections: Record<string, { parent: string; label: string; siblings: { href: string; label: string }[] }> = {
+  "/ja/architecture/components": {
+    parent: "/ja/architecture", label: "Architecture",
+    siblings: [
+      { href: "/ja/architecture/components", label: "Components" },
+      { href: "/ja/architecture/comparison", label: "Why This Stack?" },
+      { href: "/ja/architecture/3gpp", label: "3GPP" },
+      { href: "/ja/architecture/landscape", label: "Landscape" },
+    ],
+  },
+  "/ja/architecture/comparison": {
+    parent: "/ja/architecture", label: "Architecture",
+    siblings: [
+      { href: "/ja/architecture/components", label: "Components" },
+      { href: "/ja/architecture/comparison", label: "Why This Stack?" },
+      { href: "/ja/architecture/3gpp", label: "3GPP" },
+      { href: "/ja/architecture/landscape", label: "Landscape" },
+    ],
+  },
+  "/ja/architecture/3gpp": {
+    parent: "/ja/architecture", label: "Architecture",
+    siblings: [
+      { href: "/ja/architecture/components", label: "Components" },
+      { href: "/ja/architecture/comparison", label: "Why This Stack?" },
+      { href: "/ja/architecture/3gpp", label: "3GPP" },
+      { href: "/ja/architecture/landscape", label: "Landscape" },
+    ],
+  },
+  "/ja/architecture/landscape": {
+    parent: "/ja/architecture", label: "Architecture",
+    siblings: [
+      { href: "/ja/architecture/components", label: "Components" },
+      { href: "/ja/architecture/comparison", label: "Why This Stack?" },
+      { href: "/ja/architecture/3gpp", label: "3GPP" },
+      { href: "/ja/architecture/landscape", label: "Landscape" },
+    ],
+  },
+  "/ja/vision/why": {
+    parent: "/ja/vision", label: "Vision",
+    siblings: [
+      { href: "/ja/vision/why", label: "Why Autonomously?" },
+      { href: "/ja/vision/ooda", label: "OODA × AI" },
+    ],
+  },
+  "/ja/vision/ooda": {
+    parent: "/ja/vision", label: "Vision",
+    siblings: [
+      { href: "/ja/vision/why", label: "Why Autonomously?" },
+      { href: "/ja/vision/ooda", label: "OODA × AI" },
+    ],
+  },
+};
+
+const sub = sections[path];
+---
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+    <link rel="icon" type="image/svg+xml" href="/icon.svg">
+</head>
+<body>
+    {!isHome && (
+        <nav>
+            <a href="/ja">← a10y</a>
+            <a href="/ja/vision">Vision</a>
+            <a href="/ja/architecture">Architecture</a>
+            <a href="/ja/usecases">Use Cases</a>
+            <a href="/ja/deploy">Deploy</a>
+        </nav>
+    )}
+    {sub && (
+        <nav class="subnav">
+            <a href={sub.parent}>← {sub.label}</a>
+            <span class="subnav-sep">|</span>
+            {sub.siblings.map((s) => (
+                <a href={s.href} class={s.href === path ? "active" : ""}>{s.label}</a>
+            ))}
+        </nav>
+    )}
+    <slot />
+</body>
+</html>
+
+<style is:global>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+        background: #0a0a0a;
+        color: #e0e0e0;
+        min-height: 100vh;
+    }
+    nav {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #1a1a1a;
+        display: flex;
+        gap: 2rem;
+    }
+    nav a {
+        color: #4a9eff;
+        text-decoration: none;
+        font-size: 1.05rem;
+    }
+    nav a:hover { text-decoration: underline; }
+    .subnav {
+        padding: 0.8rem 2rem;
+        border-bottom: 1px solid #141414;
+        background: #0c0c0c;
+        font-size: 0.9rem;
+        gap: 1rem;
+    }
+    .subnav-sep {
+        color: #333;
+    }
+    .subnav .active {
+        color: #fff;
+        font-weight: 500;
+    }
+    .container {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+    }
+    h1 {
+        font-size: 2.8rem;
+        font-weight: 300;
+        color: #fff;
+        margin-bottom: 1.2rem;
+    }
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #fff;
+        margin-top: 3rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    h3 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #ddd;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: #aaa;
+        margin-bottom: 1rem;
+    }
+    .lead {
+        font-size: 1.2rem;
+        color: #888;
+        margin-bottom: 3rem;
+        line-height: 1.7;
+    }
+    .highlight { color: #e0e0e0; font-weight: 500; }
+    a.ext { color: #4a9eff; text-decoration: none; }
+    a.ext:hover { text-decoration: underline; }
+    blockquote {
+        border-left: 2px solid #4a9eff;
+        padding-left: 1.2rem;
+        margin: 2rem 0;
+        font-size: 1.15rem;
+        color: #ccc;
+        font-style: italic;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1.5rem 0;
+    }
+    th {
+        text-align: left;
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #333;
+        color: #888;
+        font-size: 0.95rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #1a1a1a;
+        font-size: 1.05rem;
+        color: #aaa;
+        vertical-align: top;
+    }
+    td:first-child { color: #e0e0e0; }
+    @media (max-width: 600px) {
+        h1 { font-size: 1.8rem; }
+    }
+</style>
