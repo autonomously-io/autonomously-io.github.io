@@ -1,0 +1,472 @@
+---
+import Base from "../../layouts/Base.astro";
+---
+
+<Base title="Why This Stack? - a10y" description="Why a10y chose Keep + OpenObserve over monolithic alternatives, and why the Aether Platform matters.">
+    <div class="container">
+        <h1>Why This Stack?</h1>
+        <p class="lead">a10y is not a monolithic product. It is a composition of best-of-breed open source components — each chosen for a specific reason. This page explains the trade-offs behind those choices.</p>
+
+        <h2>OpenObserve alone is not enough</h2>
+        <p>OpenObserve excels at what it does: <span class="highlight">storing and querying logs, metrics, and traces</span> with extreme storage efficiency. But observability data and alert management are fundamentally different problems.</p>
+
+        <div class="compare-table">
+            <table>
+                <tr>
+                    <th>Capability</th>
+                    <th>OpenObserve</th>
+                    <th>Keep</th>
+                </tr>
+                <tr>
+                    <td>Log / Metric / Trace storage</td>
+                    <td class="yes">Excellent</td>
+                    <td class="na">Out of scope</td>
+                </tr>
+                <tr>
+                    <td>SQL / PromQL query</td>
+                    <td class="yes">Native</td>
+                    <td class="na">N/A</td>
+                </tr>
+                <tr>
+                    <td>Threshold-based alerting</td>
+                    <td class="partial">Basic</td>
+                    <td class="yes">Advanced (multi-source)</td>
+                </tr>
+                <tr>
+                    <td>Alert deduplication</td>
+                    <td class="no">No</td>
+                    <td class="yes">Built-in</td>
+                </tr>
+                <tr>
+                    <td>Cross-source correlation</td>
+                    <td class="no">No</td>
+                    <td class="yes">AI-powered grouping</td>
+                </tr>
+                <tr>
+                    <td>Recovery alert handling</td>
+                    <td class="no">No</td>
+                    <td class="yes">Tracks resolved vs. active</td>
+                </tr>
+                <tr>
+                    <td>Remediation workflows</td>
+                    <td class="no">No</td>
+                    <td class="yes">Declarative YAML</td>
+                </tr>
+                <tr>
+                    <td>Multi-tool integration</td>
+                    <td class="partial">Limited</td>
+                    <td class="yes">110+ bidirectional</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="insight">
+            <p>OpenObserve answers <span class="highlight">"what happened?"</span> — Keep answers <span class="highlight">"what is the problem, and what remains?"</span></p>
+            <p>Without Keep, operators must mentally correlate alerts from raw telemetry, track which issues have been resolved, and manually trigger remediation. This is the gap that prevents achieving TMF L3+ autonomy.</p>
+        </div>
+
+        <h2>Why not Datadog?</h2>
+        <p>Datadog is a powerful, mature platform. But for autonomous network operations in telecom, it introduces fundamental constraints.</p>
+
+        <div class="compare-table">
+            <table>
+                <tr>
+                    <th></th>
+                    <th>Datadog</th>
+                    <th>a10y (OpenObserve + Keep)</th>
+                </tr>
+                <tr>
+                    <td>Deployment</td>
+                    <td class="warn">SaaS only</td>
+                    <td class="yes">Self-hosted / Air-gapped</td>
+                </tr>
+                <tr>
+                    <td>Data sovereignty</td>
+                    <td class="no">Data leaves your network</td>
+                    <td class="yes">All data stays on-premise</td>
+                </tr>
+                <tr>
+                    <td>Cost model</td>
+                    <td class="warn">Per-host + per-GB ingestion</td>
+                    <td class="yes">Infrastructure cost only</td>
+                </tr>
+                <tr>
+                    <td>Telecom-scale log volume</td>
+                    <td class="warn">Expensive at high volume</td>
+                    <td class="yes">140x lower storage cost</td>
+                </tr>
+                <tr>
+                    <td>Custom AI / LLM integration</td>
+                    <td class="no">Locked to Datadog AI</td>
+                    <td class="yes">Bring your own model</td>
+                </tr>
+                <tr>
+                    <td>Closed-loop automation</td>
+                    <td class="partial">Workflow Automation (limited)</td>
+                    <td class="yes">Keep workflows + correlation-engine</td>
+                </tr>
+                <tr>
+                    <td>Network protocol support</td>
+                    <td class="partial">Agent-based, IT-centric</td>
+                    <td class="yes">Syslog, SNMP, gNMI, custom VRL</td>
+                </tr>
+                <tr>
+                    <td>Source code access</td>
+                    <td class="no">Proprietary</td>
+                    <td class="yes">Full OSS</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="insight">
+            <p>Datadog is built for <span class="highlight">IT/cloud monitoring</span>. a10y is built for <span class="highlight">telecom autonomous operations</span>.</p>
+            <p>Telecom operators require data sovereignty, air-gap deployability, telecom-native protocol support, and cost predictability at petabyte-scale log volumes. These are not optional — they are regulatory and operational requirements.</p>
+        </div>
+
+        <h2>a10y alone does not achieve Autonomous</h2>
+        <p>a10y provides the <span class="highlight">cognitive core</span> — the ability to observe, understand, and act on network events. But autonomous operations require more than intelligence. They require an operational platform.</p>
+
+        <div class="platform-diagram">
+            <div class="platform-layer ecosystem">
+                <div class="platform-label">Aether Platform</div>
+                <div class="platform-desc">The operational foundation that makes autonomy possible</div>
+                <div class="platform-items">
+                    <div class="p-item">
+                        <div class="p-name">aether-ide</div>
+                        <div class="p-role">Unified operator interface — topology, dashboards, AI chat</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">aether-term</div>
+                        <div class="p-role">CLI-first interface for headless / SSH-only environments</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">active-inventory</div>
+                        <div class="p-role">Live topology graph — blast radius, impact analysis</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Helm charts</div>
+                        <div class="p-role">Production-grade deployment, scaling, lifecycle management</div>
+                    </div>
+                </div>
+            </div>
+            <div class="platform-connector">
+                <span>integrates</span>
+            </div>
+            <div class="platform-layer core">
+                <div class="platform-label">a10y</div>
+                <div class="platform-desc">Cognitive core — observe, understand, correlate, act</div>
+                <div class="platform-items">
+                    <div class="p-item">
+                        <div class="p-name">correlation-engine</div>
+                        <div class="p-role">LLM + statistical AI for causal reasoning</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">OpenObserve + Vector</div>
+                        <div class="p-role">Telemetry ingestion, storage, query</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Keep</div>
+                        <div class="p-role">Alert lifecycle, correlation, remediation</div>
+                    </div>
+                    <div class="p-item">
+                        <div class="p-name">Qdrant + NATS</div>
+                        <div class="p-role">Knowledge memory + event backbone</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3>What Aether Platform adds</h3>
+        <div class="additions">
+            <div class="addition">
+                <div class="add-title">Operator Experience</div>
+                <p>a10y produces insights and actions. Aether Platform presents them in context — topology views, incident timelines, and natural-language interaction. Without this layer, operators must navigate multiple dashboards and mentally stitch information together.</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">Topological Awareness</div>
+                <p>active-inventory maintains a live graph of network devices, links, and services. This is critical for blast radius estimation ("if this router fails, which services are affected?") and impact-aware remediation ("reroute traffic before replacing the card"). a10y's correlation-engine uses this context, but it doesn't own it.</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">Production Readiness</div>
+                <p>Helm charts handle Kubernetes deployment, resource management, secret injection, and upgrade strategies. Moving from "it works on my laptop" to "it runs in a carrier network" requires infrastructure engineering that is separate from the intelligence layer.</p>
+            </div>
+            <div class="addition">
+                <div class="add-title">Closed Loop Completion</div>
+                <p>True closed-loop automation requires a feedback path: Act → Verify → Adjust. Aether Platform closes this loop by connecting remediation actions back to observability data, confirming recovery, and escalating when automated fixes fail.</p>
+            </div>
+        </div>
+
+        <div class="insight final">
+            <p><span class="highlight">a10y is the brain. Aether Platform is the body.</span></p>
+            <p>Intelligence without operational context is just analysis. Autonomous operations require both — the ability to understand what is happening and the infrastructure to act on that understanding safely, at scale, in production.</p>
+        </div>
+
+        <h2>TMF Autonomy Levels — Where Each Stack Lands</h2>
+        <p>The TM Forum defines <span class="highlight">six levels of network autonomy (L0–L5)</span>. Different tooling choices land you at different levels. Here is where each approach realistically places you.</p>
+
+        <div class="levels-map">
+            <div class="level-row l1">
+                <div class="level-badge">L1</div>
+                <div class="level-content">
+                    <div class="level-title">Manual with basic scripts</div>
+                    <div class="level-tools">No integrated tooling</div>
+                    <div class="level-desc">Operators rely on CLI access, ad-hoc scripts, and tribal knowledge. Alert fatigue is the norm. Every incident is a fire drill. This is where many networks still are — not by choice, but by inertia.</div>
+                </div>
+            </div>
+            <div class="level-row l2">
+                <div class="level-badge">L2</div>
+                <div class="level-content">
+                    <div class="level-title">Monitoring-centric</div>
+                    <div class="level-tools">OpenObserve / Datadog / Grafana (standalone)</div>
+                    <div class="level-desc">Dashboards exist. Alerts fire. But correlation is manual, deduplication is nonexistent, and remediation means "someone gets paged and SSHs into the box." You can see the problem — you just can't do anything about it automatically.</div>
+                </div>
+            </div>
+            <div class="level-row l3">
+                <div class="level-badge">L3</div>
+                <div class="level-content">
+                    <div class="level-title">AI-assisted operations</div>
+                    <div class="level-tools">Aether Platform + a10y</div>
+                    <div class="level-desc">AI correlates alerts, suggests root causes, and recommends actions. Operators make final decisions with full context — topology, history, and causal analysis at their fingertips. Human-in-the-loop, but the loop is intelligent. This is where Aether Platform + a10y delivers value today.</div>
+                </div>
+            </div>
+            <div class="level-row l4">
+                <div class="level-badge">L4</div>
+                <div class="level-content">
+                    <div class="level-title">Autonomous operations</div>
+                    <div class="level-tools">a10y vision — closed-loop automation</div>
+                    <div class="level-desc">The system detects, understands, acts, and verifies — autonomously. Operators supervise rather than operate. Remediation workflows execute automatically with blast-radius-aware safeguards. Humans intervene only for novel situations. This is the destination a10y is engineered toward.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="insight final">
+            <p><span class="highlight">Most networks are stuck at L1–L2.</span> The jump to L3 requires more than better dashboards — it requires alert intelligence (Keep), topological context (active-inventory), and AI reasoning (correlation-engine) working together.</p>
+            <p>The jump from L3 to L4 requires trust — trust built through transparent AI decisions, verifiable outcomes, and gradual expansion of autonomous scope. a10y is designed to earn that trust incrementally.</p>
+        </div>
+
+        <h2>Summary</h2>
+        <table class="summary-table">
+            <tr>
+                <th>Question</th>
+                <th>Answer</th>
+            </tr>
+            <tr>
+                <td>Why not OpenObserve alone?</td>
+                <td>It stores telemetry but cannot deduplicate, correlate, or remediate alerts. Keep fills this gap. OpenObserve alone keeps you at L2.</td>
+            </tr>
+            <tr>
+                <td>Why not Datadog?</td>
+                <td>SaaS-only, no data sovereignty, cost-prohibitive at telecom scale, locked AI, limited telecom protocol support. Also L2 — with a bigger bill.</td>
+            </tr>
+            <tr>
+                <td>Why not a10y alone?</td>
+                <td>a10y is the cognitive core. Aether Platform provides the operator interface, topology awareness, and production infrastructure needed to reach L3 and progress toward L4.</td>
+            </tr>
+        </table>
+    </div>
+</Base>
+
+<style>
+    .compare-table {
+        margin: 1.5rem 0;
+        overflow-x: auto;
+    }
+    .compare-table table {
+        min-width: 600px;
+    }
+    .compare-table th {
+        background: #0c0c0c;
+    }
+    .compare-table td:first-child {
+        color: #ccc;
+        font-weight: 500;
+    }
+    td.yes { color: #6aff8a; }
+    td.no { color: #ff6a6a; }
+    td.warn { color: #ffb86a; }
+    td.partial { color: #ffb86a; }
+    td.na { color: #555; }
+
+    .insight {
+        border-left: 3px solid #4a9eff;
+        padding: 1.2rem 1.5rem;
+        margin: 2rem 0;
+        background: rgba(74, 158, 255, 0.04);
+        border-radius: 0 6px 6px 0;
+    }
+    .insight p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
+    .insight p:last-child {
+        margin-bottom: 0;
+    }
+    .insight.final {
+        border-left-color: #6aff8a;
+        background: rgba(106, 255, 138, 0.03);
+    }
+
+    .platform-diagram {
+        margin: 2rem 0;
+    }
+    .platform-layer {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .platform-layer.ecosystem {
+        border-color: #2a4a2a;
+        background: rgba(106, 255, 138, 0.02);
+    }
+    .platform-layer.core {
+        border-color: #1a3a5c;
+        background: rgba(74, 158, 255, 0.02);
+    }
+    .platform-label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+    }
+    .platform-desc {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    .platform-items {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+    }
+    .p-item {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 0.8rem 1rem;
+        background: #0a0a0a;
+    }
+    .p-name {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #ddd;
+        margin-bottom: 0.2rem;
+    }
+    .p-role {
+        font-size: 0.8rem;
+        color: #777;
+        line-height: 1.4;
+    }
+    .platform-connector {
+        text-align: center;
+        padding: 0.8rem 0;
+        color: #444;
+        font-size: 0.85rem;
+    }
+    .platform-connector span {
+        background: #0a0a0a;
+        padding: 0.2rem 1rem;
+        border: 1px solid #222;
+        border-radius: 20px;
+        color: #666;
+    }
+
+    .additions {
+        display: grid;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    .addition {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.2rem 1.5rem;
+        background: #0c0c0c;
+    }
+    .add-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #6aff8a;
+        margin-bottom: 0.5rem;
+    }
+    .addition p {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+        line-height: 1.7;
+    }
+
+    .summary-table td:first-child {
+        font-weight: 500;
+        color: #ccc;
+        width: 240px;
+    }
+
+    .levels-map {
+        display: grid;
+        gap: 0;
+        margin: 1.5rem 0;
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .level-row {
+        display: grid;
+        grid-template-columns: 60px 1fr;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .level-row:last-child {
+        border-bottom: none;
+    }
+    .level-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        padding: 1rem 0;
+    }
+    .level-content {
+        padding: 1rem 1.5rem;
+    }
+    .level-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #e0e0e0;
+        margin-bottom: 0.2rem;
+    }
+    .level-tools {
+        font-size: 0.8rem;
+        font-family: monospace;
+        margin-bottom: 0.5rem;
+    }
+    .level-desc {
+        font-size: 0.9rem;
+        color: #888;
+        line-height: 1.6;
+    }
+    .level-row.l1 {
+        background: rgba(255, 106, 106, 0.03);
+    }
+    .level-row.l1 .level-badge { color: #ff6a6a; }
+    .level-row.l1 .level-tools { color: #ff6a6a; }
+    .level-row.l2 {
+        background: rgba(255, 184, 106, 0.03);
+    }
+    .level-row.l2 .level-badge { color: #ffb86a; }
+    .level-row.l2 .level-tools { color: #ffb86a; }
+    .level-row.l3 {
+        background: rgba(106, 255, 138, 0.04);
+        border-left: 3px solid #6aff8a;
+    }
+    .level-row.l3 .level-badge { color: #6aff8a; }
+    .level-row.l3 .level-tools { color: #6aff8a; }
+    .level-row.l4 {
+        background: rgba(74, 158, 255, 0.04);
+        border-left: 3px solid #4a9eff;
+    }
+    .level-row.l4 .level-badge { color: #4a9eff; }
+    .level-row.l4 .level-tools { color: #4a9eff; }
+
+    @media (max-width: 640px) {
+        .platform-items { grid-template-columns: 1fr; }
+        .summary-table td:first-child { width: auto; }
+        .level-row { grid-template-columns: 45px 1fr; }
+    }
+</style>
