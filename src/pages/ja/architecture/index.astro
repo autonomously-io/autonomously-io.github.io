@@ -1,0 +1,213 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="アーキテクチャ - a10y" description="a10y プラットフォームのアーキテクチャ — コンポーネント、標準マッピング、エコシステム。">
+    <div class="container">
+        <h1>アーキテクチャ</h1>
+        <p class="lead">3層構成、実績あるオープンソース、標準準拠の設計。</p>
+
+        <!-- Architecture diagram -->
+        <div class="arch">
+            <div class="arch-layer">
+                <div class="layer-label">UI</div>
+                <div class="layer-items">
+                    <span class="item">aether-ide (ポータル + トポロジ)</span>
+                    <span class="item">aether-term (CLI)</span>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer core">
+                <div class="layer-label">Core</div>
+                <div class="layer-items">
+                    <span class="item">correlation-engine (Claude Code + MCP + Skills)</span>
+                    <span class="item">active-inventory</span>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer">
+                <div class="layer-label">Data</div>
+                <div class="layer-items">
+                    <span class="item">OpenObserve</span>
+                    <span class="item">Keep</span>
+                    <span class="item">Qdrant</span>
+                    <span class="item">Vector</span>
+                    <span class="item">NATS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OODA mapping -->
+        <div class="ooda-flow">
+            <div class="ooda-step"><div class="phase">Observe</div><div class="comp">OpenObserve + Vector</div></div>
+            <div class="arrow">→</div>
+            <div class="ooda-step"><div class="phase">Orient</div><div class="comp">Keep + Qdrant</div></div>
+            <div class="arrow">→</div>
+            <div class="ooda-step"><div class="phase">Decide</div><div class="comp">correlation-engine</div></div>
+            <div class="arrow">→</div>
+            <div class="ooda-step"><div class="phase">Act</div><div class="comp">Keep workflows</div></div>
+            <div class="arrow">→</div>
+            <div class="ooda-step"><div class="phase">Verify</div><div class="comp">OpenObserve</div></div>
+            <div class="arrow loop">↻</div>
+        </div>
+        <div class="nats-bar">NATS — 全フェーズを接続するメッセージングバックボーン</div>
+
+        <!-- 3GPP summary -->
+        <div class="standards-row">
+            <div class="standard">
+                <h3>3GPP TS 23.288</h3>
+                <table class="compact">
+                    <tr><td>DCCF</td><td>Vector</td></tr>
+                    <tr><td>ADRF</td><td>OpenObserve + Qdrant</td></tr>
+                    <tr><td>AnLF</td><td>correlation-engine + Keep</td></tr>
+                    <tr><td>MFAF</td><td>NATS</td></tr>
+                </table>
+            </div>
+            <div class="standard">
+                <h3>TMF Autonomous Networks</h3>
+                <table class="compact">
+                    <tr><td>標準 NWDAF</td><td>L1–L2 (リアクティブ)</td></tr>
+                    <tr><td>+ Agent Server</td><td>L3–L4 (自律型)</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h2>詳細</h2>
+        <div class="subpages">
+            <a href="/ja/architecture/components" class="subpage">
+                <h3>コンポーネント</h3>
+                <p>各コンポーネントの詳細 — イメージ、ポート、接続先、OODA フェーズマッピング。</p>
+            </a>
+            <a href="/ja/architecture/3gpp" class="subpage">
+                <h3>3GPP マッピング</h3>
+                <p>NWDAF 分解、Agent Server 拡張、標準仕様と a10y の比較。</p>
+            </a>
+            <a href="/ja/architecture/landscape" class="subpage">
+                <h3>ランドスケープ</h3>
+                <p>標準規格 (TMF, ETSI ZSM, IETF)、OSS エコシステム、既存の awesome リスト。</p>
+            </a>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .arch {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.2rem;
+        margin: 1.5rem 0 1rem;
+        background: #0c0c0c;
+    }
+    .arch-layer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.5rem 0;
+    }
+    .arch-layer.core {
+        background: rgba(74, 158, 255, 0.04);
+        border-radius: 6px;
+        padding: 0.5rem 0.8rem;
+    }
+    .layer-label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        min-width: 50px;
+    }
+    .layer-items {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+    }
+    .item {
+        font-size: 0.85rem;
+        color: #bbb;
+        background: #151515;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+        border: 1px solid #222;
+    }
+    .arch-connector {
+        text-align: center;
+        color: #333;
+        font-size: 0.8rem;
+        padding: 0.1rem 0;
+    }
+    .ooda-flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        margin: 1rem 0 0.3rem;
+    }
+    .ooda-step { text-align: center; min-width: 80px; }
+    .ooda-step .phase {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+    }
+    .ooda-step .comp {
+        font-size: 0.8rem;
+        color: #aaa;
+    }
+    .ooda-flow .arrow { color: #333; font-size: 0.9rem; }
+    .ooda-flow .arrow.loop { color: #4a9eff; opacity: 0.5; }
+    .nats-bar {
+        text-align: center;
+        font-size: 0.75rem;
+        color: #555;
+        border-top: 1px dashed #1a1a1a;
+        padding-top: 0.4rem;
+        margin-bottom: 1.5rem;
+    }
+    .standards-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0 1.5rem;
+    }
+    .standard {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1rem;
+        background: #0c0c0c;
+    }
+    .standard h3 {
+        font-size: 0.95rem;
+        color: #fff;
+        margin: 0 0 0.5rem;
+    }
+    table.compact { width: 100%; margin: 0; }
+    table.compact td {
+        padding: 0.2rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #141414;
+        color: #999;
+    }
+    table.compact td:first-child { color: #ccc; font-weight: 500; width: 40%; }
+    .subpages {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .subpage {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.2rem;
+        text-decoration: none;
+        transition: border-color 0.2s;
+    }
+    .subpage:hover { border-color: #4a9eff; }
+    .subpage h3 { font-size: 1rem; color: #fff; margin: 0 0 0.3rem; }
+    .subpage p { font-size: 0.85rem; color: #888; margin: 0; }
+    @media (max-width: 640px) {
+        .standards-row, .subpages { grid-template-columns: 1fr; }
+        .ooda-flow { flex-wrap: wrap; }
+    }
+</style>

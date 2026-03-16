@@ -1,0 +1,441 @@
+---
+import Base from "../../layouts/BaseJa.astro";
+---
+
+<Base title="デプロイ - a10y" description="a10y を Kubernetes（Helm）または Docker Compose でローカル開発環境にデプロイ。">
+    <div class="container">
+        <h1>デプロイ</h1>
+        <p class="lead">a10y は Kubernetes（本番環境）または Docker Compose（ローカル開発）で動作します。</p>
+
+        <!-- Architecture overview -->
+        <h2>アーキテクチャ</h2>
+        <div class="arch">
+            <div class="arch-row">
+                <div class="arch-box ui">
+                    <div class="label">UI</div>
+                    <span>aether-ide</span>
+                    <span>aether-term</span>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-box core">
+                    <div class="label">Core</div>
+                    <span>correlation-engine</span>
+                    <span>active-inventory</span>
+                </div>
+            </div>
+            <div class="arch-row">
+                <div class="arch-box infra">
+                    <div class="label">Data</div>
+                    <span>OpenObserve</span>
+                    <span>Keep</span>
+                    <span>Qdrant</span>
+                    <span>Vector</span>
+                    <span>NATS</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboards -->
+        <h2>ダッシュボード（データ層 UI）</h2>
+        <p>デプロイ後、データ層の各コンポーネントはビルトインのダッシュボードをすぐに利用できます。これらは日常運用の主要インターフェースです。</p>
+
+        <div class="dash-grid">
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>OpenObserve</h3>
+                    <span class="dash-port">:5080</span>
+                </div>
+                <p>ログ、メトリクス、トレース — すべてを 1 つの UI で。ダッシュボードの構築、SQL/PromQL クエリの実行、アラートの設定が可能。主要なオブザーバビリティインターフェース。</p>
+                <div class="dash-cred">
+                    <code>admin@a10y.local</code> / <code>changeme</code>
+                </div>
+                <div class="dash-url"><code>http://localhost:5080</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>Keep</h3>
+                    <span class="dash-port">:3001</span>
+                </div>
+                <p>アラート管理コンソール。相関アラートの表示、ワークフローの作成、外部監視ツールとの連携設定。</p>
+                <div class="dash-url"><code>http://localhost:3001</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>Qdrant</h3>
+                    <span class="dash-port">:6333/dashboard</span>
+                </div>
+                <p>ベクトル DB ダッシュボード。コレクションの閲覧、保存されたエンベディングの検査、類似検索の実行、クラスタヘルスの監視。</p>
+                <div class="dash-url"><code>http://localhost:6333/dashboard</code></div>
+            </div>
+            <div class="dash-card">
+                <div class="dash-header">
+                    <h3>NATS Monitor</h3>
+                    <span class="dash-port">:8222</span>
+                </div>
+                <p>メッセージングのヘルス状態。アクティブ接続数、JetStream ストリーム/コンシューマー、メッセージレート、サブスクリプション詳細。</p>
+                <div class="dash-url"><code>http://localhost:8222</code></div>
+            </div>
+        </div>
+
+        <div class="port-table">
+            <h3>全ポート一覧</h3>
+            <table>
+                <tr><th>サービス</th><th>ポート</th><th>役割</th><th>UI</th></tr>
+                <tr><td>OpenObserve</td><td>5080</td><td>ログ、メトリクス、トレース</td><td>ダッシュボード</td></tr>
+                <tr><td>Keep (frontend)</td><td>3001</td><td>アラート管理</td><td>ダッシュボード</td></tr>
+                <tr><td>Keep (backend)</td><td>8082</td><td>Alert API</td><td>—</td></tr>
+                <tr><td>Qdrant</td><td>6333</td><td>ベクトル DB</td><td>ダッシュボード</td></tr>
+                <tr><td>NATS</td><td>4222 / 8222</td><td>メッセージング / モニター</td><td>モニター</td></tr>
+                <tr><td>Vector</td><td>9000 / 6514</td><td>Syslog / Vector protocol</td><td>—</td></tr>
+                <tr><td>correlation-engine</td><td>8000</td><td>AI エンジン API</td><td>—</td></tr>
+                <tr><td>active-inventory</td><td>8081</td><td>トポロジー API</td><td>—</td></tr>
+                <tr><td>aether-ide</td><td>8080</td><td>Web IDE（予定）</td><td>—</td></tr>
+                <tr><td>aether-term</td><td>3000</td><td>ターミナル（予定）</td><td>—</td></tr>
+            </table>
+        </div>
+
+        <!-- Kubernetes -->
+        <h2>Kubernetes (Helm)</h2>
+
+        <h3>前提条件</h3>
+        <ul>
+            <li>Kubernetes 1.28+</li>
+            <li>Helm 3.12+</li>
+            <li>動的プロビジョニング対応のストレージクラス（OpenObserve、Qdrant 用）</li>
+            <li>Anthropic API キー（correlation-engine 用）</li>
+        </ul>
+
+        <h3>クイックスタート</h3>
+        <pre><code># Add the a10y chart repo
+helm repo add a10y https://autonomously-io.github.io/charts
+helm repo update
+
+# Create namespace and secret
+kubectl create namespace a10y
+kubectl -n a10y create secret generic correlation-engine-secrets \
+  --from-literal=ANTHROPIC_API_KEY=sk-ant-...
+
+# Install
+helm install a10y a10y/autonomously -n a10y</code></pre>
+
+        <h3>カスタム設定</h3>
+        <pre><code># values-prod.yaml
+components:
+  correlation-engine:
+    env:
+      AI_MODEL: "claude-sonnet-4-20250514"
+    resources:
+      requests:
+        cpu: "1"
+        memory: 2Gi
+
+  aether-ide:
+    ingress:
+      enabled: true
+      host: ide.a10y.example.com
+
+openobserve:
+  auth:
+    ZO_ROOT_USER_EMAIL: "admin@example.com"
+    ZO_ROOT_USER_PASSWORD: "your-secure-password"
+  persistence:
+    size: 500Gi
+
+qdrant:
+  persistence:
+    size: 50Gi
+
+# Install with custom values
+# helm install a10y a10y/autonomously -n a10y -f values-prod.yaml</code></pre>
+
+        <h3>コンポーネントの無効化</h3>
+        <pre><code># Minimal install (engine + data layer only, no UI)
+helm install a10y a10y/autonomously -n a10y \
+  --set components.aether-ide.enabled=false \
+  --set components.aether-term.enabled=false</code></pre>
+
+        <!-- Docker Compose -->
+        <h2>Docker Compose</h2>
+
+        <h3>前提条件</h3>
+        <ul>
+            <li>Docker 24+ &amp; Docker Compose v2</li>
+            <li>8 GB 以上の利用可能な RAM</li>
+            <li>Anthropic API キー</li>
+        </ul>
+
+        <h3>セットアップ</h3>
+        <pre><code># Clone
+git clone https://github.com/autonomously-io/autonomously-io.github.io.git a10y
+cd a10y
+
+# Configure
+cp .env.example .env
+# Edit .env and set ANTHROPIC_API_KEY
+
+# Start all services
+docker compose up -d
+
+# Check status
+docker compose ps
+
+# View logs
+docker compose logs -f correlation-engine</code></pre>
+
+        <h3>docker-compose.yml</h3>
+        <pre><code>services:
+  # -- Core
+  correlation-engine:
+    image: ghcr.io/autonomously-io/correlation-engine:latest
+    ports: ["8000:8000"]
+    environment:
+      AI_MODEL: claude-sonnet-4-20250514
+      OPENOBSERVE_URL: http://openobserve:5080
+      OPENOBSERVE_USER: admin@a10y.local
+      KEEP_API_URL: http://keep-backend:8080
+      NATS_URL: nats://nats:4222
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_COLLECTION: incidents
+      INVENTORY_URL: http://active-inventory:8080
+      ANTHROPIC_API_KEY: $&#123;ANTHROPIC_API_KEY&#125;
+    depends_on: [openobserve, keep-backend, nats, qdrant]
+
+  active-inventory:
+    image: ghcr.io/autonomously-io/active-inventory:latest
+    ports: ["8081:8080"]
+
+  # -- UI
+  aether-ide:
+    image: ghcr.io/autonomously-io/aether-ide:latest
+    ports: ["8080:8080"]
+    environment:
+      CORRELATION_ENGINE_URL: http://correlation-engine:8000
+
+  aether-term:
+    image: ghcr.io/autonomously-io/aether-term:latest
+    ports: ["3000:3000"]
+    environment:
+      CORRELATION_ENGINE_URL: http://correlation-engine:8000
+
+  # -- Data layer
+  openobserve:
+    image: public.ecr.aws/zinclabs/openobserve:latest
+    ports: ["5080:5080"]
+    environment:
+      ZO_ROOT_USER_EMAIL: admin@a10y.local
+      ZO_ROOT_USER_PASSWORD: changeme
+      ZO_LOCAL_MODE: "true"
+    volumes: ["openobserve-data:/data"]
+
+  keep-backend:
+    image: us-central1-docker.pkg.dev/keephq/keep/keep-api:latest
+    ports: ["8082:8080"]
+
+  keep-frontend:
+    image: us-central1-docker.pkg.dev/keephq/keep/keep-ui:latest
+    ports: ["3001:3000"]
+    environment:
+      API_URL: http://keep-backend:8080
+
+  nats:
+    image: nats:2-alpine
+    ports: ["4222:4222", "8222:8222"]
+    command: ["--js", "--sd", "/data", "-m", "8222"]
+    volumes: ["nats-data:/data"]
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports: ["6333:6333"]
+    volumes: ["qdrant-data:/qdrant/storage"]
+
+  vector:
+    image: timberio/vector:0.41.1-alpine
+    ports: ["9000:9000", "6514:6514"]
+    volumes: ["./vector.yaml:/etc/vector/vector.yaml:ro"]
+    depends_on: [openobserve]
+
+volumes:
+  openobserve-data:
+  nats-data:
+  qdrant-data:</code></pre>
+
+        <h3>.env.example</h3>
+        <pre><code>ANTHROPIC_API_KEY=sk-ant-your-key-here</code></pre>
+
+        <!-- Log forwarding -->
+        <h2>ログ転送</h2>
+        <p>a10y は Vector 経由でログを取り込みます。2 つの入力プロトコルに対応しています:</p>
+
+        <div class="forward-grid">
+            <div class="forward-card">
+                <h3>Syslog (TCP :9000)</h3>
+                <p>ネットワークデバイス、perfSONAR などから syslog を送信。</p>
+                <pre><code># rsyslog
+*.* @@vector-host:9000
+
+# syslog-ng
+destination d_a10y &#123;
+  tcp("vector-host" port(9000));
+&#125;;</code></pre>
+            </div>
+            <div class="forward-card">
+                <h3>Vector Protocol (:6514)</h3>
+                <p>ホストに Vector エージェントをデプロイして構造化ログを転送。</p>
+                <pre><code># vector.yaml (agent)
+sinks:
+  a10y:
+    type: vector
+    address: "vector-host:6514"
+    version: "2"</code></pre>
+            </div>
+        </div>
+
+        <h3>対応ソース</h3>
+        <table>
+            <tr><th>ソース</th><th>プロトコル</th><th>変換</th></tr>
+            <tr><td>free5GC</td><td>Vector agent</td><td>parse_free5gc (auto-tagged)</td></tr>
+            <tr><td>perfSONAR</td><td>Syslog TCP</td><td>parse_perfsonar (auto-tagged)</td></tr>
+            <tr><td>ネットワークデバイス</td><td>Syslog TCP</td><td>Custom VRL transforms</td></tr>
+            <tr><td>Kubernetes</td><td>Vector agent</td><td>Pod metadata enrichment</td></tr>
+        </table>
+    </div>
+</Base>
+
+<style>
+    .arch {
+        margin: 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+    .arch-row {
+        display: flex;
+        justify-content: center;
+    }
+    .arch-box {
+        border: 1px solid #222;
+        border-radius: 6px;
+        padding: 0.6rem 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        background: #0c0c0c;
+    }
+    .arch-box .label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        min-width: 40px;
+    }
+    .arch-box span {
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+    .arch-box.core { border-color: #1a3a5c; }
+
+    .port-table { margin: 1rem 0; }
+    .port-table table { font-size: 0.9rem; }
+
+    ul {
+        margin: 0.8rem 0 1rem 1.5rem;
+        color: #aaa;
+    }
+    li {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 0.3rem;
+    }
+
+    pre {
+        background: #111;
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1rem 1.2rem;
+        overflow-x: auto;
+        margin: 0.8rem 0 1.5rem;
+    }
+    code {
+        font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+        font-size: 0.85rem;
+        color: #ccc;
+        line-height: 1.6;
+    }
+
+    .forward-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .forward-card {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1.2rem;
+        background: #0c0c0c;
+    }
+    .forward-card h3 {
+        margin-top: 0;
+    }
+    .forward-card p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .forward-card pre {
+        margin-bottom: 0;
+    }
+
+    .dash-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0 1.5rem;
+    }
+    .dash-card {
+        border: 1px solid #1a3a5c;
+        border-radius: 6px;
+        padding: 1.2rem;
+        background: #0c0c0c;
+    }
+    .dash-header {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        margin-bottom: 0.5rem;
+    }
+    .dash-header h3 {
+        margin: 0;
+        font-size: 1.05rem;
+    }
+    .dash-port {
+        font-size: 0.8rem;
+        color: #666;
+        font-family: monospace;
+    }
+    .dash-card p {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+    .dash-cred {
+        font-size: 0.8rem;
+        color: #888;
+        margin-bottom: 0.3rem;
+    }
+    .dash-cred code {
+        font-size: 0.8rem;
+        background: #151515;
+        padding: 0.1rem 0.3rem;
+        border-radius: 3px;
+    }
+    .dash-url code {
+        font-size: 0.8rem;
+        color: #4a9eff;
+    }
+
+    @media (max-width: 640px) {
+        .forward-grid { grid-template-columns: 1fr; }
+        .dash-grid { grid-template-columns: 1fr; }
+    }
+</style>

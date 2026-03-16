@@ -1,0 +1,118 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="Why Autonomously - a10y">
+    <div class="container">
+        <h1>Why Autonomously?</h1>
+
+        <h2>課題</h2>
+        <p>現代のネットワークは膨大なシグナル — ログ、メトリクス、トレース、アラート、トポロジー変更 — をレイヤーやベンダーを跨いで生成する。運用チームはデータに溺れながらも、依然として<span class="highlight">理解</span>が欠けている。</p>
+        <p>既存のツールは観測する。収集し、可視化し、アラートを出す。しかし最も困難な問いは人間に委ねられたままだ: <span class="highlight">「なぜこれが起きているのか？」</span></p>
+
+        <h2>オブザーバビリティの先へ</h2>
+        <p>オブザーバビリティは<em>何が</em>起きているかを教えてくれる。我々は次のステップが<span class="highlight">Understandability</span>であると考える — マルチソースのシグナルを相関させ、<em>なぜ</em>起きているかを明らかにすること。ダッシュボードやアラートだけでなく、因果推論と根本原因分析を。</p>
+
+        <h2>二つの柱</h2>
+        <div class="pillars">
+            <div class="pillar">
+                <h3>Understandability</h3>
+                <p>ソース、レイヤー、ベンダーを跨いでシグナルを融合し、因果関係を解明して根本原因を特定する。</p>
+            </div>
+            <div class="pillar">
+                <h3>Closed Loop Automation</h3>
+                <p>理解で終わらない。検知し、理解し、対処し、検証する — ループを自律的に閉じる。</p>
+            </div>
+        </div>
+
+        <div class="loop">
+            <span>Observe</span> <span class="arrow">→</span>
+            <span>Correlate</span> <span class="arrow">→</span>
+            <span>Understand</span> <span class="arrow">→</span>
+            <span>Act</span> <span class="arrow">→</span>
+            <span>Verify</span> <span class="arrow">→</span>
+            <span>⟲</span>
+        </div>
+
+        <h2>a10y における AI の活用</h2>
+        <p>a10y は単一技術のプロダクトではない。<span class="highlight">Statistical AI</span> と<span class="highlight">Large Language Models</span>を組み合わせ、それぞれが最も効果的な領域で適用される。</p>
+        <div class="pillars" style="margin-top: 1.5rem;">
+            <div class="pillar">
+                <h3>Statistical AI &amp; ML</h3>
+                <p>時系列異常検知、トポロジー対応の相関分析、障害予測モデル。大量の構造化シグナルに対して速度と精度が求められる場面で活躍する — 毎秒数百万のメトリクスからハルシネーションのリスクなく異常を検知する。</p>
+            </div>
+            <div class="pillar">
+                <h3>Large Language Models</h3>
+                <p>非構造化データに対する因果推論、自然言語インタラクション、RAG を活用したランブック検索。コンテキストと判断が重要な場面で威力を発揮する — ベンダー固有のログの解釈、根本原因の説明、ドキュメントからの知識の統合。</p>
+            </div>
+        </div>
+        <p>どちらのアプローチも単独では十分ではない。統計モデルは<em>何か</em>がおかしいことを検知する。LLM は<em>なぜ</em>おかしいのか、<em>何をすべきか</em>を推論する。両者が組み合わさることで、自律運用の認知基盤を形成する。</p>
+
+        <h2>なぜ "Autonomously" なのか</h2>
+        <p>"Automated" でもない。"Assisted" でもない。<span class="highlight">Autonomous（自律的）。</span></p>
+        <p>自動化はスクリプトに従う。自律化とは、システムがコンテキストを理解し、因果関係を推論し、秩序を回復する方法を判断し — そして結果を検証することを意味する。ゴールはより速く人間をページングするネットワークではなく、自ら治癒するネットワークだ。</p>
+
+        <h2>テレコムと IT の橋渡し</h2>
+        <p>テレコムには自律運用に関する数十年の標準がある — TMF、ETSI ZSM、インテントベースネットワーキング。IT にはクラウドネイティブなオブザーバビリティ、AIOps、SRE プラクティスがある。これらの世界は並行して進化してきた。a10y はその橋渡しをする。</p>
+
+        <div class="numeronym">
+            <div class="formula"><em>a</em> + utonomousl + <em>y</em> = <em>a10y</em></div>
+            <div class="note">k8s (Kubernetes) や i18n (internationalization) と同じ Numeronym（数略語）</div>
+        </div>
+
+        <blockquote>Penetrate. Understand. Restore.</blockquote>
+    </div>
+</Base>
+
+<style>
+    .pillars {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+    .pillar {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .pillar h3 {
+        font-size: 1.1rem;
+        color: #fff;
+        margin-bottom: 0.6rem;
+    }
+    .pillar p { margin-bottom: 0; }
+    .loop {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        align-items: center;
+        margin: 2rem 0;
+        font-size: 1rem;
+        color: #888;
+    }
+    .loop span { color: #4a9eff; font-weight: 500; }
+    .loop .arrow { color: #333; font-weight: 300; }
+    .numeronym {
+        text-align: center;
+        margin: 2.5rem 0;
+        padding: 2rem;
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+    }
+    .numeronym .formula {
+        font-size: 1.6rem;
+        color: #fff;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+    }
+    .numeronym .formula em { color: #4a9eff; font-style: normal; }
+    .numeronym .note {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.5rem;
+    }
+    @media (max-width: 600px) {
+        .pillars { grid-template-columns: 1fr; }
+    }
+</style>

@@ -1,0 +1,197 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="OODA × AI - a10y" description="OODA ループを AI による自律的ネットワーク運用に適用する — ルールベースからインテリジェントなクローズドループへ。">
+    <div class="container">
+        <h1>OODA Loop × AI</h1>
+        <p class="lead">OODA ループをネットワーク運用に適用し、各フェーズを AI で再考する。「監視 → アラート → 人間が対応」から「観測 → 理解 → 判断 → 対処 → 検証」の自律ループへ。</p>
+
+        <h2>OODA ループとは</h2>
+        <p>ジョン・ボイド大佐が提唱した意思決定フレームワーク: <span class="highlight">Observe → Orient → Decide → Act</span>。変化する状況に適応するために素早く循環させる。</p>
+        <p>従来の監視は<span class="highlight">オープンループ</span>だ — アラートが発火し、人間が調査し、手動で復旧する。OODA は各アクションの結果を次の観測サイクルにフィードバックすることでループを閉じる。</p>
+
+        <h2>各フェーズにおける AI</h2>
+        <p>ここでの AI は LLM に限定されない。各フェーズはそれぞれ異なる技術 — ルールエンジン、統計的 ML、ベクトル検索、言語モデル — が最も効果的な場面で適用される。</p>
+
+        <div class="ooda-grid">
+            <div class="ooda-cell">
+                <div class="phase">Observe</div>
+                <div class="title">Observe</div>
+                <div class="traditional">静的なダッシュボード、閾値ベースのアラート、手動でのログ確認</div>
+                <div class="ai">継続的なマルチソース取り込み。非構造化データ（syslog、ベンダードキュメント）の NLP 解析。時系列データに対する統計モデルによる異常検知</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Orient</div>
+                <div class="title">Orient</div>
+                <div class="traditional">オペレーターが頭の中でアラートを相関させ、ランブックを確認</div>
+                <div class="ai">過去のインシデントに対するベクトル類似検索（Qdrant）。グラフベースのトポロジー相関。ランブックやドキュメントに対する RAG を活用した LLM による因果推論</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Decide</div>
+                <div class="title">Decide</div>
+                <div class="traditional">人間が経験に基づいて復旧方法を判断</div>
+                <div class="ai">既知パターン向けのルールエンジン。影響範囲の ML リスクスコアリング。ポリシーに対する LLM のオプション評価。高リスク判断における Human-in-the-loop</div>
+            </div>
+            <div class="ooda-cell">
+                <div class="phase">Act</div>
+                <div class="title">Act</div>
+                <div class="traditional">手動での設定変更、スクリプト実行</div>
+                <div class="ai">宣言的ワークフロー実行（Keep）。結果は次の Observe サイクルにフィードバックされ、ループを閉じる。自動検証で回復を確認</div>
+            </div>
+        </div>
+        <div class="loop-arrow">↻ Act の結果が Observe にフィードバックされ、ループが閉じる</div>
+
+        <h2>従来型 vs. AI 駆動型</h2>
+        <table>
+            <tr><th></th><th>従来の監視</th><th>OODA × AI</th></tr>
+            <tr><td>ループ</td><td>オープン（アラート → 人間 → 対処）</td><td>クローズド（自動フィードバック）</td></tr>
+            <tr><td>相関分析</td><td>人間の記憶と経験</td><td>ベクトル検索 + 因果推論</td></tr>
+            <tr><td>インタラクション</td><td>PromQL / SQL クエリ</td><td>自然言語（「最も障害の多いクラスタはどれか？」）</td></tr>
+            <tr><td>姿勢</td><td>リアクティブ（症状の検知）</td><td>プロアクティブ（前兆の検知）</td></tr>
+            <tr><td>ナレッジ</td><td>個人に属人化</td><td>RAG により組織横断で構造化</td></tr>
+        </table>
+
+        <h2>a10y スタックへのマッピング</h2>
+        <p>各 a10y コンポーネントが OODA ループのどのフェーズに対応するか。</p>
+
+        <div class="stack">
+            <div class="stack-row stack-header">
+                <div>フェーズ</div>
+                <div>コンポーネント</div>
+                <div>役割</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Observe</div>
+                <div class="stack-component">OpenObserve + Vector</div>
+                <div class="stack-role">テレメトリの収集、正規化、保存。Vector がデータを整形し、OpenObserve が格納する。</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Orient</div>
+                <div class="stack-component">Keep + Qdrant</div>
+                <div class="stack-role">Keep がアラートを集約・相関させる。Qdrant が過去のパターンに対する類似検索を提供する。</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Decide</div>
+                <div class="stack-component">correlation-engine</div>
+                <div class="stack-role">因果推論、リスク評価、復旧計画 — ルール、ML、LLM を適宜活用。</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Act</div>
+                <div class="stack-component">Keep workflows</div>
+                <div class="stack-role">宣言的ワークフローにより復旧アクションを実行。</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">Verify</div>
+                <div class="stack-component">OpenObserve + engine</div>
+                <div class="stack-role">アクション後にテレメトリを再観測し、回復を確認する。</div>
+            </div>
+            <div class="stack-row">
+                <div class="stack-phase">All</div>
+                <div class="stack-component">NATS</div>
+                <div class="stack-role">全フェーズ間のイベント転送。ループを接続する神経系。</div>
+            </div>
+        </div>
+
+        <h2>AI の転換点</h2>
+        <p>従来のルールベース自動化は<span class="highlight">既知のパターン</span>しか扱えない。AI はこれを三つの方法で変える — しかも LLM だけではない。</p>
+        <p><span class="highlight">1. 非構造化データの理解</span> — syslog メッセージ、ベンダー固有の CLI 出力、自然言語のチケット記述。NLP と LLM がこれまで解析不可能だったデータを構造化され実行可能なシグナルに変換する。</p>
+        <p><span class="highlight">2. ルールを超えた推論</span> — 統計的異常検知は人間がルールを書かないようなパターンも捕捉する。ベクトル類似検索は完全一致なしに「以前似たものを見たことがある」を発見する。LLM は一般知識と検索されたコンテキストを使って未知の障害を推論する。</p>
+        <p><span class="highlight">3. あらゆる判断に組織知を活用</span> — ランブック、設計ドキュメント、ポストモーテムに対する RAG が、あらゆる判断に組織の知識を活かす。属人的な知識が共有インフラになる。</p>
+
+        <blockquote>ゴールは人間をより速くページングするネットワークではない。自ら治癒するネットワークだ。</blockquote>
+    </div>
+</Base>
+
+<style>
+    .ooda-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        max-width: 100%;
+        margin: 2rem 0;
+    }
+    .ooda-cell {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.5rem;
+    }
+    .ooda-cell .phase {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #4a9eff;
+        margin-bottom: 0.4rem;
+    }
+    .ooda-cell .title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.5rem;
+    }
+    .ooda-cell .traditional {
+        font-size: 0.85rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    .ooda-cell .traditional::before {
+        content: "従来: ";
+        color: #555;
+    }
+    .ooda-cell .ai {
+        font-size: 0.9rem;
+        color: #aaa;
+    }
+    .ooda-cell .ai::before {
+        content: "AI: ";
+        color: #4a9eff;
+        font-weight: 500;
+    }
+    .loop-arrow {
+        text-align: center;
+        margin: 1rem 0 2rem;
+        font-size: 0.9rem;
+        color: #333;
+    }
+    .stack {
+        border: 1px solid #222;
+        border-radius: 8px;
+        overflow: hidden;
+        margin: 1.5rem 0;
+    }
+    .stack-row {
+        display: grid;
+        grid-template-columns: 100px 1fr 1fr;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .stack-row:last-child { border-bottom: none; }
+    .stack-row > div {
+        padding: 0.8rem 1rem;
+        font-size: 0.9rem;
+    }
+    .stack-phase {
+        background: #111;
+        color: #4a9eff;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: flex;
+        align-items: center;
+    }
+    .stack-component { color: #e0e0e0; }
+    .stack-role { color: #888; }
+    .stack-header { background: #0f0f0f; }
+    .stack-header > div {
+        color: #555;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 600;
+    }
+    @media (max-width: 600px) {
+        .ooda-grid { grid-template-columns: 1fr; }
+        .stack-row { grid-template-columns: 80px 1fr; }
+        .stack-role { display: none; }
+    }
+</style>

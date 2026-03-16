@@ -1,0 +1,152 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="自律運用ランドスケープ - a10y" description="自律型ネットワーク運用を取り巻く標準規格、オープンソースツール、エコシステム。">
+    <div class="container">
+        <h1>自律運用ランドスケープ</h1>
+        <p class="lead">自律型ネットワーク運用を取り巻く標準規格、オープンソースツール、製品の概観 — テレコムと IT が交差する領域。</p>
+
+        <h2>標準規格 &amp; フレームワーク</h2>
+        <p>テレコム業界は自律運用の成熟度モデルを標準化してきました。これらは a10y が目指す自律性のレベルを定義しています。</p>
+
+        <h3>TM Forum — Autonomous Networks</h3>
+        <p>自動運転車に類似した <span class="highlight">6段階の自律性レベル (L0–L5)</span> を定義しています。L0 (完全手動) から L5 (完全自律、ゼロタッチ) まで。各レベルは Intent、Awareness、Analysis、Decision、Execution の5つの認知能力で評価されます。2025年現在、業界は L3–L4 に向けて推進中です。</p>
+        <div class="levels">
+            <div class="level"><span class="level-num">L0</span><span class="level-desc">完全手動の運用</span></div>
+            <div class="level"><span class="level-num">L1</span><span class="level-desc">手動介入を伴う基本的な自動化</span></div>
+            <div class="level"><span class="level-num">L2</span><span class="level-desc">中間的な自動化、大幅な人的監視</span></div>
+            <div class="level"><span class="level-num">L3</span><span class="level-desc">高度な自動化、最小限の人的介入</span></div>
+            <div class="level"><span class="level-num">L4</span><span class="level-desc">予測的自動化、自己修復</span></div>
+            <div class="level"><span class="level-num">L5</span><span class="level-desc">完全自律、ゼロタッチ</span></div>
+        </div>
+
+        <h3>ETSI ZSM — Zero-touch Service Management</h3>
+        <p>5G およびネットワークスライシングに最適化された、エンドツーエンドのクローズドループ自動化のためのアーキテクチャフレームワーク。Closed Control Loops (CCL) と Intent-Based Networking (IBN) に基づき、設計、デプロイ、監視、最適化にわたって<span class="highlight">人的介入ゼロ</span>を目指しています。</p>
+
+        <h3>IETF ANIMA &amp; RFC 9315</h3>
+        <p>IETF ANIMA ワーキンググループはプロトコルレベルから Autonomic Networking Infrastructure (ANI) を定義しています。RFC 9315 は Intent-Based Networking の概念と用語を標準化しています。TMF がビジネス要件からトップダウンで取り組む一方、IETF はプロトコルプリミティブからボトムアップで取り組み、両者は同じビジョンに収束しています。</p>
+
+        <h2>オープンソーススタック</h2>
+        <p>a10y は実績あるオープンソースコンポーネントの上に構築されています。各コンポーネントは運用ループのフェーズに対応します。</p>
+
+        <div class="card-grid">
+            <div class="card">
+                <div class="name">OpenObserve</div>
+                <div class="desc">ログ、メトリクス、トレースの統合オブザーバビリティプラットフォーム。Rust で書かれ、Elasticsearch の140倍のストレージ効率。</div>
+                <div class="role">Observe — テレメトリ収集・保存</div>
+            </div>
+            <div class="card">
+                <div class="name">Vector</div>
+                <div class="desc">テレメトリの収集、変換、ルーティングのための高性能データパイプライン。柔軟なデータ整形のための VRL (Vector Remap Language)。</div>
+                <div class="role">Observe → Orient — 正規化・エンリッチメント</div>
+            </div>
+            <div class="card">
+                <div class="name">Keep</div>
+                <div class="desc">オープンソースの AIOps プラットフォーム。アラートの集約、重複排除、相関分析、宣言的修復ワークフローのための110以上のインテグレーション。</div>
+                <div class="role">Orient + Decide — アラート相関・判断</div>
+            </div>
+            <div class="card">
+                <div class="name">Qdrant</div>
+                <div class="desc">過去のインシデント、ランブック、ネットワーク状態のエンベディングを保存するベクトルデータベース。パターンマッチングのための高速類似検索を実現。</div>
+                <div class="role">Orient — ナレッジベース・類似検索</div>
+            </div>
+            <div class="card">
+                <div class="name">NATS</div>
+                <div class="desc">pub/sub、ストリーミング、キーバリューストアを単一バイナリで提供するクラウドネイティブメッセージング。サブミリ秒のレイテンシ、20 MB 未満の RAM。</div>
+                <div class="role">神経系 — 全コンポーネントを接続</div>
+            </div>
+            <div class="card">
+                <div class="name">correlation-engine</div>
+                <div class="desc">マルチソース相関エンジン。統計的 ML (異常検知、予測モデル) と LLM (因果推論、RAG) を組み合わせ、自律型クローズドループ実行を実現。</div>
+                <div class="role">全フェーズ — 頭脳</div>
+            </div>
+        </div>
+
+        <h3>なぜ Keep か？</h3>
+        <p>PagerDuty や Opsgenie は<span class="highlight">アラート通知ルーティング</span>に焦点を当てています。Keep はさらに踏み込み、<span class="highlight">集約 → 重複排除 → 相関分析 → 自動修復</span>を単一プラットフォームで実現します。</p>
+        <p>a10y にとって、Keep は「アラートの交差点」です。110以上のインテグレーションを通じて既存の監視ツールからアラートを収集し、AI 相関分析で関連アラートをグループ化し、宣言的ワークフローとして修復を実行します。オープンソースかつセルフホスト可能なため、テレコム事業者のデータ主権要件も満たします。</p>
+
+        <h2>既存の Awesome リスト</h2>
+        <p>いくつかのキュレーションリストがこの領域の一部をカバーしていますが、テレコムと IT の境界を橋渡しするものはありません。</p>
+
+        <table>
+            <tr><th>リスト</th><th>フォーカス</th></tr>
+            <tr><td><a class="ext" href="https://github.com/OpsPAI/awesome-AIOps">awesome-AIOps</a></td><td>AIOps 全般 — 異常検知、RCA、障害予測</td></tr>
+            <tr><td><a class="ext" href="https://github.com/Jun-jie-Huang/awesome-LLM-AIOps">awesome-LLM-AIOps</a></td><td>LLM × AIOps の論文とツール</td></tr>
+            <tr><td><a class="ext" href="https://github.com/networktocode/awesome-network-automation">awesome-network-automation</a></td><td>ネットワーク自動化ツール (Ansible, NAPALM, Nornir 等)</td></tr>
+            <tr><td><a class="ext" href="https://github.com/dastergon/awesome-sre">awesome-sre</a></td><td>サイトリライアビリティとプロダクションエンジニアリング</td></tr>
+            <tr><td><a class="ext" href="https://github.com/adriannovegil/awesome-observability">awesome-observability</a></td><td>ログ、メトリクス、トレース — オブザーバビリティの三本柱</td></tr>
+        </table>
+
+        <div class="gap-box">
+            <p>これらのリストはそれぞれ全体像の一部をカバーしていますが、</p>
+            <p class="emphasis">テレコムの自律運用標準 (TMF / ETSI ZSM) と IT/クラウドネイティブ運用 (AIOps / SRE) を橋渡しするリストは存在しません。</p>
+            <p>それが <a class="ext" href="https://github.com/autonomously-io/awesome-autonomous-operation">awesome-autonomous-operation</a> の目的です。</p>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .levels {
+        display: grid;
+        gap: 0.3rem;
+        margin: 1.5rem 0;
+    }
+    .level {
+        display: grid;
+        grid-template-columns: 50px 1fr;
+        gap: 1rem;
+    }
+    .level-num {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #4a9eff;
+        text-align: center;
+    }
+    .level-desc {
+        font-size: 0.95rem;
+        color: #aaa;
+        padding: 0.2rem 0;
+        border-bottom: 1px solid #1a1a1a;
+    }
+    .card-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+    .card {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.2rem;
+    }
+    .card .name {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+    }
+    .card .desc {
+        font-size: 0.9rem;
+        color: #888;
+        line-height: 1.5;
+    }
+    .card .role {
+        font-size: 0.85rem;
+        color: #4a9eff;
+        margin-top: 0.5rem;
+    }
+    .gap-box {
+        border: 1px dashed #333;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        text-align: center;
+    }
+    .gap-box p { color: #888; margin-bottom: 0.5rem; }
+    .gap-box .emphasis { font-size: 1.1rem; color: #e0e0e0; }
+    @media (max-width: 600px) {
+        .card-grid { grid-template-columns: 1fr; }
+    }
+</style>

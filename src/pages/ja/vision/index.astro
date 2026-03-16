@@ -1,0 +1,119 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="Vision - a10y" description="a10y のビジョン — Understandability、Closed Loop Automation、そしてデュアル AI。">
+    <div class="container">
+        <h1>Vision</h1>
+        <p class="lead">オブザーバビリティの先へ — 自律的な理解と回復を目指して。</p>
+
+        <div class="summary-grid">
+            <div class="summary-card">
+                <h2>課題</h2>
+                <p>ネットワークはレイヤーやベンダーを跨いで膨大なシグナルを生成する。既存のツールは観測する — 収集し、可視化し、アラートを出す。しかし最も困難な問いは人間に委ねられたままだ: <span class="highlight">「なぜこれが起きているのか？」</span></p>
+            </div>
+
+            <div class="summary-card">
+                <h2>二つの柱</h2>
+                <div class="pillars">
+                    <div class="pillar">
+                        <h3>Understandability</h3>
+                        <p><em>何が</em>ではなく、<em>なぜ</em>。マルチソースの因果推論と根本原因分析。</p>
+                    </div>
+                    <div class="pillar">
+                        <h3>Closed Loop</h3>
+                        <p>観測 → 相関 → 理解 → 対処 → 検証。自律的に。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <h2>デュアル AI</h2>
+                <div class="pillars">
+                    <div class="pillar">
+                        <h3>Statistical AI</h3>
+                        <p>異常検知、予測モデル、トポロジー対応の相関分析。構造化データにおける速度と精度。</p>
+                    </div>
+                    <div class="pillar">
+                        <h3>LLM</h3>
+                        <p>因果推論、ランブックに対する RAG、自然言語インタラクション。非構造化データにおけるコンテキストと判断。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>詳細</h2>
+        <div class="subpages">
+            <a href="/ja/vision/why" class="subpage">
+                <h3>Why Autonomously?</h3>
+                <p>その哲学 — 自動化 vs. 自律化、テレコムと IT の橋渡し、a10y というNumeronym。</p>
+            </a>
+            <a href="/ja/vision/ooda" class="subpage">
+                <h3>OODA × AI</h3>
+                <p>OODA ループのネットワーク運用への適用。各フェーズにおける AI、スタックマッピング、転換点。</p>
+            </a>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .summary-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+    .summary-card {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        background: #0c0c0c;
+    }
+    .summary-card h2 {
+        font-size: 1.2rem;
+        margin: 0 0 0.8rem;
+        border: none;
+        padding: 0;
+    }
+    .summary-card p {
+        margin-bottom: 0;
+    }
+    .pillars {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    .pillar h3 {
+        font-size: 1rem;
+        color: #fff;
+        margin: 0 0 0.3rem;
+    }
+    .pillar p { margin: 0; font-size: 0.95rem; }
+    .subpages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+    .subpage {
+        border: 1px solid #222;
+        border-radius: 8px;
+        padding: 1.2rem;
+        text-decoration: none;
+        transition: border-color 0.2s;
+    }
+    .subpage:hover { border-color: #4a9eff; }
+    .subpage h3 {
+        font-size: 1.05rem;
+        color: #fff;
+        margin: 0 0 0.3rem;
+    }
+    .subpage p {
+        font-size: 0.9rem;
+        color: #888;
+        margin: 0;
+    }
+    @media (max-width: 640px) {
+        .pillars, .subpages { grid-template-columns: 1fr; }
+    }
+</style>

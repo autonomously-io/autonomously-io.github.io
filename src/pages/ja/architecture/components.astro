@@ -1,0 +1,421 @@
+---
+import Base from "../../../layouts/BaseJa.astro";
+---
+
+<Base title="コンポーネント - a10y" description="a10y プラットフォームのアーキテクチャとコンポーネントの詳細。">
+    <div class="container">
+        <h1>コンポーネント</h1>
+        <p class="lead">a10y は UI、Core、Data の3層で構成されています。各コンポーネントは独立してデプロイ可能で、NATS 経由で通信します。</p>
+
+        <!-- Architecture diagram -->
+        <div class="arch">
+            <div class="arch-layer">
+                <div class="layer-label">UI Layer</div>
+                <div class="layer-items">
+                    <a href="#aether-ide" class="item">aether-ide</a>
+                    <a href="#aether-term" class="item">aether-term</a>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer core">
+                <div class="layer-label">Core Layer</div>
+                <div class="layer-items">
+                    <a href="#correlation-engine" class="item">correlation-engine</a>
+                    <a href="#active-inventory" class="item">active-inventory</a>
+                </div>
+            </div>
+            <div class="arch-connector">↕</div>
+            <div class="arch-layer">
+                <div class="layer-label">Data Layer</div>
+                <div class="layer-items">
+                    <a href="#openobserve" class="item">OpenObserve</a>
+                    <a href="#keep" class="item">Keep</a>
+                    <a href="#qdrant" class="item">Qdrant</a>
+                    <a href="#vector" class="item">Vector</a>
+                    <a href="#nats" class="item">NATS</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Layer UIs -->
+        <h2>Data Layer ダッシュボード</h2>
+        <p>オペレーターが最初に利用するインターフェースです。各 Data Layer コンポーネントには組み込みダッシュボードが付属しており、カスタム UI なしですぐに使い始められます。</p>
+        <div class="dash-summary">
+            <table class="spec">
+                <tr><td>OpenObserve :5080</td><td>ログ、メトリクス、トレースのダッシュボード。SQL &amp; PromQL クエリ、カスタムダッシュボード、アラート機能。</td></tr>
+                <tr><td>Keep :3001</td><td>アラート管理コンソール。相関アラート、ワークフローエディタ、110以上のインテグレーション。</td></tr>
+                <tr><td>Qdrant :6333/dashboard</td><td>ベクトル DB エクスプローラー。コレクション、エンベディング、類似検索。</td></tr>
+                <tr><td>NATS :8222</td><td>メッセージングモニター。接続状態、JetStream ストリーム、メッセージレート。</td></tr>
+            </table>
+        </div>
+        <p>アクセス URL と認証情報は <a class="ext" href="/ja/deploy">デプロイ</a> を参照してください。</p>
+
+        <!-- UI Layer -->
+        <h2>UI Layer</h2>
+        <p>aether-ide は a10y の統合エントリーポイントです。ネットワークトポロジビューと全 Data Layer ダッシュボードへのリンクを提供し、個別のポートを覚える必要がありません。</p>
+
+        <div class="component" id="aether-ide">
+            <div class="comp-header">
+                <h3>aether-ide</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8080</span>
+            </div>
+            <p>2つの役割を持つ軽量ポータル:</p>
+            <div class="ide-features">
+                <div class="ide-feature">
+                    <h4>ネットワークトポロジ</h4>
+                    <p>active-inventory からのライブネットワークトポロジビュー。デバイス、リンク、インターフェースを可視化。インシデント発生時の影響範囲を表示します。</p>
+                </div>
+                <div class="ide-feature">
+                    <h4>サービスポータル</h4>
+                    <p>すべての Data Layer ダッシュボードへのリンクを1つのページに集約。各サービスの組み込み UI が重い処理を担い、aether-ide はそれらを統合するだけです。</p>
+                    <div class="portal-links">
+                        <span>OpenObserve :5080</span>
+                        <span>Keep :3001</span>
+                        <span>Qdrant :6333</span>
+                        <span>NATS :8222</span>
+                    </div>
+                </div>
+            </div>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/aether-ide</code></td></tr>
+                <tr><td>接続先</td><td>active-inventory (トポロジ)、全 Data Layer UI へのリンク</td></tr>
+                <tr><td>ロードマップ</td><td>AI チャット、因果チェーン可視化、インシデントタイムライン</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="aether-term">
+            <div class="comp-header">
+                <h3>aether-term</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:3000</span>
+            </div>
+            <p>CLI ワークフローを好むオペレーター向けのターミナルベースインターフェース。AI エンジンへのクエリ、アラートの確認、アクションのトリガーをすべてコマンドラインから実行可能。SSH のみの環境や自動化スクリプトに適しています。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/aether-term</code></td></tr>
+                <tr><td>接続先</td><td>correlation-engine</td></tr>
+                <tr><td>ユースケース</td><td>CLI 調査、スクリプトクエリ、ヘッドレス環境</td></tr>
+            </table>
+        </div>
+
+        <!-- Core Layer -->
+        <h2>Core Layer</h2>
+        <p>a10y の頭脳。LLM エンジンは統計 AI と言語モデルを組み合わせて因果推論を実行します。アクティブインベントリはネットワークトポロジのライブグラフを維持し、すべての判断にコンテキストを提供します。</p>
+
+        <div class="component" id="correlation-engine">
+            <div class="comp-header">
+                <h3>correlation-engine</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8000</span>
+            </div>
+            <p>マルチソース相関エンジン — 認知コア。Keep からアラートを取り込み、Qdrant で過去のパターンを検索し、active-inventory からトポロジを照会し、デュアル AI アプローチで根本原因を推論します:</p>
+            <div class="dual-ai">
+                <div class="ai-col">
+                    <h4>Statistical AI</h4>
+                    <ul>
+                        <li>時系列異常検知</li>
+                        <li>トポロジ対応の相関分析</li>
+                        <li>予測的障害モデル</li>
+                    </ul>
+                </div>
+                <div class="ai-col">
+                    <h4>LLM</h4>
+                    <ul>
+                        <li>非構造化データに対する因果推論</li>
+                        <li>ランブック・ドキュメントに対する RAG</li>
+                        <li>自然言語インタラクション</li>
+                    </ul>
+                </div>
+            </div>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/correlation-engine</code></td></tr>
+                <tr><td>デフォルトモデル</td><td>claude-sonnet-4-20250514</td></tr>
+                <tr><td>接続先</td><td>OpenObserve, Keep, Qdrant, NATS, active-inventory</td></tr>
+                <tr><td>Secrets</td><td><code>ANTHROPIC_API_KEY</code></td></tr>
+                <tr><td>OODA フェーズ</td><td>Orient → Decide (+ Verify フィードバック)</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="active-inventory">
+            <div class="comp-header">
+                <h3>active-inventory</h3>
+                <span class="badge custom">Custom</span>
+                <span class="port">:8080</span>
+            </div>
+            <p>ライブネットワークトポロジグラフ。デバイス、リンク、インターフェース、サービスを検出・追跡します。correlation-engine にトポロジコンテキストを提供し、「この光ファイバー切断で他に影響を受けるのは何か？」といった質問や、修復アクションの影響範囲推定を可能にします。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>ghcr.io/autonomously-io/active-inventory</code></td></tr>
+                <tr><td>接続先</td><td>NATS (トポロジイベント)</td></tr>
+                <tr><td>ユースケース</td><td>トポロジクエリ、影響分析、影響範囲推定</td></tr>
+            </table>
+        </div>
+
+        <!-- Data Layer -->
+        <h2>Data Layer</h2>
+        <p>テレメトリストレージ、アラート管理、ベクトル検索、データパイプライン、メッセージングのための実績あるオープンソースインフラ。各コンポーネントは OODA ループのフェーズに対応します。</p>
+
+        <div class="component" id="openobserve">
+            <div class="comp-header">
+                <h3>OpenObserve</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:5080</span>
+                <span class="ooda-tag">Observe</span>
+            </div>
+            <p>ログ、メトリクス、トレースの統合オブザーバビリティプラットフォーム。Rust ベースで、Elasticsearch の140倍低いストレージコスト。すべての生テレメトリを保存し、SQL + PromQL クエリインターフェースを提供します。修復後にリカバリを確認するための検証レイヤーとしても機能します。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>public.ecr.aws/zinclabs/openobserve</code></td></tr>
+                <tr><td>ストレージ</td><td>200 Gi (デフォルト)、ローカル/S3 上の Parquet</td></tr>
+                <tr><td>クエリ</td><td>SQL, PromQL</td></tr>
+                <tr><td>OODA フェーズ</td><td>Observe + Verify</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="vector">
+            <div class="comp-header">
+                <h3>Vector</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:9000 :6514</span>
+                <span class="ooda-tag">Observe</span>
+            </div>
+            <p>高性能データパイプライン。syslog (TCP :9000) および Vector プロトコル (:6514) 経由でログを取り込み、VRL トランスフォームで解析・エンリッチし、OpenObserve にルーティングします。free5GC、perfSONAR、ネットワークデバイスのログをソース固有のトランスフォームで処理します。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>timberio/vector:0.41.1-alpine</code></td></tr>
+                <tr><td>入力</td><td>Syslog TCP, Vector プロトコル</td></tr>
+                <tr><td>トランスフォーム</td><td>parse_free5gc, parse_perfsonar (VRL で拡張可能)</td></tr>
+                <tr><td>出力</td><td>OpenObserve HTTP sink</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="keep">
+            <div class="comp-header">
+                <h3>Keep</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:8080</span>
+                <span class="ooda-tag">Orient + Act</span>
+            </div>
+            <p>アラートライフサイクル管理のための AIOps プラットフォーム。110以上のソースからアラートを集約、重複排除、関連アラートの相関分析を行い、YAML ベースの宣言的ワークフローで修復を実行します。アラート相関レイヤー (Orient) とアクション実行レイヤー (Act) の両方の役割を担います。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>keep-api + keep-ui</code></td></tr>
+                <tr><td>インテグレーション</td><td>110以上の双方向連携 (Datadog, Grafana, PagerDuty, ...)</td></tr>
+                <tr><td>ワークフロー</td><td>宣言的 YAML (GitHub Actions スタイル)</td></tr>
+                <tr><td>OODA フェーズ</td><td>Orient (相関分析) + Act (修復ワークフロー)</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="qdrant">
+            <div class="comp-header">
+                <h3>Qdrant</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:6333</span>
+                <span class="ooda-tag">Orient</span>
+            </div>
+            <p>類似検索のためのベクトルデータベース。過去のインシデント、ランブック、ネットワーク状態、ドキュメントのエンベディングを保存。「このパターンは以前見たことがあるか？」というクエリを可能にする、システムの記憶です。correlation-engine の RAG を支えます。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>qdrant/qdrant</code></td></tr>
+                <tr><td>ストレージ</td><td>20 Gi (デフォルト)</td></tr>
+                <tr><td>コレクション</td><td><code>incidents</code> (デフォルト)</td></tr>
+                <tr><td>ユースケース</td><td>インシデント類似検索、RAG 検索、異常パターンマッチング</td></tr>
+            </table>
+        </div>
+
+        <div class="component" id="nats">
+            <div class="comp-header">
+                <h3>NATS</h3>
+                <span class="badge oss">OSS</span>
+                <span class="port">:4222</span>
+                <span class="ooda-tag">All</span>
+            </div>
+            <p>クラウドネイティブなメッセージングバックボーン。pub/sub とリクエスト/リプライで全コンポーネントを接続。JetStream がアラートイベントやトポロジ変更の永続ストリーミングを提供。サブミリ秒のレイテンシ、20 MB 未満の RAM — a10y の神経系です。</p>
+            <table class="spec">
+                <tr><td>Image</td><td><code>nats:2-alpine</code></td></tr>
+                <tr><td>機能</td><td>JetStream (ストリーミング)、KV ストア、モニタリング (:8222)</td></tr>
+                <tr><td>ストリーム</td><td>アラートイベント、トポロジ変更、アクション結果</td></tr>
+                <tr><td>OODA フェーズ</td><td>All — ループ全体を接続するイベントバス</td></tr>
+            </table>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .arch {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 1.5rem 0;
+        background: #0c0c0c;
+    }
+    .arch-layer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.6rem 0;
+    }
+    .arch-layer.core {
+        background: rgba(74, 158, 255, 0.04);
+        border-radius: 6px;
+        padding: 0.6rem 0.8rem;
+    }
+    .layer-label {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        min-width: 80px;
+    }
+    .layer-items {
+        display: flex;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+    .layer-items .item {
+        font-size: 0.9rem;
+        color: #bbb;
+        background: #151515;
+        padding: 0.3rem 0.8rem;
+        border-radius: 4px;
+        border: 1px solid #222;
+        text-decoration: none;
+    }
+    .layer-items .item:hover {
+        border-color: #4a9eff;
+        color: #fff;
+    }
+    .arch-connector {
+        text-align: center;
+        color: #333;
+        font-size: 0.9rem;
+        padding: 0.1rem 0;
+    }
+
+    .component {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.4rem 1.6rem;
+        margin: 1rem 0;
+        background: #0c0c0c;
+    }
+    .comp-header {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 0.8rem;
+        flex-wrap: wrap;
+    }
+    .comp-header h3 {
+        font-size: 1.2rem;
+        color: #fff;
+        margin: 0;
+    }
+    .badge {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.15rem 0.5rem;
+        border-radius: 3px;
+        font-weight: 600;
+    }
+    .badge.custom { background: #1a3a5c; color: #6ab0ff; }
+    .badge.oss { background: #1a3a2a; color: #6aff8a; }
+    .port {
+        font-size: 0.8rem;
+        color: #666;
+        font-family: monospace;
+    }
+    .ooda-tag {
+        font-size: 0.75rem;
+        color: #4a9eff;
+        border: 1px solid #1a3a5c;
+        padding: 0.1rem 0.5rem;
+        border-radius: 3px;
+        margin-left: auto;
+    }
+    .component p {
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .dual-ai {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 0.8rem 0;
+    }
+    .ai-col h4 {
+        font-size: 0.9rem;
+        color: #ddd;
+        margin-bottom: 0.4rem;
+    }
+    .ai-col ul {
+        margin: 0;
+        padding-left: 1.2rem;
+    }
+    .ai-col li {
+        font-size: 0.85rem;
+        color: #999;
+        line-height: 1.5;
+    }
+
+    table.spec {
+        width: 100%;
+        margin: 0;
+    }
+    table.spec td {
+        padding: 0.25rem 0;
+        font-size: 0.85rem;
+        border-bottom: 1px solid #141414;
+        color: #999;
+    }
+    table.spec td:first-child {
+        color: #888;
+        width: 120px;
+    }
+    table.spec code {
+        font-size: 0.8rem;
+        color: #bbb;
+        background: #151515;
+        padding: 0.1rem 0.4rem;
+        border-radius: 3px;
+    }
+
+    .ide-features {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 0.8rem 0;
+    }
+    .ide-feature {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1rem;
+    }
+    .ide-feature h4 {
+        font-size: 0.95rem;
+        color: #ddd;
+        margin-bottom: 0.4rem;
+    }
+    .ide-feature p {
+        font-size: 0.85rem;
+        margin-bottom: 0.4rem;
+    }
+    .portal-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 0.4rem;
+    }
+    .portal-links span {
+        font-size: 0.8rem;
+        color: #4a9eff;
+        background: #0a1a2a;
+        padding: 0.2rem 0.6rem;
+        border-radius: 3px;
+        border: 1px solid #1a3a5c;
+    }
+
+    @media (max-width: 640px) {
+        .dual-ai { grid-template-columns: 1fr; }
+        .ide-features { grid-template-columns: 1fr; }
+        .ooda-tag { margin-left: 0; }
+    }
+</style>

@@ -1,0 +1,347 @@
+---
+import Base from "../../layouts/BaseJa.astro";
+---
+
+<Base title="ユースケース - a10y" description="a10y がネットワークの問題をどのように検知・理解・解決するかを示す具体的なシナリオ。">
+    <div class="container">
+        <h1>ユースケース</h1>
+        <p class="lead">a10y の実践 — 障害検知から自律回復まで。</p>
+
+        <!-- Scenario 1 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">01</span>
+                <div>
+                    <h2>ファイバー切断がモバイルコアに影響</h2>
+                    <p class="scenario-summary">物理的なファイバー切断がトランスポート層、IP 層、モバイルコア層にまたがるカスケードアラームを引き起こします。a10y はそれらを数秒で単一の根本原因に相関させます。</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-phase">Observe</div>
+                    <div class="step-components">Vector → OpenObserve</div>
+                    <div class="step-detail">
+                        <p>トランスポート層: インターフェース ge-0/0/1 で光パワー損失アラーム</p>
+                        <p>IP 層: BGP neighbor down、3 リンクで OSPF adjacency lost</p>
+                        <p>モバイルコア (free5GC): AMF registration failures が急増、UPF path unreachable</p>
+                        <p class="count">12 台のデバイスで 90 秒間に 47 件のアラート</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Orient</div>
+                    <div class="step-components">Keep + Qdrant</div>
+                    <div class="step-detail">
+                        <p>Keep が 47 件のアラートを重複排除 → 8 種類のユニークなアラームタイプに</p>
+                        <p>Qdrant が 3 か月前の類似インシデントを発見（同一区間のファイバー切断）</p>
+                        <p>相関分析: 影響を受けたすべてのデバイスが共通のファイバーパスを共有</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Decide</div>
+                    <div class="step-components">correlation-engine</div>
+                    <div class="step-detail">
+                        <p>active-inventory に問い合わせ:「これらのデバイス間の物理トポロジーは？」</p>
+                        <p>ファイバー区間 X を単一障害点として特定</p>
+                        <p>RCA: ファイバー区間 X の切断 → トランスポート断 → IP 再経路失敗（代替パスなし） → モバイルコア到達不能</p>
+                        <p>アクションプラン: バックアップパスへのトラフィック迂回、物理修理のため NOC に通知</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Act</div>
+                    <div class="step-components">Keep workflows</div>
+                    <div class="step-detail">
+                        <p>NETCONF 経由でバックアップ MPLS パスを有効化</p>
+                        <p>RCA サマリー付きのインシデントチケットを作成</p>
+                        <p>NOC に通知:「ファイバー区間 X で切断、バックアップパス有効化済み、物理修理が必要」</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Verify</div>
+                    <div class="step-components">OpenObserve + engine</div>
+                    <div class="step-detail">
+                        <p>バックアップパスで BGP セッションが再確立</p>
+                        <p>AMF registration 成功率が 99.9% に回復</p>
+                        <p>アラートストーム解消 — 47 件のアラート → アクティブ 0 件</p>
+                        <p class="result">RCA までの時間: 12 秒。復旧までの時間: 3 分。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 2 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">02</span>
+                <div>
+                    <h2>perfSONAR メッシュ上のレイテンシ劣化</h2>
+                    <p class="scenario-summary">研究拠点間で perfSONAR が検出した緩やかなレイテンシ増加。統計的 AI がしきい値アラートが発報する前に異常を特定します。</p>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <div class="step">
+                    <div class="step-phase">Observe</div>
+                    <div class="step-components">Vector (syslog) → OpenObserve</div>
+                    <div class="step-detail">
+                        <p>perfSONAR OWAMP テスト: パス A→B の片方向遅延が 2ms/時 で増加</p>
+                        <p>しきい値アラームは未発報（まだ 50ms SLA 以下）</p>
+                        <p>統計的異常検知がこのトレンドを異常としてフラグ</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Orient</div>
+                    <div class="step-components">Keep + Qdrant + active-inventory</div>
+                    <div class="step-detail">
+                        <p>トポロジー問い合わせ: パス A→B は 4 ホップを通過、区間 2 に光増幅器あり</p>
+                        <p>Qdrant: 昨年同様のパターンを確認 — 光増幅器の劣化</p>
+                        <p>SNMP との相関: 区間 2 の光パワーが低下中（まだ仕様範囲内）</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Decide</div>
+                    <div class="step-components">correlation-engine</div>
+                    <div class="step-detail">
+                        <p>予測: 現在の速度では約 18 時間後に SLA 違反</p>
+                        <p>根本原因: 区間 2 の光増幅器の経年劣化（故障前状態）</p>
+                        <p>推奨: 予防保守ウィンドウの設定、プロテクションパスへの切替</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Act</div>
+                    <div class="step-components">Keep workflows</div>
+                    <div class="step-detail">
+                        <p>予測故障ウィンドウ付きの保守チケットを作成</p>
+                        <p>次回保守ウィンドウでのプロテクションパス切替をスケジュール</p>
+                        <p>光チームにアラート:「区間 2 の増幅器が劣化、18 時間以内に交換を」</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-phase">Verify</div>
+                    <div class="step-components">OpenObserve</div>
+                    <div class="step-detail">
+                        <p>切替後: パス A→B のレイテンシがベースラインに復帰</p>
+                        <p>perfSONAR テストで SLA 準拠を確認</p>
+                        <p class="result">ユーザー影響が出る前に問題解決。SLA 違反ゼロ。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scenario 3 -->
+        <div class="scenario">
+            <div class="scenario-header">
+                <span class="scenario-num">03</span>
+                <div>
+                    <h2>aether-ide を使った日常運用</h2>
+                    <p class="scenario-summary">オペレーターの典型的なワークフロー — 朝の概要確認からインシデント調査まで、すべて aether-ide ポータルから。</p>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="wf-step">
+                    <div class="wf-icon">1</div>
+                    <div class="wf-content">
+                        <h3>aether-ide を開く</h3>
+                        <p>トポロジービューにすべてのネットワークノードが表示されます。緑 = 正常、黄 = 警告、赤 = 重大。2 つのノードが黄色です。</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">2</div>
+                    <div class="wf-content">
+                        <h3>黄色のノードをクリック → OpenObserve</h3>
+                        <p>そのデバイスのログとメトリクスでフィルタリングされた OpenObserve が開きます。1 つのインターフェースでエラーレートの上昇を確認。</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">3</div>
+                    <div class="wf-content">
+                        <h3>アラートを確認 → Keep</h3>
+                        <p>Keep ダッシュボードを開きます。このデバイスに対する 3 つの相関アラート — CRC errors、input drops、光パワー警告。Keep がすでにグループ化済みです。</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">4</div>
+                    <div class="wf-content">
+                        <h3>履歴を検索 → Qdrant</h3>
+                        <p>「このパターンは過去にあった？」Qdrant ダッシュボードが 2 件の類似過去インシデントを表示 — いずれもファイバーコネクタの清掃で解決。</p>
+                    </div>
+                </div>
+                <div class="wf-step">
+                    <div class="wf-icon">5</div>
+                    <div class="wf-content">
+                        <h3>アクションを承認</h3>
+                        <p>correlation-engine が RCA サマリー付きのフィールドテック派遣を提案。オペレーターが承認 → Keep workflow がディスパッチチケットを作成。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- What operators see -->
+        <h2>オペレーターが見る画面</h2>
+        <div class="screens">
+            <div class="screen">
+                <div class="screen-title">aether-ide :8080</div>
+                <div class="screen-desc">ヘルスステータス付きのネットワークトポロジーマップ。任意のノードをクリックして OpenObserve や Keep のデータにドリルイン。</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">OpenObserve :5080</div>
+                <div class="screen-desc">デバイスログ、インターフェースメトリクス、トレースデータ。ネットワーク層（トランスポート、IP、モバイルコア）ごとのカスタムダッシュボード。</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">Keep :3001</div>
+                <div class="screen-desc">相関分析によりグループ化されたアクティブアラート。ワークフロー実行履歴。外部ツールとの連携状況。</div>
+            </div>
+            <div class="screen">
+                <div class="screen-title">Qdrant :6333</div>
+                <div class="screen-desc">過去のインシデントデータベース。類似検索の結果。Runbook とドキュメントのエンベディング。</div>
+            </div>
+        </div>
+    </div>
+</Base>
+
+<style>
+    .scenario {
+        border: 1px solid #1a1a1a;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        background: #0c0c0c;
+    }
+    .scenario-header {
+        display: flex;
+        gap: 1.2rem;
+        align-items: flex-start;
+        margin-bottom: 1.5rem;
+    }
+    .scenario-num {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #4a9eff;
+        opacity: 0.4;
+        line-height: 1;
+        min-width: 40px;
+    }
+    .scenario-header h2 {
+        font-size: 1.3rem;
+        margin: 0 0 0.3rem;
+        border: none;
+        padding: 0;
+    }
+    .scenario-summary {
+        font-size: 0.95rem;
+        color: #888;
+        margin: 0;
+    }
+
+    .timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+    }
+    .step {
+        display: grid;
+        grid-template-columns: 80px 140px 1fr;
+        border-top: 1px solid #141414;
+        padding: 0.8rem 0;
+    }
+    .step-phase {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #4a9eff;
+        font-weight: 600;
+        padding-top: 0.1rem;
+    }
+    .step-components {
+        font-size: 0.8rem;
+        color: #666;
+        padding-top: 0.1rem;
+    }
+    .step-detail p {
+        font-size: 0.9rem;
+        margin: 0 0 0.2rem;
+        color: #aaa;
+        line-height: 1.5;
+    }
+    .step-detail .count {
+        color: #666;
+        font-style: italic;
+    }
+    .step-detail .result {
+        color: #6aff8a;
+        font-weight: 500;
+        margin-top: 0.3rem;
+    }
+
+    .workflow {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+    .wf-step {
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+        padding: 0.8rem;
+        border: 1px solid #141414;
+        border-radius: 6px;
+    }
+    .wf-icon {
+        min-width: 28px;
+        height: 28px;
+        background: #1a3a5c;
+        color: #6ab0ff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    .wf-content h3 {
+        font-size: 1rem;
+        color: #ddd;
+        margin: 0 0 0.2rem;
+    }
+    .wf-content p {
+        font-size: 0.9rem;
+        color: #888;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .screens {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8rem;
+        margin: 1rem 0;
+    }
+    .screen {
+        border: 1px solid #1a1a1a;
+        border-radius: 6px;
+        padding: 1rem;
+        background: #0c0c0c;
+    }
+    .screen-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 0.3rem;
+        font-family: monospace;
+    }
+    .screen-desc {
+        font-size: 0.85rem;
+        color: #888;
+        line-height: 1.5;
+    }
+
+    @media (max-width: 640px) {
+        .step {
+            grid-template-columns: 1fr;
+            gap: 0.2rem;
+        }
+        .screens { grid-template-columns: 1fr; }
+        .scenario-header { flex-direction: column; gap: 0.5rem; }
+    }
+</style>

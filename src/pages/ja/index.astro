@@ -1,0 +1,119 @@
+---
+import Base from "../../layouts/BaseJa.astro";
+---
+
+<Base title="a10y - Autonomously">
+    <!-- Hero -->
+    <div class="hero">
+        <img src="/logo.svg" alt="a10y" class="logo" />
+        <div class="lang-switch"><a href="/">EN</a> | <span class="lang-active">JA</span></div>
+        <p class="tagline">ネットワークを自律的に理解し回復する。</p>
+        <div class="hero-links">
+            <a href="/ja/vision">ビジョン</a>
+            <a href="/ja/architecture">アーキテクチャ</a>
+            <a href="/ja/usecases">ユースケース</a>
+            <a href="/ja/deploy">デプロイ</a>
+            <a href="https://github.com/autonomously-io">GitHub</a>
+            <a class="github-button" href="https://github.com/autonomously-io/autonomously-io.github.io" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star">Star</a>
+        </div>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+    </div>
+
+    <!-- Overview grid -->
+    <section class="grid-section">
+        <div class="wide">
+            <!-- What -->
+            <div class="card span-2">
+                <h2>マルチソース相関エンジン</h2>
+                <p>ログ、メトリクス、トレース、アラート、トポロジをレイヤーやベンダーを超えて統合し、<strong>因果関係の理解</strong>を導出 — その後、自律的に対処・検証を行います。</p>
+            </div>
+
+            <!-- Two Pillars -->
+            <div class="card accent">
+                <h3>Understandability（理解可能性）</h3>
+                <p><em>何が</em>起きているかだけでなく、<em>なぜ</em>起きているかを解明。クロスソースの因果推論と根本原因分析。</p>
+            </div>
+            <div class="card accent">
+                <h3>Closed Loop（クローズドループ）</h3>
+                <p>観測 → 相関 → 理解 → 対処 → 検証。人手を介さずシステムがループを閉じます。</p>
+            </div>
+
+            <!-- Dual AI - compact -->
+            <div class="card">
+                <h3>統計的AI</h3>
+                <table class="compact">
+                    <tr><td>異常検知</td><td>時系列・トポロジ対応</td></tr>
+                    <tr><td>予測モデル</td><td>障害予測</td></tr>
+                    <tr><td>相関分析</td><td>大量の構造化シグナル</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h3>LLM</h3>
+                <table class="compact">
+                    <tr><td>因果推論</td><td>非構造化データ、ベンダーログ</td></tr>
+                    <tr><td>RAG</td><td>ランブック、ドキュメント、ポストモーテム</td></tr>
+                    <tr><td>対話</td><td>自然言語クエリ</td></tr>
+                </table>
+            </div>
+
+            <!-- Stack as OODA mapping -->
+            <div class="card span-2">
+                <h3>Stack × OODA</h3>
+                <div class="ooda-flow">
+                    <div class="ooda-step">
+                        <div class="phase">Observe</div>
+                        <div class="components">OpenObserve<br>Vector</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Orient</div>
+                        <div class="components">Keep<br>Qdrant</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Decide</div>
+                        <div class="components">correlation<br>engine</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Act</div>
+                        <div class="components">Keep<br>workflows</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="ooda-step">
+                        <div class="phase">Verify</div>
+                        <div class="components">OpenObserve<br>+ corr-engine</div>
+                    </div>
+                    <div class="arrow loop">↻</div>
+                </div>
+                <div class="nats-bar">NATS — 全フェーズを接続するメッセージングバックボーン</div>
+            </div>
+
+            <!-- Standards -->
+            <div class="card">
+                <h3>テレコム標準</h3>
+                <table class="compact">
+                    <tr><td>TMF</td><td>Autonomous Networks L0–L5</td></tr>
+                    <tr><td>ETSI ZSM</td><td>ゼロタッチ、クローズド制御ループ</td></tr>
+                    <tr><td>IETF</td><td>ANIMA, RFC 9315 (IBN)</td></tr>
+                </table>
+            </div>
+            <div class="card">
+                <h3>IT / クラウドネイティブ</h3>
+                <table class="compact">
+                    <tr><td>AIOps</td><td>ML駆動の異常検知、根本原因分析</td></tr>
+                    <tr><td>SRE</td><td>SLO、エラーバジェット、トイル削減</td></tr>
+                    <tr><td>GitOps</td><td>宣言的、バージョン管理されたインフラ</td></tr>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer links -->
+    <section class="footer-links">
+        <a href="/ja/why">なぜ Autonomously か？ →</a>
+        <a href="/ja/landscape">ランドスケープ分析 →</a>
+        <a href="/ja/ooda">OODA × AI 詳細 →</a>
+        <a href="https://github.com/autonomously-io/awesome-autonomous-operation">awesome-autonomous-operation →</a>
+    </section>
+</Base>
