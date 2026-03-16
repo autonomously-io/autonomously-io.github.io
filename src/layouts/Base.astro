@@ -62,6 +62,7 @@ const sections: Record<string, { parent: string; label: string; siblings: { href
 };
 
 const sub = sections[path];
+const jaPath = `/ja${path || "/"}`;
 ---
 
 <!DOCTYPE html>
@@ -81,6 +82,7 @@ const sub = sections[path];
             <a href="/architecture">Architecture</a>
             <a href="/usecases">Use Cases</a>
             <a href="/deploy">Deploy</a>
+            <span class="lang-toggle"><span class="lang-active">EN</span> | <a href={jaPath}>JA</a></span>
         </nav>
     )}
     {sub && (
@@ -116,6 +118,15 @@ const sub = sections[path];
         font-size: 1.05rem;
     }
     nav a:hover { text-decoration: underline; }
+    .lang-toggle {
+        margin-left: auto;
+        font-size: 0.9rem;
+        color: #555;
+    }
+    .lang-active {
+        color: #fff;
+        font-weight: 600;
+    }
     .subnav {
         padding: 0.8rem 2rem;
         border-bottom: 1px solid #141414;
