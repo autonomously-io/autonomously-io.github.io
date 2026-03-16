@@ -6,63 +6,63 @@ interface Props {
 
 const { title, description = "Autonomously understands and restores your network." } = Astro.props;
 const path = Astro.url.pathname.replace(/\/$/, "");
-const isHome = path === "";
+const isHome = path === "/en";
 
 const sections: Record<string, { parent: string; label: string; siblings: { href: string; label: string }[] }> = {
-  "/vision/why": {
-    parent: "/vision", label: "Vision",
+  "/en/vision/why": {
+    parent: "/en/vision", label: "Vision",
     siblings: [
-      { href: "/vision/why", label: "Why Autonomously?" },
-      { href: "/vision/ooda", label: "OODA × AI" },
+      { href: "/en/vision/why", label: "Why Autonomously?" },
+      { href: "/en/vision/ooda", label: "OODA × AI" },
     ],
   },
-  "/vision/ooda": {
-    parent: "/vision", label: "Vision",
+  "/en/vision/ooda": {
+    parent: "/en/vision", label: "Vision",
     siblings: [
-      { href: "/vision/why", label: "Why Autonomously?" },
-      { href: "/vision/ooda", label: "OODA × AI" },
+      { href: "/en/vision/why", label: "Why Autonomously?" },
+      { href: "/en/vision/ooda", label: "OODA × AI" },
     ],
   },
-  "/architecture/components": {
-    parent: "/architecture", label: "Architecture",
+  "/en/architecture/components": {
+    parent: "/en/architecture", label: "Architecture",
     siblings: [
-      { href: "/architecture/components", label: "Components" },
-      { href: "/architecture/comparison", label: "Why This Stack?" },
-      { href: "/architecture/3gpp", label: "3GPP" },
-      { href: "/architecture/landscape", label: "Landscape" },
+      { href: "/en/architecture/components", label: "Components" },
+      { href: "/en/architecture/comparison", label: "Why This Stack?" },
+      { href: "/en/architecture/3gpp", label: "3GPP" },
+      { href: "/en/architecture/landscape", label: "Landscape" },
     ],
   },
-  "/architecture/comparison": {
-    parent: "/architecture", label: "Architecture",
+  "/en/architecture/comparison": {
+    parent: "/en/architecture", label: "Architecture",
     siblings: [
-      { href: "/architecture/components", label: "Components" },
-      { href: "/architecture/comparison", label: "Why This Stack?" },
-      { href: "/architecture/3gpp", label: "3GPP" },
-      { href: "/architecture/landscape", label: "Landscape" },
+      { href: "/en/architecture/components", label: "Components" },
+      { href: "/en/architecture/comparison", label: "Why This Stack?" },
+      { href: "/en/architecture/3gpp", label: "3GPP" },
+      { href: "/en/architecture/landscape", label: "Landscape" },
     ],
   },
-  "/architecture/3gpp": {
-    parent: "/architecture", label: "Architecture",
+  "/en/architecture/3gpp": {
+    parent: "/en/architecture", label: "Architecture",
     siblings: [
-      { href: "/architecture/components", label: "Components" },
-      { href: "/architecture/comparison", label: "Why This Stack?" },
-      { href: "/architecture/3gpp", label: "3GPP" },
-      { href: "/architecture/landscape", label: "Landscape" },
+      { href: "/en/architecture/components", label: "Components" },
+      { href: "/en/architecture/comparison", label: "Why This Stack?" },
+      { href: "/en/architecture/3gpp", label: "3GPP" },
+      { href: "/en/architecture/landscape", label: "Landscape" },
     ],
   },
-  "/architecture/landscape": {
-    parent: "/architecture", label: "Architecture",
+  "/en/architecture/landscape": {
+    parent: "/en/architecture", label: "Architecture",
     siblings: [
-      { href: "/architecture/components", label: "Components" },
-      { href: "/architecture/comparison", label: "Why This Stack?" },
-      { href: "/architecture/3gpp", label: "3GPP" },
-      { href: "/architecture/landscape", label: "Landscape" },
+      { href: "/en/architecture/components", label: "Components" },
+      { href: "/en/architecture/comparison", label: "Why This Stack?" },
+      { href: "/en/architecture/3gpp", label: "3GPP" },
+      { href: "/en/architecture/landscape", label: "Landscape" },
     ],
   },
 };
 
 const sub = sections[path];
-const jaPath = `/ja${path || "/"}`;
+const jaPath = path.replace(/^\/en/, "/ja");
 ---
 
 <!DOCTYPE html>
@@ -77,11 +77,11 @@ const jaPath = `/ja${path || "/"}`;
 <body>
     {!isHome && (
         <nav>
-            <a href="/">← a10y</a>
-            <a href="/vision">Vision</a>
-            <a href="/architecture">Architecture</a>
-            <a href="/usecases">Use Cases</a>
-            <a href="/deploy">Deploy</a>
+            <a href="/en">← a10y</a>
+            <a href="/en/vision">Vision</a>
+            <a href="/en/architecture">Architecture</a>
+            <a href="/en/usecases">Use Cases</a>
+            <a href="/en/deploy">Deploy</a>
             <span class="lang-toggle"><span class="lang-active">EN</span> | <a href={jaPath}>JA</a></span>
         </nav>
     )}
